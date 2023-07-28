@@ -3,6 +3,7 @@ folder structur:
 modules: main page gula
 components: main page er moddhe jeta dekhabe
 https://www.youtube.com/watch?v=KJBRw0bvjNI&list=PLSQi9CtBDLnNqmKdT7yiDUzzfbYDS4oLd&index=2
+7=>video
 
 
 
