@@ -7,6 +7,9 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
+// import routes
+import authRoute from "./route/authRoute";
+
 const app = express();
 dotenv.config();
 
@@ -35,11 +38,9 @@ app.use(
 app.use(compression());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send({
-    message: "Hello world!",
-  });
-});
+app.use("/api/auth",authRoute)
+
+
 
 app.listen(9000, () => {
   connect();
