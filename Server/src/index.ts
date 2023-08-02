@@ -1,6 +1,4 @@
 import express from "express";
-import http from "http";
-import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
@@ -9,6 +7,7 @@ import dotenv from "dotenv";
 
 // import routes
 import authRoute from "./route/authRoute";
+import userRoute from "./route/userRoute"
 
 const app = express();
 dotenv.config();
@@ -39,7 +38,17 @@ app.use(compression());
 app.use(express.json());
 
 app.use("/api/auth",authRoute)
-
+app.use("/api/user",userRoute)
+//error middleware
+app.use((err:any, req:any, res:any, next:any) => {
+  const errorStatus = err.status || 500;
+  return res.status(errorStatus).json({
+    success: false,
+    status: errorStatus,
+    message: "Something Went Wrong",
+    stack: err.stack,
+  });
+});
 
 
 app.listen(9000, () => {
