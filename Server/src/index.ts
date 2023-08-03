@@ -4,10 +4,35 @@ import compression from "compression";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
+// For Socket IO
+import { createServer } from 'http';
+import { Server, Socket } from 'socket.io';
 // import routes
 import authRoute from "./route/authRoute";
 import userRoute from "./route/userRoute"
+
+
+// Socket IO server connected on 8080 port
+const httpServer = createServer();
+const socketIO = new Server(httpServer, {
+  cors: {
+    origin: '*',
+  },
+});
+
+socketIO.on("connection", (socket: Socket) => {
+  console.log(`⚡: ${socket.id} user just connected!`);
+  socket.on("disconnect", () => {
+    console.log("🔥: A user disconnected");
+  });
+});
+
+httpServer.listen(8080, () => {
+  console.log(`Server listening on port 8080`);
+});
+
+//----------------------------------------//
+
 
 const app = express();
 dotenv.config();
@@ -36,6 +61,7 @@ app.use(
 );
 app.use(compression());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth",authRoute)
 app.use("/api/user",userRoute)

@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface NavbarProps {
     // Add any props you might want to pass to the Navbar component
@@ -13,8 +14,8 @@ const Navbar: React.FC<NavbarProps> = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between bg-gray-800 p-4">
-      <image src="https://www.google.com/search?q=cargo+image&rlz=1C1KNTJ_enBD1060BD1060&oq=cargo+image&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIHCAUQABiABDIHCAYQABiABDIHCAcQABiABDIKCAgQABiGAxiKBTIKCAkQABiGAxiKBdIBCDM4NzBqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8#vhid=Svu94vO3ecd8aM&vssid=l" alt="logo_image"/>
+    <nav className="flex items-center justify-between bg-gray-500 p-4">
+      <img className='w-10 h-10 rounded-lg' src="https://cdn.pixabay.com/photo/2020/12/27/12/07/sunrise-5863751_640.png" alt="logo" srcset=" " />
       <div className="md:hidden">
         <button
           className="text-white hover:text-yellow-500 focus:outline-none"
@@ -47,30 +48,19 @@ const Navbar: React.FC<NavbarProps> = () => {
       <div
         className={`md:flex ${isMobileMenuOpen ? 'block' : 'hidden'} mt-4 md:mt-0`}
       >
-        <a
-          href="#"
+       
+        <Link
+          to='/login'
           className="text-white block mt-4 md:inline-block md:mt-0 mr-6 hover:text-yellow-500"
         >
-          Home
-        </a>
-        <a
-          href="#"
-          className="text-white block mt-4 md:inline-block md:mt-0 mr-6 hover:text-yellow-500"
-        >
-          About
-        </a>
-        <a
-          href="#"
-          className="text-white block mt-4 md:inline-block md:mt-0 mr-6 hover:text-yellow-500"
-        >
-          Services
-        </a>
-        <a
-          href="#"
+          SignIn
+        </Link>
+        <Link
+          to='/register'
           className="text-white block mt-4 md:inline-block md:mt-0 hover:text-yellow-500"
         >
-          Contact
-        </a>
+          SignOut
+        </Link>
       </div>
     </nav>
   );

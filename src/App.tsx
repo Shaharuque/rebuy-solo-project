@@ -13,8 +13,9 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#edf3fc]">
-      <Navbar></Navbar>
+      
       <Router>
+      <Navbar></Navbar>
         <>
           <Routes>
           <Route path="/" element={<Home />} />

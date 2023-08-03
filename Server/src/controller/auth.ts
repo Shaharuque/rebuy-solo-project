@@ -67,7 +67,10 @@ export const login: RequestHandler = async (req, res) => {
         httpOnly: true,
       })
       .status(200)
-      .json(modifiedUser);
+      .json({
+        data:modifiedUser,
+        success: true,
+      });
   } catch (err) {
     res.status(500).json({
       message: "error",

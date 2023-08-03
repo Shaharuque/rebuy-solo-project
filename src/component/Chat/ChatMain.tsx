@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import Avatar from '../../assets/avatar.svg'
 import ContactList from './ContactList/ContactList';
+import { io, Socket } from "socket.io-client";
+
 
 interface IContact {
   name: string,
@@ -11,6 +13,7 @@ interface IContact {
 
 const ChatMain: React.FC = () => {
   const [click, setClick] = useState<boolean>(false)
+  const [socket, setSocket] = useState<any>(null);
   // Dummy data for contact list
   const contactList: IContact[] = [
     {
@@ -49,6 +52,11 @@ const ChatMain: React.FC = () => {
     console.log('clicked')
     setClick(!click)
   }
+
+  // Socket connection
+  useEffect(() => {
+    setSocket(io('http://localhost:8080'));
+  }, [])
 
 
   return (
