@@ -5,21 +5,19 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 // For Socket IO
-import { createServer } from 'http';
-import { Server, Socket } from 'socket.io';
+import { createServer } from "http";
+import { Server, Socket } from "socket.io";
 // import routes
 import authRoute from "./route/authRoute";
-import userRoute from "./route/userRoute"
+import userRoute from "./route/userRoute";
 
-
-const roooms=['general','random','news','games','coding']
-
+const roooms = ["general", "random", "news", "games", "coding"];
 
 // Socket IO server connected on 8080 port
 const httpServer = createServer();
 const socketIO = new Server(httpServer, {
   cors: {
-    origin: '*',
+    origin: "*",
   },
 });
 
@@ -70,27 +68,56 @@ const socketIO = new Server(httpServer, {
 // });
 
 //namespace=>for group chat
-let buynameSpace=socketIO.of("/buy")
-let sellnameSpace=socketIO.of("/sell") 
+// let buynameSpace=socketIO.of("/buy")
+// let sellnameSpace=socketIO.of("/sell")
 
-//seperate data channel for buy and sell
-buynameSpace.on("connection", (socket: Socket) => {
+// //seperate data channel for buy and sell
+// buynameSpace.on("connection", (socket: Socket) => {
+//   console.log(`⚡: ${socket.id} user just connected!`);
+//   //data send server to client
+//   buynameSpace.emit("buyEvent","Buy Event")
+// });
+
+// sellnameSpace.on("connection", (socket: Socket) => {
+//   console.log(`⚡: ${socket.id} user just connected!`);
+//   sellnameSpace.emit("sellEvent","Sell Event")
+// });
+
+//New Socket Io project
+socketIO.on("connection", (socket: Socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
-  //data send server to client
-  buynameSpace.emit("buyEvent","Buy Event")
+  socket.emit("customEvent", "Custom event from server to client");
+
+  //client side to server a data recieve
+  // socket.on("chat", (data: any) => {
+  //   console.log(data);
+  //   //now again send data to  client side
+  //   socket.emit("clientChat", data);
+  // });
+
+  //create room(cooking-room)
+  socket.join('cooking-room')
+  socketIO.sockets.in('cooking-room').emit('cookingEvent', 'cooking event from server to client')
+
+  //create room(dinning-room)
+  socket.join('dinning-room')
+  //ekta room a kotojon present asey sheita amra jantey pari dinningEvent or dinningClean jara jara call korbey tarai dinning room a asey
+  let sizeOfTheDinningRoom=socketIO.sockets.adapter.rooms.get('dinning-room').size
+  //doita event dinning-room ar under a
+  socketIO.sockets.in('dinning-room').emit('dinningEvent', `how many people in the room: ${sizeOfTheDinningRoom}`)
+  socketIO.sockets.in('dinning-room').emit('dinningClean', 'clean the dinning room')
+
+  socket.on("disconnect", () => {
+    console.log("🔥: A user disconnected");
+  });
 });
 
-sellnameSpace.on("connection", (socket: Socket) => {
-  console.log(`⚡: ${socket.id} user just connected!`);
-  sellnameSpace.emit("sellEvent","Sell Event")
-});
-
+//socket io server listen on 8080 port
 httpServer.listen(8080, () => {
   console.log(`Server listening on port 8080`);
 });
 
 //----------------------------------------//
-
 
 const app = express();
 dotenv.config();
@@ -121,10 +148,10 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/auth",authRoute)
-app.use("/api/user",userRoute)
+app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
 //error middleware
-app.use((err:any, req:any, res:any, next:any) => {
+app.use((err: any, req: any, res: any, next: any) => {
   const errorStatus = err.status || 500;
   return res.status(errorStatus).json({
     success: false,
@@ -133,7 +160,6 @@ app.use((err:any, req:any, res:any, next:any) => {
     stack: err.stack,
   });
 });
-
 
 app.listen(9000, () => {
   connect();

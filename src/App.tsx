@@ -9,7 +9,7 @@ import ChatMain from "./component/Chat/ChatMain";
 import SignUp from "./component/Chat/Onboarding/SignUp";
 import SignIn from "./component/Chat/Onboarding/SignIn";
 import { useState } from "react";
-import { AppContext, socket } from "./context/appContext";
+import { AppContext } from "./context/appContext";
 
 const App: React.FC = () => {
   const [rooms, setRooms] = useState([]);
@@ -21,7 +21,8 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#edf3fc]">
-      <AppContext.Provider value={{ socket, currentRoom, setCurrentRoom, members, setMembers, messages, setMessages, privateMemberMsg, setPrivateMemberMsg, rooms, setRooms, newMessages, setNewMessages }}>
+      {/* <AppContext.Provider value={{ socket, currentRoom, setCurrentRoom, members, setMembers, messages, setMessages, privateMemberMsg, setPrivateMemberMsg, rooms, setRooms, newMessages, setNewMessages }}> */}
+      <AppContext.Provider value={{ currentRoom, setCurrentRoom, members, setMembers, messages, setMessages, privateMemberMsg, setPrivateMemberMsg, rooms, setRooms, newMessages, setNewMessages }}>
         <Router>
           <Navbar></Navbar>
           <>

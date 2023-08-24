@@ -53,10 +53,10 @@ const ChatMain: React.FC = () => {
     setClick(!click)
   }
 
-  // Socket connection
-  useEffect(() => {
-    setSocket(io('http://localhost:8080'));  //io thekey socket newa hoisey
-  }, [])
+  // // Socket connection
+  // useEffect(() => {
+  //   setSocket(io('http://localhost:8080'));  //io thekey socket newa hoisey
+  // }, [])
 
   // //message holo ekta predefined event for socket.io
   // socket?.on('message', (msg: any) => {
@@ -80,19 +80,64 @@ const ChatMain: React.FC = () => {
   // })
 
 
-  //buy namespace=>socket only /buy ar sathey connection establish korbe
- const buySocket = io('http://localhost:8080/buy');
+//   //buy namespace=>socket only /buy ar sathey connection establish korbe
+//  const buySocket = io('http://localhost:8080/buy');
 
- buySocket?.on('buyEvent', (msg: any) => {
-    console.log(msg)
-  })
+//  buySocket?.on('buyEvent', (msg: any) => {
+//     console.log(msg)
+//   })
 
 
-  //sell namespace=>socket only /sell ar sathey connection establish korbe
-  const sellSocket=io('http://localhost:8080/sell');
-  sellSocket?.on('sellEvent', (msg: any) => {
-    console.log(msg)
-  })
+//   //sell namespace=>socket only /sell ar sathey connection establish korbe
+//   const sellSocket=io('http://localhost:8080/sell');
+//   sellSocket?.on('sellEvent', (msg: any) => {
+//     console.log(msg)
+//   })
+
+
+//new small socket io project
+const clintSocket = io('http://localhost:8080');
+
+// const [clintSocket,setClintSocket]=useState<any>(null)
+// //useEffect use kora bhalo
+//  // Socket connection
+//   useEffect(() => {
+//     setClintSocket(io('http://localhost:8080'));  //io thekey socket newa hoisey
+//   }, [])
+
+clintSocket.on('customEvent', (msg: any) => {
+  console.log(msg)
+})
+
+
+const [message,setMessage]=useState<any>(null)
+const [messageList,setMessageList]=useState<any>(contactList)
+const result:any=[]
+const getInput=(value:any)=>{
+  setMessage(value)
+}
+
+const messageSend = () => {
+  clintSocket.emit('chat', message)
+}
+
+//recive message from server
+clintSocket.on('clientChat', (msg: any) => {
+  console.log(msg)
+  setMessageList([...messageList,{name:'Alex',message:msg,time:'10:00 AM'}])
+})
+console.log(messageList)
+
+//as server side a room creat hoisey now we will just join the room and call the event from server
+clintSocket.on('cookingEvent', (msg: any) => {
+  console.log(msg)
+})
+clintSocket.on('dinningEvent',(msg:string)=>{
+  console.log(msg)
+})
+clintSocket.on('dinningClean',(msg:string)=>{
+  console.log(msg)
+})
 
 
   return (
@@ -139,7 +184,7 @@ const ChatMain: React.FC = () => {
           {/* communication message */}
           <div className='mt-8 px-4 max-h-[80%] overflow-y-auto'>
             {
-              contactList?.map(item => {
+              messageList?.map((item:any) => {
                 return <>
                   <div className='flex items-center mb-2'>
                     <img src={Avatar} alt='image' width={50} height={50} className='mb-6 mr-2' />
@@ -149,7 +194,7 @@ const ChatMain: React.FC = () => {
                   </div>
                   <div className='flex items-center mb-2'>
                     <div className=' max-w-[40%] bg-primary rounded-b-xl rounded-tl-xl ml-auto'>
-                      <h1 className='font-bold text-[12px] p-6 '>Hello Alexender!!!</h1>
+                      <h1 className='font-bold text-[12px] p-6 '>{item?.message}</h1>
                     </div>
                     <img src={Avatar} alt='image' width={50} height={50} className='mb-6 ml-2' />
                   </div>
@@ -160,8 +205,8 @@ const ChatMain: React.FC = () => {
 
           {/* message writting bar build a message send bar using tailwind*/}
           <div className='flex items-center border-t border-gray-300 p-2'>
-            <input type="text" placeholder='Type a message' className='w-[90%] border border-gray-300 rounded-md p-2' />
-            <button className='ml-2 p-2 bg-primary rounded-full'>
+            <input onChange={(e)=>getInput(e.target.value)} type="text" placeholder='Type a message' className='w-[90%] border border-gray-300 rounded-md p-2' />
+            <button onClick={messageSend} className='ml-2 p-2 bg-primary rounded-full'>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10.707 3.293a1 1 0 010 1.414L6.414 9H13a1 1 0 110 2H6.414l4.293 4.293a1 1 0 01-1.414 1.414l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
