@@ -1,6 +1,9 @@
+import axios from 'axios';
 import React from 'react';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { loginHandlerFunc } from '../../../features/login/loginSlice';
 
 //interface
 type Inputs = {
@@ -11,13 +14,29 @@ type Inputs = {
 
 const ChatForm = () => {
     let location = useLocation();
+    const dispatch=useDispatch()
     const currentRoute = location?.pathname;
     console.log("location", currentRoute);
+    const navigate=useNavigate()
 
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
-    const onSubmit: SubmitHandler<Inputs> = data => {
-        console.log(data)
+    const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
+        // console.log(data)
+        if (currentRoute === '/login') {
+            try {
+                const response = await axios.post('http://localhost:9000/api/auth/login', data);
+                if(response?.data?.success){
+                    navigate('/chat')
+                    localStorage.setItem('userEmail',response?.data?.data?.email)
+                    const {email,status,_id}=response?.data?.data
+                    dispatch(loginHandlerFunc({email,status,_id}))
+                }
+
+            } catch (error) {
+                console.error('Login failed', error);
+            }
+        }
     };
 
 
@@ -34,7 +53,7 @@ const ChatForm = () => {
                                     User Name<span className="text-red-500">*</span>
                                 </span>
                             </label>
-                            <input className="border border-gray-600 ml-1 w-full mt-2 rounded-md h-[40px]" {...register("username")} required/>
+                            <input className="border border-gray-600 ml-1 w-full mt-2 rounded-md h-[40px]" {...register("username")} required />
                         </div>
                     }
                     <div>
@@ -43,7 +62,7 @@ const ChatForm = () => {
                                 User Email <span className="text-red-500">*</span>
                             </span>
                         </label>
-                        <input className="border border-gray-600 ml-1 w-full mt-2 rounded-md h-[40px]" defaultValue="test@gmail.com" {...register("email")} required/>
+                        <input className="border border-gray-600 ml-1 w-full mt-2 rounded-md h-[40px]" defaultValue="test@gmail.com" {...register("email")} required />
 
                     </div>
                     <div>

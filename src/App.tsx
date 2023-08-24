@@ -8,32 +8,42 @@ import Todo from "./component/ToDo/Todo";
 import ChatMain from "./component/Chat/ChatMain";
 import SignUp from "./component/Chat/Onboarding/SignUp";
 import SignIn from "./component/Chat/Onboarding/SignIn";
+import { useState } from "react";
+import { AppContext, socket } from "./context/appContext";
 
 const App: React.FC = () => {
+  const [rooms, setRooms] = useState([]);
+  const [currentRoom, setCurrentRoom] = useState([]);
+  const [members, setMembers] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [privateMemberMsg, setPrivateMemberMsg] = useState({});
+  const [newMessages, setNewMessages] = useState({});
 
   return (
     <div className="min-h-screen bg-[#edf3fc]">
-      <Navbar></Navbar>
-      <Router>
-        <>
-          <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path='/chat' element={<ChatMain></ChatMain>}></Route>
-          <Route path="/register" element={<SignUp></SignUp>}></Route>
-          <Route path="/login" element={<SignIn></SignIn>}></Route>
-            <Route
-              path="/notes"
-              element={
-                <RequireAuth>
-                  <Notes />
-                </RequireAuth>
-              }
-            >
-            </Route>
-            <Route path="/todo" element={<Todo/>} />
-          </Routes>
-        </>
-      </Router>
+      <AppContext.Provider value={{ socket, currentRoom, setCurrentRoom, members, setMembers, messages, setMessages, privateMemberMsg, setPrivateMemberMsg, rooms, setRooms, newMessages, setNewMessages }}>
+        <Router>
+          <Navbar></Navbar>
+          <>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path='/chat' element={<ChatMain></ChatMain>}></Route>
+              <Route path="/register" element={<SignUp></SignUp>}></Route>
+              <Route path="/login" element={<SignIn></SignIn>}></Route>
+              <Route
+                path="/notes"
+                element={
+                  <RequireAuth>
+                    <Notes />
+                  </RequireAuth>
+                }
+              >
+              </Route>
+              <Route path="/todo" element={<Todo />} />
+            </Routes>
+          </>
+        </Router>
+      </AppContext.Provider>
     </div>
   );
 }

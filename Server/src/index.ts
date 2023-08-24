@@ -1,14 +1,96 @@
 import express from "express";
-import http from "http";
-import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
+// For Socket IO
+import { createServer } from 'http';
+import { Server, Socket } from 'socket.io';
 // import routes
 import authRoute from "./route/authRoute";
+import userRoute from "./route/userRoute"
+
+
+const roooms=['general','random','news','games','coding']
+
+
+// Socket IO server connected on 8080 port
+const httpServer = createServer();
+const socketIO = new Server(httpServer, {
+  cors: {
+    origin: '*',
+  },
+});
+
+// socket connection
+// socketIO.on("connection", (socket: Socket) => {
+//   console.log(`⚡: ${socket.id} user just connected!`);
+
+//   socket.send("Welcome to Socket IO Server send data server to client");
+//   // setInterval(() => {
+//   //   let i=0
+//   //   socket.send(i+1);
+//   // }, 1000);
+
+//   //custom event server to client
+//   setTimeout(() => {
+//     socket.emit("customEvent", "Custom event from server to client");
+//   }, 2000);
+
+//   // socket.on("joinRoom", async(roomName: string) => {
+//   //   if (roooms.includes(roomName)) {
+//   //     socket.join(roomName);
+//   //     console.log(`🔥: ${socket.id} joined ${roomName} room!`);
+//   //   }
+//   // });
+
+//   //getting data from client to server when client side thekey button a click hobey
+//   socket.on("customEvent", (data: any) => {
+//     console.log(`🔥: ${socket.id} send ${data} message!`);
+//   });
+
+//   socket.on("disconnect", () => {
+//     console.log("🔥: A user disconnected");
+//   });
+// });
+
+//Broadcasting
+// socketIO.on("connection", (socket: Socket) => {
+//   console.log(`⚡: ${socket.id} user just connected!`);
+//   //data send to all client from server
+//   socketIO.sockets.emit("MyBroadcast", "Hello my all clients from server(broacasting)");
+
+//   // socketIO.sockets.on("MyBroadcast", (data: any) => {
+//   //   socket.broadcast.emit("MyBroadcast", data);
+//   // });
+//   socket.on("disconnect", () => {
+//     console.log("🔥: A user disconnected");
+//   });
+// });
+
+//namespace=>for group chat
+let buynameSpace=socketIO.of("/buy")
+let sellnameSpace=socketIO.of("/sell") 
+
+//seperate data channel for buy and sell
+buynameSpace.on("connection", (socket: Socket) => {
+  console.log(`⚡: ${socket.id} user just connected!`);
+  //data send server to client
+  buynameSpace.emit("buyEvent","Buy Event")
+});
+
+sellnameSpace.on("connection", (socket: Socket) => {
+  console.log(`⚡: ${socket.id} user just connected!`);
+  sellnameSpace.emit("sellEvent","Sell Event")
+});
+
+httpServer.listen(8080, () => {
+  console.log(`Server listening on port 8080`);
+});
+
+//----------------------------------------//
+
 
 const app = express();
 dotenv.config();
@@ -37,9 +119,20 @@ app.use(
 );
 app.use(compression());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth",authRoute)
-
+app.use("/api/user",userRoute)
+//error middleware
+app.use((err:any, req:any, res:any, next:any) => {
+  const errorStatus = err.status || 500;
+  return res.status(errorStatus).json({
+    success: false,
+    status: errorStatus,
+    message: "Something Went Wrong",
+    stack: err.stack,
+  });
+});
 
 
 app.listen(9000, () => {

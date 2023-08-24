@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import Avatar from '../../assets/avatar.svg'
 import ContactList from './ContactList/ContactList';
+import { io, Socket } from "socket.io-client";
+
 
 interface IContact {
   name: string,
@@ -11,6 +13,7 @@ interface IContact {
 
 const ChatMain: React.FC = () => {
   const [click, setClick] = useState<boolean>(false)
+  const [socket, setSocket] = useState<any>(null);
   // Dummy data for contact list
   const contactList: IContact[] = [
     {
@@ -49,6 +52,47 @@ const ChatMain: React.FC = () => {
     console.log('clicked')
     setClick(!click)
   }
+
+  // Socket connection
+  useEffect(() => {
+    setSocket(io('http://localhost:8080'));  //io thekey socket newa hoisey
+  }, [])
+
+  // //message holo ekta predefined event for socket.io
+  // socket?.on('message', (msg: any) => {
+  //   console.log(msg)
+  // })
+  // //custom event listening
+  // socket?.on('customEvent', (msg: any) => {
+  //   console.log(msg)
+  // })
+
+
+  // //sending data client to server through socket io when sendData function is called
+  // const sendData = () => {
+  //   // socket?.emit('message', 'Hello from client')
+  //   socket?.emit('customEvent', 'Hello from client')
+  // }
+
+  // //broadcasting
+  // socket?.on('MyBroadcast', (msg: any) => {
+  //   console.log(msg)
+  // })
+
+
+  //buy namespace=>socket only /buy ar sathey connection establish korbe
+ const buySocket = io('http://localhost:8080/buy');
+
+ buySocket?.on('buyEvent', (msg: any) => {
+    console.log(msg)
+  })
+
+
+  //sell namespace=>socket only /sell ar sathey connection establish korbe
+  const sellSocket=io('http://localhost:8080/sell');
+  sellSocket?.on('sellEvent', (msg: any) => {
+    console.log(msg)
+  })
 
 
   return (
@@ -127,7 +171,7 @@ const ChatMain: React.FC = () => {
         </div>
         {/* Right part */}
         <div className='w-[25%] h-screen bg-gray-300 px-8 py-16  shadow-gray-700 border-x rounded-md'>
-          <div className='text-primary text-lg'>People</div>
+          {/* <div onClick={sendData} className='text-primary text-lg'>People</div> */}
 
         </div>
       </div>
