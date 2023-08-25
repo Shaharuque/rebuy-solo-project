@@ -10,6 +10,8 @@ import { Server, Socket } from "socket.io";
 // import routes
 import authRoute from "./route/authRoute";
 import userRoute from "./route/userRoute";
+import chatRoute from "./route/chatRoute"
+import testPopulateRoute from './route/testPopulate/testPopulateRoute'
 
 const roooms = ["general", "random", "news", "games", "coding"];
 
@@ -83,31 +85,40 @@ const socketIO = new Server(httpServer, {
 //   sellnameSpace.emit("sellEvent","Sell Event")
 // });
 
-//New Socket Io project
+// //New Socket Io project :Room Concept in Socket IO
+// socketIO.on("connection", (socket: Socket) => {
+//   console.log(`⚡: ${socket.id} user just connected!`);
+//   socket.emit("customEvent", "Custom event from server to client");
+
+//   //client side to server a data recieve
+//   // socket.on("chat", (data: any) => {
+//   //   console.log(data);
+//   //   //now again send data to  client side
+//   //   socket.emit("clientChat", data);
+//   // });
+
+//   //create room(cooking-room)
+//   socket.join('cooking-room')
+//   socketIO.sockets.in('cooking-room').emit('cookingEvent', 'cooking event from server to client')
+
+//   //create room(dinning-room)
+//   socket.join('dinning-room')
+//   //ekta room a kotojon present asey sheita amra jantey pari dinningEvent or dinningClean jara jara call korbey tarai dinning room a asey
+//   let sizeOfTheDinningRoom=socketIO.sockets.adapter.rooms.get('dinning-room').size
+//   //doita event dinning-room ar under a
+//   socketIO.sockets.in('dinning-room').emit('dinningEvent', `how many people in the room: ${sizeOfTheDinningRoom}`)
+//   socketIO.sockets.in('dinning-room').emit('dinningClean', 'clean the dinning room')
+
+//   socket.on("disconnect", () => {
+//     console.log("🔥: A user disconnected");
+//   });
+// });
+
+
+//---------------------New Chat app video:creating chat app using chakra ui and socket io------------
 socketIO.on("connection", (socket: Socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
-  socket.emit("customEvent", "Custom event from server to client");
-
-  //client side to server a data recieve
-  // socket.on("chat", (data: any) => {
-  //   console.log(data);
-  //   //now again send data to  client side
-  //   socket.emit("clientChat", data);
-  // });
-
-  //create room(cooking-room)
-  socket.join('cooking-room')
-  socketIO.sockets.in('cooking-room').emit('cookingEvent', 'cooking event from server to client')
-
-  //create room(dinning-room)
-  socket.join('dinning-room')
-  //ekta room a kotojon present asey sheita amra jantey pari dinningEvent or dinningClean jara jara call korbey tarai dinning room a asey
-  let sizeOfTheDinningRoom=socketIO.sockets.adapter.rooms.get('dinning-room').size
-  //doita event dinning-room ar under a
-  socketIO.sockets.in('dinning-room').emit('dinningEvent', `how many people in the room: ${sizeOfTheDinningRoom}`)
-  socketIO.sockets.in('dinning-room').emit('dinningClean', 'clean the dinning room')
-
-  socket.on("disconnect", () => {
+    socket.on("disconnect", () => {
     console.log("🔥: A user disconnected");
   });
 });
@@ -150,6 +161,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
+app.use("/api/chat",chatRoute)
+app.use('/api/create',testPopulateRoute)
+
 //error middleware
 app.use((err: any, req: any, res: any, next: any) => {
   const errorStatus = err.status || 500;

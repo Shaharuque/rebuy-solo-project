@@ -95,51 +95,59 @@ const ChatMain: React.FC = () => {
 //   })
 
 
-//new small socket io project
-const clintSocket = io('http://localhost:8080');
+// //new small socket io project
+// const clintSocket = io('http://localhost:8080');
 
-// const [clintSocket,setClintSocket]=useState<any>(null)
-// //useEffect use kora bhalo
-//  // Socket connection
-//   useEffect(() => {
-//     setClintSocket(io('http://localhost:8080'));  //io thekey socket newa hoisey
-//   }, [])
+// // const [clintSocket,setClintSocket]=useState<any>(null)
+// // //useEffect use kora bhalo
+// //  // Socket connection
+// //   useEffect(() => {
+// //     setClintSocket(io('http://localhost:8080'));  //io thekey socket newa hoisey
+// //   }, [])
 
-clintSocket.on('customEvent', (msg: any) => {
-  console.log(msg)
-})
+// clintSocket.on('customEvent', (msg: any) => {
+//   console.log(msg)
+// })
 
+
+//const [message,setMessage]=useState<any>(null)
+//const [messageList,setMessageList]=useState<any>(contactList)
+// const result:any=[]
+
+// const messageSend = () => {
+//   clintSocket.emit('chat', message)
+// }
+
+// //recive message from server
+// clintSocket.on('clientChat', (msg: any) => {
+//   console.log(msg)
+//   setMessageList([...messageList,{name:'Alex',message:msg,time:'10:00 AM'}])
+// })
+// console.log(messageList)
+
+// //as server side a room creat hoisey now we will just join the room and call the event from server
+// clintSocket.on('cookingEvent', (msg: any) => {
+//   console.log(msg)
+// })
+// clintSocket.on('dinningEvent',(msg:string)=>{
+//   console.log(msg)
+// })
+// clintSocket.on('dinningClean',(msg:string)=>{
+//   console.log(msg)
+// })
+
+//-------------------------New Chat app video:creating chat app using chakra ui and socket io-------------------------
 
 const [message,setMessage]=useState<any>(null)
 const [messageList,setMessageList]=useState<any>(contactList)
-const result:any=[]
+// const result:any=[]
 const getInput=(value:any)=>{
   setMessage(value)
 }
 
 const messageSend = () => {
-  clintSocket.emit('chat', message)
+  console.log('chat', message)
 }
-
-//recive message from server
-clintSocket.on('clientChat', (msg: any) => {
-  console.log(msg)
-  setMessageList([...messageList,{name:'Alex',message:msg,time:'10:00 AM'}])
-})
-console.log(messageList)
-
-//as server side a room creat hoisey now we will just join the room and call the event from server
-clintSocket.on('cookingEvent', (msg: any) => {
-  console.log(msg)
-})
-clintSocket.on('dinningEvent',(msg:string)=>{
-  console.log(msg)
-})
-clintSocket.on('dinningClean',(msg:string)=>{
-  console.log(msg)
-})
-
-
   return (
     <div>
       <div className='w-screen flex'>

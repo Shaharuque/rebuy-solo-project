@@ -6,7 +6,7 @@ import { LoginRequestBody } from "interfaces/interface";
 
 export const register: RequestHandler = async (req, res) => {
   try {
-    const { email, password, name } = req.body;
+    const { email, password, name,avatar } = req.body;
     if (!email || !password || !name)
       return res.status(400).json({ message: "Please enter all fields" });
 
@@ -23,7 +23,7 @@ export const register: RequestHandler = async (req, res) => {
       name,
       email,
       password: hash,
-      avatar:'https://res.cloudinary.com/dx3a3nnee/image/upload/v1620829663/avatars/avatar-1_zqjz3c.png',
+      avatar,
       newMessages:{},
       status:'online'
     });

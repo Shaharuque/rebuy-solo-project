@@ -7,4 +7,5 @@ const router=express.Router()
 router.get('/all',verifyToken,allUsers)
 
 
+
 export default router
