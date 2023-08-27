@@ -5,6 +5,10 @@
 
 /* scrolling  */
 
+*{
+  background-color: #F5F5F5;
+}
+
 ::-webkit-scrollbar {
     width: 7px;
     height: 7px;

@@ -1,15 +1,12 @@
 import TableComponent from "./common/TableComponent";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from "./component/Home/Home";
-import Notes from "./component/Notes/Notes";
 import Navbar from "./common/navbar/Navbar";
 import RequireAuth from "./authorization/RequireAuth";
-import Todo from "./component/ToDo/Todo";
-import ChatMain from "./component/Chat/ChatMain";
-import SignUp from "./component/Chat/Onboarding/SignUp";
-import SignIn from "./component/Chat/Onboarding/SignIn";
 import { useState } from "react";
 import { AppContext } from "./context/appContext";
+import Home from "./pages/Home/Home";
+import Register from "./pages/Register/Register";
+import Login from "./pages/Login/Login";
 
 const App: React.FC = () => {
   const [rooms, setRooms] = useState([]);
@@ -20,18 +17,16 @@ const App: React.FC = () => {
   const [newMessages, setNewMessages] = useState({});
 
   return (
-    <div className="min-h-screen bg-[#edf3fc]">
+    <div className="min-h-screen">
       {/* <AppContext.Provider value={{ socket, currentRoom, setCurrentRoom, members, setMembers, messages, setMessages, privateMemberMsg, setPrivateMemberMsg, rooms, setRooms, newMessages, setNewMessages }}> */}
       <AppContext.Provider value={{ currentRoom, setCurrentRoom, members, setMembers, messages, setMessages, privateMemberMsg, setPrivateMemberMsg, rooms, setRooms, newMessages, setNewMessages }}>
         <Router>
-          <Navbar></Navbar>
           <>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path='/chat' element={<ChatMain></ChatMain>}></Route>
-              <Route path="/register" element={<SignUp></SignUp>}></Route>
-              <Route path="/login" element={<SignIn></SignIn>}></Route>
-              <Route
+              <Route path="/login" element={<Login></Login>}></Route>
+              <Route path="/register" element={<Register></Register>}></Route>
+              {/* <Route
                 path="/notes"
                 element={
                   <RequireAuth>
@@ -40,7 +35,7 @@ const App: React.FC = () => {
                 }
               >
               </Route>
-              <Route path="/todo" element={<Todo />} />
+              {/* <Route path="/todo" element={<Todo />} /> */}
             </Routes>
           </>
         </Router>

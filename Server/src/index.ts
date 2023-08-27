@@ -11,7 +11,6 @@ import { Server, Socket } from "socket.io";
 import authRoute from "./route/authRoute";
 import userRoute from "./route/userRoute";
 import chatRoute from "./route/chatRoute"
-import testPopulateRoute from './route/testPopulate/testPopulateRoute'
 
 const roooms = ["general", "random", "news", "games", "coding"];
 
@@ -162,7 +161,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/chat",chatRoute)
-app.use('/api/create',testPopulateRoute)
 
 //error middleware
 app.use((err: any, req: any, res: any, next: any) => {

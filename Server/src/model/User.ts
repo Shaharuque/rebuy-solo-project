@@ -5,10 +5,12 @@ interface IUser {
   name: string;
   email: string;
   password: string ;
-  avatar?: string;
-  newMessages?: object;
-  status?: string;
-  groupAdmin:boolean;
+  phone: string;
+  address: string;
+  avatar: string;
+  purchasedProducts: Array<object>;
+  postedAds: Array<object>;
+  bids: Array<object>;
 }
 
 // 2. Create a Schema corresponding to the document interface.
@@ -17,17 +19,32 @@ const userSchema = new Schema<IUser>({
   email: { type: String, required: true,unique:true },
   password:{type:String, required:true},
   avatar: { type: String, required: false },
-  newMessages: {
-    type: Object,
-  },
-  status: {
+  phone: {
     type: String,
-    default: 'online'
+    required: false,
   },
-  groupAdmin:{
-    type:Boolean,
-    default:false
-  }
+  address: {
+    type: String,
+    required: false,
+  },
+  purchasedProducts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Ad',
+    },
+  ],
+  postedAds: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Ad',
+    },
+  ],
+  bids: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Ad',
+    },
+  ],
 },{minimize:false,timestamps:true});
 //minimize option is used within a schema to control whether empty objects (objects with no properties) should be saved in the MongoDB documents or not. When minimize is set to false, Mongoose will store empty objects in the documents, while setting it to true (which is the default) will remove empty objects when saving.
 

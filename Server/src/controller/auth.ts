@@ -55,14 +55,13 @@ export const login: RequestHandler = async (req, res) => {
       });
     }
     const token = jwt.sign(
-      { id: existingUser._id, status: existingUser.status },
+      { id: existingUser._id, email: existingUser.email },
       process.env.JWT
     );
 
     const modifiedUser = {
       _id: existingUser._id,
       email: existingUser.email,
-      status: existingUser.status,
     };
 
     res
