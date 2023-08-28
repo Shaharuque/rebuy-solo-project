@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const DummyPage = () => {
+const DummyPage: React.FC = () => {
 
     const [redirect, setRedirect] = useState(false);
     useEffect(() => {

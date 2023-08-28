@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import User from "../model/User";
 
+
 //search users
 // /api/user/all?search=amin
 // /api/user:id =>we use req.param.id
@@ -15,9 +16,8 @@ export const allUsers:RequestHandler=async(req,res)=>{
           }
         : {};
 
-        //logged in user badh a jara thakbey tader data show
-        // console.log('logged in user _id',req.user.id)
-        const users=await User.find(keyword).find({_id:{$ne:req.user.id}})
+        //logged in user badh a jara thakbey tader data show korbe na
+        const users=await User.find(keyword).find({_id:{$ne: req.user.id}})
 
         res.status(200).json(users)
     

@@ -1,6 +1,6 @@
 import TableComponent from "./common/TableComponent";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from "./common/navbar/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import RequireAuth from "./authorization/RequireAuth";
 import { useState } from "react";
 import { AppContext } from "./context/appContext";
@@ -8,6 +8,8 @@ import Home from "./pages/Home/Home";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import DummyPage from "./pages/DummyPage/DummyPage";
+import CategoryPage from "./pages/ProductCategory/CategoryPage";
+import SellingPost from "./pages/SellingPost/SellingPost";
 
 const App: React.FC = () => {
   const [rooms, setRooms] = useState([]);
@@ -28,6 +30,14 @@ const App: React.FC = () => {
               <Route path="/login" element={<Login></Login>}></Route>
               <Route path="/register" element={<Register></Register>}></Route>
               <Route path="/home" element={<Home />} />
+              <Route
+                path="/item/selling/categories"
+                element={<CategoryPage></CategoryPage>}
+              ></Route>
+              <Route
+                path="/item/selling/post/:category"
+                element={<SellingPost></SellingPost>}
+              ></Route>
               {/* <Route
                 path="/notes"
                 element={

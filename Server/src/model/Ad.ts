@@ -8,10 +8,7 @@ interface IAd {
   productName: string;
   brand: string;
   model: string;
-  edition: string;
   description: string;
-  age: number;
-  color: string;
   images: string[];
   originalPacking: boolean;
   basePrice: number;
@@ -26,12 +23,16 @@ interface IAd {
   owner: object;
   purchasedBy: object;
   currentBidder: object;
-  bids: Array<object>;
-  room: object;
+  // bids: Array<object>;
+  // room: object;
 }
 // 2. Create a Schema corresponding to the document interface.
 const adSchema = new Schema<IAd>(
   {
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
     category: {
       type: String,
     },
@@ -51,16 +52,7 @@ const adSchema = new Schema<IAd>(
     model: {
       type: String,
     },
-    edition: {
-      type: String,
-    },
     description: {
-      type: String,
-    },
-    age: {
-      type: Number,
-    },
-    color: {
       type: String,
     },
     images: {
@@ -76,7 +68,6 @@ const adSchema = new Schema<IAd>(
     },
     currentPrice: {
       type: Number,
-      required: true,
     },
     duration: {
       type: Number,
@@ -104,10 +95,6 @@ const adSchema = new Schema<IAd>(
       type: Boolean,
       default: false,
     },
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
     purchasedBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -116,27 +103,27 @@ const adSchema = new Schema<IAd>(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    bids: [
-      {
-        user: {
-          type: Schema.Types.ObjectId,
-          ref: "User",
-          required: true,
-        },
-        amount: {
-          type: Schema.Types.ObjectId,
-          required: true,
-        },
-        time: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
-    room: {
-      type: Schema.Types.ObjectId,
-      ref: "room",
-    },
+    // bids: [
+    //   {
+    //     user: {
+    //       type: Schema.Types.ObjectId,
+    //       ref: "User",
+    //       required: true,
+    //     },
+    //     amount: {
+    //       type: Schema.Types.ObjectId,
+    //       required: true,
+    //     },
+    //     time: {
+    //       type: Date,
+    //       default: Date.now,
+    //     },
+    //   },
+    // ],
+    // room: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "room",
+    // },
   },
   { timestamps: true }
 );

@@ -11,6 +11,8 @@ import { Server, Socket } from "socket.io";
 import authRoute from "./route/authRoute";
 import userRoute from "./route/userRoute";
 import chatRoute from "./route/chatRoute"
+import adRoute from "./route/adRoute";
+import bidRoute from "./route/bidRoute";
 
 const roooms = ["general", "random", "news", "games", "coding"];
 
@@ -149,10 +151,11 @@ mongoose.connection.on("disconnected", () => {
 
 app.use(cookieParser());
 app.use(
-  cors({
-    origin: "*",
-    credentials: true, // Allow credentials (cookies)
-  })
+  // cors({
+  //   origin: "*",
+  //   credentials: true, // Allow credentials (cookies)
+  // })
+  cors({origin:true, credentials:true})
 );
 app.use(compression());
 app.use(express.json());
@@ -160,7 +163,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
-app.use("/api/chat",chatRoute)
+// app.use("/api/chat",chatRoute)
+app.use("/api/product", adRoute);
+app.use("/api/bid", bidRoute);
 
 //error middleware
 app.use((err: any, req: any, res: any, next: any) => {
