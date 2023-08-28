@@ -1,7 +1,8 @@
 import React from 'react';
 import { BiChevronLeft } from 'react-icons/bi';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 //interface
 type Inputs = {
@@ -11,9 +12,28 @@ type Inputs = {
 
 const Login: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+    const navigate=useNavigate()
 
     const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-        console.log(data)
+        try {
+            const response = await axios.post(
+                'http://localhost:9100/api/auth/login',
+                {
+                    email: data.email,
+                    password: data.password,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            if(response?.data?.success){
+                navigate('/home')
+            }
+        } catch (err) {
+            console.log('error')
+        }
     };
 
 

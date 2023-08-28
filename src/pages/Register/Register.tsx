@@ -2,6 +2,7 @@ import React from 'react';
 import { BiChevronLeft } from 'react-icons/bi';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 //interface
 type Inputs = {
@@ -16,7 +17,26 @@ const Register: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-        console.log(data)
+        try {
+            const response = await axios.post(
+                'http://localhost:9100/api/auth/register',
+                {
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    phone: data.phone,
+                    adress: data.adress
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            console.log('Response:', response.data);
+        } catch (err) {
+            console.log('error')
+        }
     };
 
     return (
@@ -43,28 +63,28 @@ const Register: React.FC = () => {
                 </svg></button>
             </div>
 
-            {/* Login Form */}
+            {/* Register Form */}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className=" grid grid-cols-1 md:grid-cols-1 mb-1 mr-2 gap-y-2 mt-16">
 
                     <div>
-                        <input className="bg-gray-300 border border-gray-300 ml-1 w-full mt-2 rounded-2xl h-[40px] px-3" placeholder='Name' {...register("name")} required />
+                        <input className="bg-gray-300 text-[#6F6F6F] border border-gray-300 ml-1 w-full mt-2 rounded-2xl h-[40px] px-3" placeholder='Name' {...register("name")} required />
                     </div>
 
                     <div>
-                        <input className="bg-gray-300 border border-gray-300 ml-1 w-full mt-2 rounded-2xl h-[40px] px-3" placeholder='Email' {...register("email")} required />
+                        <input className="bg-gray-300 text-[#6F6F6F] border border-gray-300 ml-1 w-full mt-2 rounded-2xl h-[40px] px-3" placeholder='Email' {...register("email")} required />
                     </div>
 
                     <div>
-                        <input className="bg-gray-300 border border-gray-300 ml-1 w-full mt-2 rounded-2xl h-[40px] px-3" placeholder='Password' {...register("password", { required: true })} />
+                        <input className="bg-gray-300 text-[#6F6F6F] border border-gray-300 ml-1 w-full mt-2 rounded-2xl h-[40px] px-3" placeholder='Password' {...register("password", { required: true })} />
                     </div>
 
                     <div>
-                        <input className="bg-gray-300 border border-gray-300 ml-1 w-full mt-2 rounded-2xl h-[40px] px-3" placeholder='Adress' {...register("adress", { required: true })} />
+                        <input className="bg-gray-300 text-[#6F6F6F] border border-gray-300 ml-1 w-full mt-2 rounded-2xl h-[40px] px-3" placeholder='Adress' {...register("adress", { required: true })} />
                     </div>
 
                     <div>
-                        <input className="bg-gray-300 border border-gray-300 ml-1 w-full mt-2 rounded-2xl h-[40px] px-3" placeholder='Phone' {...register("phone", { required: true })} />
+                        <input className="bg-gray-300 text-[#6F6F6F] border border-gray-300 ml-1 w-full mt-2 rounded-2xl h-[40px] px-3" placeholder='Phone' {...register("phone", { required: true })} />
                     </div>
                 </div>
 

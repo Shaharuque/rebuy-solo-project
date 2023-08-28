@@ -6,8 +6,8 @@ import { LoginRequestBody } from "interfaces/interface";
 
 export const register: RequestHandler = async (req, res) => {
   try {
-    const { email, password, name,avatar } = req.body;
-    if (!email || !password || !name)
+    const { email, password, name,phone,adress } = req.body;
+    if (!email || !password || !name || !phone || !adress)
       return res.status(400).json({ message: "Please enter all fields" });
 
     const existingEmail = await User.findOne({ email });
@@ -23,11 +23,11 @@ export const register: RequestHandler = async (req, res) => {
       name,
       email,
       password: hash,
-      avatar,
-      newMessages:{},
+      phone,
+      adress,
       status:'online'
     });
-    res.status(200).json({ message: "User created",user });
+    res.status(200).json({ message: "User created",user,success:true });
   } catch (err) {
     res.status(500).json({
       message: "error",

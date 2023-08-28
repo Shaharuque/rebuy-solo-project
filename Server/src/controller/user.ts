@@ -6,15 +6,6 @@ import User from "../model/User";
 // /api/user:id =>we use req.param.id
 export const allUsers:RequestHandler=async(req,res)=>{
     try{
-        // const keyword=req.query.search
-        // console.log(keyword)
-        // // const users=await User.find()
-        // //find user if email or name matches
-        // const users=await User.find({$or: [
-        //     { name: keyword },
-        //     { email: keyword }
-        //   ]})
-        // res.status(200).json(users)
         const keyword = req.query.search
         ? {
             $or: [

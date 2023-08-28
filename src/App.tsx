@@ -7,6 +7,7 @@ import { AppContext } from "./context/appContext";
 import Home from "./pages/Home/Home";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
+import DummyPage from "./pages/DummyPage/DummyPage";
 
 const App: React.FC = () => {
   const [rooms, setRooms] = useState([]);
@@ -23,9 +24,10 @@ const App: React.FC = () => {
         <Router>
           <>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path='/' element={<DummyPage></DummyPage>}></Route>
               <Route path="/login" element={<Login></Login>}></Route>
               <Route path="/register" element={<Register></Register>}></Route>
+              <Route path="/home" element={<Home />} />
               {/* <Route
                 path="/notes"
                 element={

@@ -135,7 +135,7 @@ dotenv.config();
 const connect = async () => {
   try {
     await mongoose.connect(
-      `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.yz2oh.mongodb.net/typescript_fullstack?retryWrites=true&w=majority`
+      `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.yz2oh.mongodb.net/rebuy?retryWrites=true&w=majority`
     );
     console.log("Connected to mongoDB.");
   } catch (error) {
@@ -173,7 +173,7 @@ app.use((err: any, req: any, res: any, next: any) => {
   });
 });
 
-app.listen(9000, () => {
+app.listen(9100, () => {
   connect();
   console.log("Connected to backend.");
 });
