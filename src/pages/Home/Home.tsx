@@ -40,7 +40,7 @@ const Home: React.FC = () => {
           fetchWithCookies();
     },[])
     return (
-        <div className='mt-2 overflow-x-hidden'>
+        <div className='overflow-x-hidden'>
             <Header></Header>
             <div className='flex justify-between mb-3 px-6'>
                 <h1 className='text-[15px] font-bold text-[#3C3C3C] '>New arrivals</h1>
@@ -60,7 +60,7 @@ const Home: React.FC = () => {
                 <h1 className='text-[15px] font-bold text-[#3C3C3C] '>Recently viewed</h1>
                 <h1 className='text-[12px] font-semibold text-[#898989] '>View More</h1>
             </div>
-            <div className='px-12 '>
+            <div className='px-12 mb-[20%]'>
                 <Swiper>
                     {movies.map((movie) => (
                         <div key={movie}>
@@ -70,7 +70,9 @@ const Home: React.FC = () => {
                 </Swiper>
             </div>
 
+            
             <Navbar></Navbar>
+
 
             {/* <Swiper {...params}>
                 <div className='bg-red-400'>Slide #1</div>

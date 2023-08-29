@@ -10,6 +10,7 @@ import Login from "./pages/Login/Login";
 import DummyPage from "./pages/DummyPage/DummyPage";
 import CategoryPage from "./pages/ProductCategory/CategoryPage";
 import SellingPost from "./pages/SellingPost/SellingPost";
+import ShowAd from "./pages/ShowAds/ShowAd";
 
 const App: React.FC = () => {
   const [rooms, setRooms] = useState([]);
@@ -30,6 +31,7 @@ const App: React.FC = () => {
               <Route path="/login" element={<Login></Login>}></Route>
               <Route path="/register" element={<Register></Register>}></Route>
               <Route path="/home" element={<Home />} />
+              <Route path="/ads" element={<ShowAd></ShowAd>}></Route>
               <Route
                 path="/item/selling/categories"
                 element={<CategoryPage></CategoryPage>}

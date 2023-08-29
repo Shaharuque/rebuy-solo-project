@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 // 1. Create an interface representing a document in MongoDB.
 interface IAd {
   category: string;
-  productGender: string;
+  choosenType: string;
   productStatus: string;
   productName: string;
   brand: string;
@@ -36,7 +36,7 @@ const adSchema = new Schema<IAd>(
     category: {
       type: String,
     },
-    productGender: {
+    choosenType: {
       type: String,
     },
     productStatus: {
@@ -80,9 +80,6 @@ const adSchema = new Schema<IAd>(
     soldAt: {
       type: Date,
     },
-    catergory: {
-      type: String,
-    },
     auctionStarted: {
       type: Boolean,
       default: false,
@@ -125,7 +122,7 @@ const adSchema = new Schema<IAd>(
     //   ref: "room",
     // },
   },
-  { timestamps: true }
+  { minimize: false,timestamps: true }
 );
 //minimize option is used within a schema to control whether empty objects (objects with no properties) should be saved in the MongoDB documents or not. When minimize is set to false, Mongoose will store empty objects in the documents, while setting it to true (which is the default) will remove empty objects when saving.
 

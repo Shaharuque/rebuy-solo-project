@@ -16,20 +16,22 @@ const Navbar: React.FC<NavbarProps> = () => {
   };
 
   return (
-    <div className='fixed bottom-0 left-0 z-50 h-18 border-t border-[#181818] min-w-[350px] bg-[#181818] rounded-[20px] p-4 mb-4 mx-4 shadow-md shadow-black'>
-      <div className='flex justify-between px-4'>
-        <Link to='/home'>
-          <FiHome className='text-[25px] text-white'/>
-        </Link>
-        <Link to='/item/selling/categories'>
-          <BiLayer className='text-[25px] text-white'/>
-        </Link>
-        <Link to='/home'>
-          <BiHeart className='text-[25px] text-white'/>
-        </Link>
-        <Link to='/home'>
-          <BiInfoCircle className='text-[25px] text-white'/>
-        </Link>
+    <div className='flex justify-center bg-red-500'>
+      <div className=' fixed bottom-0  z-50 h-18 border-t border-[#181818] min-w-[90%] bg-[#181818] rounded-[20px] p-4 mb-4 mx-4 shadow-md shadow-black'>
+        <div className='flex justify-between px-4'>
+          <Link to='/home'>
+            <FiHome className='text-[25px] text-white' />
+          </Link>
+          <Link to='/item/selling/categories'>
+            <BiLayer className='text-[25px] text-white' />
+          </Link>
+          <Link to='/home'>
+            <BiHeart className='text-[25px] text-white' />
+          </Link>
+          <Link to='/home'>
+            <BiInfoCircle className='text-[25px] text-white' />
+          </Link>
+        </div>
       </div>
     </div>
   );

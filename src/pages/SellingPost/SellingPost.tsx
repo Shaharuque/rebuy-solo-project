@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { WiDirectionLeft } from "react-icons/wi";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
@@ -8,22 +7,36 @@ import ImgCrop from "antd-img-crop";
 // import { pricePrediction } from "../../utils/pricePrediction";
 import BoxOptionButton from "../../components/BoxOption/BoxOption";
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
-import Header from "../../components/Header/Header";
-import Navbar from "../../components/Navbar/Navbar";
 import Back from "../../components/Back/Back";
+import { pricePrediction } from "../../utils/pricePRediction";
+import { priceExtraction } from "../../utils/priceExtraction";
+import { convertUnderscoresToSpaces } from "../../utils/convertUnderscores";
+import axios, { AxiosResponse } from 'axios';
 
 type Inputs = {
-    name?: string,
-    password: number,
-    email: string
+    type: string,
+    status: number,
+    title: string
     brand: string,
     model: string,
-    edition: string,
     description: string,
-    age: number,
-    color: string,
     price: string,
+    fileList: UploadFile[]
+
 };
+
+type Payload={
+    type: string,
+    status: string,
+    title: string
+    brand: string,
+    model: string,
+    description: string,
+    price: string,
+    images: string[],
+    category?: string
+
+}
 
 interface SellingPostProps { }
 
@@ -31,13 +44,19 @@ const SellingPost: React.FC<SellingPostProps> = () => {
     const [type, setType] = useState<string>("");
     const [status, setStatus] = useState<string>("");
     const [title, setTitle] = useState<string>("");
-    const [selectedCategory, setSelectedCategory] = useState<string>("");
     const [predictedPrice, setPredictedPrice] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const { category } = useParams<{ category: string }>();
     const navigate = useNavigate();
 
-    
+    console.log(category)
+
+    //converted underscore to space
+    // useEffect(()=>{
+    //     setSelectedCategory(convertUnderscoresToSpaces(category))
+    // },[])
+
+
     const handleBack = () => {
         navigate("/item/selling/categories");
     };
@@ -64,9 +83,9 @@ const SellingPost: React.FC<SellingPostProps> = () => {
         imgWindow?.document.write(image.outerHTML);
     };
 
-    console.log(fileList[0]?.response?.url)
 
-    const handleGender = (option: string): void => {
+
+    const handleType = (option: string): void => {
         setType(option);
     };
 
@@ -74,24 +93,71 @@ const SellingPost: React.FC<SellingPostProps> = () => {
         setStatus(option);
     };
 
-    // const predictPrice = async () => {
-    //     const text = await pricePrediction(title, category);
-    //     setPredictedPrice(priceExtraction(text));
-    // };
+    const predictPrice = async (): Promise<void> => {
+        if (category) {
+            const text = await pricePrediction(title, category);
+            console.log(text)
+            if (text) {
+                const price = priceExtraction(text);
+                setPredictedPrice(price);
+            }
+        }
 
-    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         reset({
-    //             price: predictedPrice,
-    //         });
-    //     }, 0);
-    // }, [predictedPrice, reset]);
-
-    const onSubmit: SubmitHandler<Inputs> = (data: any) => {
-        console.log(data);
     };
+
+    const { reset, register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+
+    useEffect(() => {
+        setTimeout(() => {
+            reset({
+                price: predictedPrice,
+            });
+        }, 0);
+    }, [predictedPrice, reset]);
+
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        const imageArray: string[] = [];
+        const url = 'http://localhost:9100/api/product/add';
+      
+        fileList.forEach((file) => {
+          if (file?.response?.url) {
+            imageArray.push(file.response.url);
+          }
+        });
+      
+        const payload: Payload = {
+          type, // Make sure you have defined type somewhere
+          status, // Make sure you have defined status somewhere
+          title, // Make sure you have defined title somewhere
+          brand: data.brand,
+          description: data.description,
+          model: data.model,
+          category: category, // Make sure you have defined category somewhere
+          price: data.price,
+          images: imageArray,
+        };
+      
+        console.log(payload);
+      
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.error('Token not found');
+          return;
+        }
+      
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        };
+      
+        try {
+          const response: AxiosResponse = await axios.post(url, payload, { headers });
+      
+          console.log('Response:', response.data);
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
     console.log(type, status, title)
 
 
@@ -125,13 +191,13 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                 type="button"
                                 text="Sale"
                                 value={type}
-                                onClick={() => handleGender("Sale")}
+                                onClick={() => handleType("Sale")}
                             />
                             <BoxOptionButton
                                 type="button"
                                 text="Auction"
                                 value={type}
-                                onClick={() => handleGender("Auction")}
+                                onClick={() => handleType("Auction")}
                             />
                         </div>
 
@@ -274,9 +340,49 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                 onChange={onChange}
                                 onPreview={onPreview}
                             >
-                                {fileList.length < 1 && '+ Upload'}
+                                {fileList.length < 3 && '+ Upload'}
                             </Upload>
                         </ImgCrop>
+
+                        {/* Price Section */}
+                        <div className="py-4">
+                            <label className="flex justify-between items-end mb-2">
+                                <span className="label-text font-medium text-[14px] text-gray-600 text-left">
+                                    Price
+                                </span>
+                            </label>
+                            <h1 className="text-[10px] font-bold">Enter item's price by own or press get price button please.</h1>
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Ex.1000TK"
+                                    className="border border-gray-200 rounded-md px-3 py-[5px] text-[14px] w-[50%] md:w-[280px] h-10"
+                                    {...register("price", {
+                                        required: {
+                                            value: true,
+                                            message: "Enter item's price please",
+                                        },
+                                    })}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={predictPrice}
+                                    className="bg-red-400 ml-2 p-2 rounded-md text-white hover:bg-black hover:text-white transition duration-300 ease-in-out"
+                                >
+                                    Get Price
+                                </button>
+                            </div>
+                            {/* Error Message */}
+                            <label>
+                                <span className="label-text-alt">
+                                    {errors.price?.type === "required" && (
+                                        <p className=" text-xs text-red-500 pl-1 pt-[1px]">
+                                            {errors.price.message}
+                                        </p>
+                                    )}
+                                </span>
+                            </label>
+                        </div>
 
 
                         <button
