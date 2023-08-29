@@ -41,7 +41,7 @@ const AdDetailsCard:React.FC = () => {
             {
                 loading ? <h1>Loading...</h1> :
                     <div className='flex justify-center'>
-                        <AdImagesSwiper></AdImagesSwiper>
+                        <AdImagesSwiper adDetails={adDetails}></AdImagesSwiper>
                     </div>
             }
         </div>

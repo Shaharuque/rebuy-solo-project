@@ -1,8 +1,26 @@
 import React from 'react';
 import Swiper from 'react-id-swiper';
+import './swiper.css'
 
+interface AdDetailsProps {
+    adDetails: IAdDetails; // Use the IAd interface to define the type of the 'ad' prop
+}
 
-const AdImagesSwiper: React.FC = () => {
+interface IAdDetails {
+    _id: string;
+    images: string[]; // Define 'images' as an array of strings
+    description: string;
+    basePrice: number;
+    productName: string;
+    owner: {
+        email: string;
+        name: string;
+    };
+    brand: string;
+}
+const AdImagesSwiper: React.FC<AdDetailsProps> = ({ adDetails }) => {
+    const { images } = adDetails
+
     const params = {
         pagination: {
             el: '.swiper-pagination',
@@ -12,12 +30,15 @@ const AdImagesSwiper: React.FC = () => {
     return (
         <div className='overflow-x-hidden mx-4 m-4'>
             <Swiper {...params}>
-                <div className='bg-red-400 h-full'>Slide #1</div>
-                <div>Slide #2</div>
-                <div>Slide #3</div>
-                <div>Slide #4</div>
-                <div>Slide #5</div>
+                {
+                    images?.map((image) => (
+                        <div key={image}>
+                            <img className='w-full rounded-lg' src={image} alt="movie" />
+                        </div>
+                    ))
+                }
             </Swiper>
+            {/* Apply CSS module styles */}
         </div>
     )
 };
