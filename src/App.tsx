@@ -1,3 +1,5 @@
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import TableComponent from "./common/TableComponent";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from "./components/Navbar/Navbar";
@@ -11,6 +13,8 @@ import DummyPage from "./pages/DummyPage/DummyPage";
 import CategoryPage from "./pages/ProductCategory/CategoryPage";
 import SellingPost from "./pages/SellingPost/SellingPost";
 import ShowAd from "./pages/ShowAds/ShowAd";
+import AdDetailsCard from './components/AdCard/AdDetailsCard';
+import AdDetails from './pages/AdDetailsPage/AdDetails';
 
 const App: React.FC = () => {
   const [rooms, setRooms] = useState([]);
@@ -32,6 +36,7 @@ const App: React.FC = () => {
               <Route path="/register" element={<Register></Register>}></Route>
               <Route path="/home" element={<Home />} />
               <Route path="/ads" element={<ShowAd></ShowAd>}></Route>
+              <Route path="/ad/details/:id" element={<AdDetails></AdDetails>}></Route>
               <Route
                 path="/item/selling/categories"
                 element={<CategoryPage></CategoryPage>}
@@ -51,6 +56,7 @@ const App: React.FC = () => {
               </Route>
               {/* <Route path="/todo" element={<Todo />} /> */}
             </Routes>
+            <ToastContainer />
           </>
         </Router>
       </AppContext.Provider>

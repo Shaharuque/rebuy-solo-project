@@ -1,23 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Home from '../Home/Home';
 
 const DummyPage: React.FC = () => {
+  const [redirecting, setRedirecting] = useState(true);
 
-    const [redirect, setRedirect] = useState(false);
-    useEffect(() => {
-      const timer = setTimeout(() => {
-        setRedirect(true);
-      }, 10000); // 10 seconds
-      return () => clearTimeout(timer);
-    }, []);
+  useEffect(() => {
+    // Simulate work completion and delay
+    const timeoutId = setTimeout(() => {
+      setRedirecting(false); // Stop redirecting
+      // Redirect to another page after a delay (e.g., 2 seconds)
+      setTimeout(() => {
+        window.location.replace('/login'); // Replace '/destination' with your desired route
+      }, 3000);
+    }, 3000);
 
+    // Clean up the timeout when the component unmounts
+    return () => clearTimeout(timeoutId);
+  }, []);
+
+  if (redirecting) {
     return (
-        <div className='bg-red-400 h-[100vh] flex justify-center items-center'>
-            <div className='text-white bg-red-200'>
-                {redirect ? <Link to="/login" /> : <p>Rebuy</p>}
-            </div>
-        </div>
+      null
     );
+  }
+
+  // Return something else or nothing once the redirection is complete
+  return (
+    <div className='bg-red-400 h-[100vh] flex justify-center items-center'>
+      <div className='text-white bg-red-200'>
+        <p>Rebuy</p>
+      </div>
+    </div>
+  );
 };
 
 export default DummyPage;

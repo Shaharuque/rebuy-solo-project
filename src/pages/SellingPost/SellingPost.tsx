@@ -12,8 +12,9 @@ import { pricePrediction } from "../../utils/pricePRediction";
 import { priceExtraction } from "../../utils/priceExtraction";
 import { convertUnderscoresToSpaces } from "../../utils/convertUnderscores";
 import axios, { AxiosResponse } from 'axios';
+import { toast } from "react-toastify";
 
-type Inputs = {
+interface Inputs  {
     type: string,
     status: number,
     title: string
@@ -25,7 +26,7 @@ type Inputs = {
 
 };
 
-type Payload={
+interface Payload {
     type: string,
     status: string,
     title: string
@@ -144,7 +145,6 @@ const SellingPost: React.FC<SellingPostProps> = () => {
           console.error('Token not found');
           return;
         }
-      
         const headers = {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -152,8 +152,23 @@ const SellingPost: React.FC<SellingPostProps> = () => {
       
         try {
           const response: AxiosResponse = await axios.post(url, payload, { headers });
-      
           console.log('Response:', response.data);
+
+          if(response?.data?.success){
+            toast.success("successfully advertisement posted", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                style: { fontSize: "12px" },
+              });
+              reset();
+              setFileList([]);
+          }
         } catch (error) {
           console.error('Error:', error);
         }
@@ -186,7 +201,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                 Choose Type
                             </span>
                         </label>
-                        <div className="flex space-x-4 my-2">
+                        <div className="flex space-x-2 my-2">
                             <BoxOptionButton
                                 type="button"
                                 text="Sale"
@@ -208,7 +223,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                 Status
                             </span>
                         </label>
-                        <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:w-[500px] my-2">
+                        <div className="grid grid-cols-3 md:grid-cols-5 gap-2 md:w-[500px] my-2">
                             <BoxOptionButton
                                 type="button"
                                 text="New"
@@ -252,7 +267,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                 type="text"
                                 placeholder="Ex. G.I.JOE Snake Eyes Ninja"
                                 name="name"
-                                className="border border-gray-200 rounded-md px-3 py-[5px] text-[14px] w-full md:w-[500px] h-12"
+                                className="focus:outline-none border border-gray-200 rounded-md px-3 py-[5px] text-[14px] w-full md:w-[500px] h-12"
                                 onChange={(e) => setTitle(e.target.value)}
                                 required
                             />
@@ -267,7 +282,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                             <input
                                 type="text"
                                 placeholder="Ex. G.I.JOE"
-                                className="border border-gray-200 rounded-md px-3 py-[5px] text-[14px] w-full md:w-[500px] h-12"
+                                className="focus:outline-none border border-gray-200 rounded-md px-3 py-[5px] text-[14px] w-full md:w-[500px] h-12"
                                 {...register("brand", {
                                     required: {
                                         value: true,
@@ -297,7 +312,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                             <input
                                 type="text"
                                 placeholder=""
-                                className="border border-gray-200 rounded-md px-3 py-[5px] text-[14px] w-full md:w-[500px] h-12"
+                                className="focus:outline-none border border-gray-200 rounded-md px-3 py-[5px] text-[14px] w-full md:w-[500px] h-12"
                                 {...register("model")}
                             />
                         </div>
@@ -311,7 +326,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                             <input
                                 type="text"
                                 placeholder="Ex. write up some features about the product..."
-                                className="border border-gray-200 rounded-md px-3 py-[5px] text-[14px] w-full md:w-[500px] h-12"
+                                className=" focus:outline-none border border-gray-200 rounded-md px-3 py-[5px] text-[14px] w-full md:w-[500px] h-12"
                                 {...register("description", {
                                     required: {
                                         value: true,
@@ -355,8 +370,8 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                             <div>
                                 <input
                                     type="text"
-                                    placeholder="Ex.1000TK"
-                                    className="border border-gray-200 rounded-md px-3 py-[5px] text-[14px] w-[50%] md:w-[280px] h-10"
+                                    placeholder=""
+                                    className="focus:outline-none border border-gray-200 rounded-md px-3 py-[5px] text-[14px] w-[50%] md:w-[280px] h-10"
                                     {...register("price", {
                                         required: {
                                             value: true,
@@ -367,7 +382,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                 <button
                                     type="button"
                                     onClick={predictPrice}
-                                    className="bg-red-400 ml-2 p-2 rounded-md text-white hover:bg-black hover:text-white transition duration-300 ease-in-out"
+                                    className="bg-black ml-2 p-1 rounded-md text-white text-[14px]"
                                 >
                                     Get Price
                                 </button>
@@ -386,10 +401,10 @@ const SellingPost: React.FC<SellingPostProps> = () => {
 
 
                         <button
-                            className=" py-2 px-4  text-xs font-normal bg-gradient-to-r bg-red-400 rounded-sm text-white"
+                            className=" rounded-md p-2  text-[14px] font-normal bg-gradient-to-r bg-primary  text-white"
                             type="submit"
                         >
-                            Add Post
+                            Advertise
                         </button>
                     </div>
                 </form>

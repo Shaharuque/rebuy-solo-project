@@ -6,10 +6,12 @@ module.exports = {
     extend: {
       colors: {
         'transparent': 'transparent',
-        'primary':'#1476ff',
+        'primary':'#FF5A5F',
         'secondary':'#f3f5ff',
-        'light':'#f9f',
+        'cardlight':'#C1839F40',
         'black':'#000000',
+        'textPrimary':'#3C3C3C',
+        'tcolor':'#484845',
       },
     },
   },

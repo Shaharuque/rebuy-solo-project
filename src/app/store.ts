@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { loginReducer } from '../features/login/loginSlice'
+import { searchReducer } from '../features/search/searchSlice'
+import { tagReducer } from '../features/tag/tagSlice'
 // ...
 
 export const store = configureStore({
   reducer: {
-    loginData : loginReducer
+    loginData : loginReducer,
+    searchKey:searchReducer,
+    tagWord:tagReducer
   },
 })
 

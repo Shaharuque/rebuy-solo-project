@@ -23,7 +23,7 @@ export const verifyToken = (
   next: NextFunction
 ) => {
   const token = req.headers['authorization'].split('Bearer ')[1];
-  console.log(req.cookies.access_token)
+  // console.log('token',token)
   //console.log(token)
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -36,7 +36,7 @@ export const verifyToken = (
       if (err) return res.status(500).json(err);
       if (!decoded) return res.status(401).json({ message: "Unauthorized" });
       req.user = decoded;
-      console.log(req.user)
+      // console.log('jwt info',req.user)
       next();
     }
   );

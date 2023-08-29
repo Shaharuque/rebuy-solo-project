@@ -26,7 +26,7 @@ const CategoryPage: React.FC = () => {
         <div className="grid grid-cols-2 gap-4 lg:gap-12">
           <Link
             to={`/item/selling/post/action_figures`}
-            className=" py-5 rounded-md border border-[#FF6779] shadow-md shadow-[#FF6779] bg-[#FF6779] text-white hover:bg-white hover:text-[#FF6779] hover:shadow-white transition duration-300 ease-in-out "
+            className=" py-5 rounded-md border border-primary shadow-md shadow-primary bg-primary text-white  transition duration-300 ease-in-out "
           >
             <div className="flex flex-col items-center">
               <PiGameControllerFill className="text-[40px]" />
@@ -37,7 +37,7 @@ const CategoryPage: React.FC = () => {
           </Link>
           <Link
             to={`/item/selling/post/vintage_collections`}
-            className=" py-5 rounded-md border border-[#FF6779] shadow-md shadow-[#FF6779] bg-[#FF6779] text-white hover:bg-white hover:text-[#FF6779] hover:shadow-white transition duration-300 ease-in-out"
+            className=" py-5 rounded-md border border-primary shadow-md shadow-primary bg-primary text-white  transition duration-300 ease-in-out"
           >
             <div className="flex flex-col items-center">
               <PiGameControllerFill className="text-[40px]" />
@@ -47,19 +47,19 @@ const CategoryPage: React.FC = () => {
             </div>
           </Link>
           <Link
-            to={`/item/selling/post/stuffed_toys_plush`}
-            className=" py-5 rounded-md border border-[#FF6779] shadow-md shadow-[#FF6779] bg-[#FF6779] text-white hover:bg-white hover:text-[#FF6779] hover:shadow-white transition duration-300 ease-in-out"
+            to={`/item/selling/post/construction_toys`}
+            className=" py-5 rounded-md border border-primary shadow-md shadow-primary bg-primary text-white  transition duration-300 ease-in-out"
           >
             <div className="flex flex-col items-center">
               <PiGameControllerFill className="text-[40px]" />
               <h1 className="font-semibold mt-3 md:text-[16px] text-[12px] text-center">
-                Stuffed Toys & Plush
+                Construction Toys
               </h1>
             </div>
           </Link>
           <Link
             to={`/item/selling/post/games_puzzles`}
-            className=" py-5 rounded-md border border-[#FF6779] shadow-md shadow-[#FF6779] bg-[#FF6779] text-white hover:bg-white hover:text-[#FF6779] hover:shadow-white transition duration-300 ease-in-out"
+            className=" py-5 rounded-md border border-primary shadow-md shadow-primary bg-primary text-white  transition duration-300 ease-in-out"
           >
             <div className="flex flex-col items-center">
               <PiGameControllerFill className="text-[40px]" />
@@ -70,7 +70,7 @@ const CategoryPage: React.FC = () => {
           </Link>
           <Link
             to={`/item/selling/post/trading_cards`}
-            className=" py-5 rounded-md border border-[#FF6779] shadow-md shadow-[#FF6779] bg-[#FF6779] text-white hover:bg-white hover:text-[#FF6779] hover:shadow-white transition duration-300 ease-in-out"
+            className=" py-5 rounded-md border border-primary shadow-md shadow-primary bg-primary text-white  transition duration-300 ease-in-out"
           >
             <div className="flex flex-col items-center">
               <CgCardClubs className="text-[40px]" />
@@ -81,7 +81,7 @@ const CategoryPage: React.FC = () => {
           </Link>
           <Link
             to={`/item/selling/post/comics`}
-            className=" py-5 rounded-md border border-[#FF6779] shadow-md shadow-[#FF6779] bg-[#FF6779] text-white hover:bg-white hover:text-[#FF6779] hover:shadow-white transition duration-300 ease-in-out"
+            className=" py-5 rounded-md border border-primary shadow-md shadow-primary bg-primary text-white  transition duration-300 ease-in-out"
           >
             <div className="flex flex-col items-center">
               <MdLibraryBooks className="text-[40px]" />
@@ -92,7 +92,7 @@ const CategoryPage: React.FC = () => {
           </Link>
           <Link
             to={`/item/selling/post/remote_control_toys_vehicles`}
-            className=" py-5 rounded-md border border-[#FF6779] shadow-md shadow-[#FF6779] bg-[#FF6779] text-white hover:bg-white hover:text-[#FF6779] hover:shadow-white transition duration-300 ease-in-out"
+            className=" py-5 rounded-md border border-primary shadow-md shadow-primary bg-primary text-white  transition duration-300 ease-in-out"
           >
             <div className="flex flex-col items-center">
               <MdLibraryBooks className="text-[40px]" />
@@ -103,7 +103,7 @@ const CategoryPage: React.FC = () => {
           </Link>
           <Link
             to={`/item/selling/post/others`}
-            className=" py-5 rounded-md border border-[#FF6779] shadow-md shadow-[#FF6779] bg-[#FF6779] text-white hover:bg-white hover:text-[#FF6779] hover:shadow-white transition duration-300 ease-in-out"
+            className=" py-5 rounded-md border border-primary shadow-md shadow-primary bg-primary text-white  transition duration-300 ease-in-out"
           >
             <div className="flex flex-col items-center">
               <MdLibraryBooks className="text-[40px]" />
