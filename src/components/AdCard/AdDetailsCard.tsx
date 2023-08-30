@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { serverUrl } from '../../utils/axiosRelated';
 import axios, { AxiosResponse } from 'axios';
 import AdImagesSwiper from './AdImagesSwiper';
+import Loading from '../Loading/Loading';
 
 const AdDetailsCard:React.FC = () => {
     const [adDetails,setAdDetails]=useState<{}>({})
@@ -39,8 +40,8 @@ const AdDetailsCard:React.FC = () => {
     return (
         <div>
             {
-                loading ? <h1>Loading...</h1> :
-                    <div className='flex justify-center'>
+                loading ? <Loading></Loading> :
+                    <div className='flex justify-center mb-[20%]'>
                         <AdImagesSwiper adDetails={adDetails}></AdImagesSwiper>
                     </div>
             }

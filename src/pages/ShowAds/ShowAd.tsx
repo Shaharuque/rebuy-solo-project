@@ -8,11 +8,13 @@ import AdHeading from '../../components/AdHeadbar/AdHeading';
 import Search from '../../components/Search/Search';
 import { useSelector } from 'react-redux';
 import { AiOutlineSearch } from 'react-icons/ai'; //
+import Loading from '../../components/Loading/Loading';
 
 const ShowAd: React.FC = () => {
     const [allAds, setAllAds] = useState<[]>([]);
     const token = localStorage.getItem('token');
     const [error, setError] = useState<string>('');
+    const [loading,setLoading]=useState<boolean>(false)
 
     // const searched = useSelector((state: any) => state?.searchKey?.keyword);
     const tag = useSelector((state: any) => state?.tagWord?.currentTag?.value);
@@ -48,9 +50,11 @@ const ShowAd: React.FC = () => {
             };
 
             try {
+                setLoading(true)
                 const response: AxiosResponse = await axios.get(url, { headers });
                 if (response.data.success) {
                     setAllAds(response.data.ads);
+                    setLoading(false)
                 }
             } catch (error: any) {
                 console.error('Error:', error);
@@ -82,9 +86,9 @@ const ShowAd: React.FC = () => {
             <Tags></Tags>
             <div className='mb-[25%]'>
                 {
-                    error
+                    loading
                         ?
-                        <h1>Loading</h1>
+                        <Loading></Loading>
                         :
                         allAds.map((ad: any) => {
                             return (

@@ -16,19 +16,20 @@ interface IAd {
     name: string;
   };
   brand: string;
+  choosenType: string;
 }
 
 const AdCard: React.FC<AdProps> = ({ ad }) => {
-  const {_id, images, basePrice, productName, owner, brand }: IAd = ad;
+  const { _id, images, basePrice, productName, owner, brand, choosenType }: IAd = ad;
   //console.log(images);
-  const navigate=useNavigate()
+  const navigate = useNavigate()
 
-  const showAdDetails = (id:string) => {
+  const showAdDetails = (id: string) => {
     navigate(`/ad/details/${id}`)
   }
 
   return (
-    <div onClick={()=>showAdDetails(_id)} className='mb-10 shadow-lg  mx-4'>
+    <div onClick={() => showAdDetails(_id)} className='mb-10 shadow-lg  mx-4'>
       <div className='flex gap-[2px]'>
         <img className='w-12 h-12 object-fill rounded-[50px]' src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg" alt="" />
         <div>
@@ -45,8 +46,12 @@ const AdCard: React.FC<AdProps> = ({ ad }) => {
         <div>
           <h1 className='text-[15px] font-bold text-textPrimary'>{productName}</h1>
           <span className='text-[12px] text-tcolor m-0'>{brand}</span>
+
         </div>
-        <h1 className='text-[15px] text-tcolor'><span className='font-bold mr-[2px] text-[15px]'>৳</span>{basePrice}</h1>
+        <div>
+          <h1 className='text-[15px] text-tcolor'><span className='font-extrabold mr-[2px] text-[15px]'>৳</span>{basePrice}</h1>
+          <span className=' bg-primary text-[12px] text-white p-1 rounded-lg'>{choosenType === 'Sale' ? 'Buy': 'Bid'}</span>
+        </div>
       </div>
 
     </div>

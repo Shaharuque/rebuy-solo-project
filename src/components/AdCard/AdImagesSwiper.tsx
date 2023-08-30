@@ -19,7 +19,7 @@ interface IAdDetails {
     brand: string;
 }
 const AdImagesSwiper: React.FC<AdDetailsProps> = ({ adDetails }) => {
-    const { images } = adDetails
+    const { images, description, basePrice, productName, brand } = adDetails
 
     const params = {
         pagination: {
@@ -28,16 +28,25 @@ const AdImagesSwiper: React.FC<AdDetailsProps> = ({ adDetails }) => {
         }
     }
     return (
-        <div className='overflow-x-hidden mx-4 m-4'>
+        <div className='overflow-x-hidden mx-4 mb-6'>
             <Swiper {...params}>
                 {
                     images?.map((image) => (
                         <div key={image}>
-                            <img className='w-full rounded-lg' src={image} alt="movie" />
+                            <img className='w-full h-[80%] rounded-sm' src={image} alt="movie" />
                         </div>
                     ))
                 }
             </Swiper>
+            <div className='mt-2'>
+                <h1 className='text-[24px] text-tcolor font-bold'>{productName}</h1>
+                <h1 className='text-[25px] text-[#087E8B] font-bold'><span className=' font-extrabold mr-[2px] text-[25px]'>৳</span>{basePrice}</h1>
+                <h1 className='text-[15px] text-[#666]'>{description}</h1>
+                <div className='flex items-center gap-2'>
+                    <span>Make: </span><h1 className='text-[15px] text-tcolor font-bold ml-[2px]'> {brand}</h1>
+                    <span>| </span><h1 className='text-[15px] text-tcolor font-bold ml-[2px]'> Year:2022</h1>
+                </div>
+            </div>
             {/* Apply CSS module styles */}
         </div>
     )

@@ -1,0 +1,5 @@
+.navbar-container {
+    /* Your existing styles */
+    backdrop-filter: blur(10px); /* Apply blur effect to the background */
+    background-color: rgba(135, 134, 134, 0.6); /* Semi-transparent background color */
+  }
