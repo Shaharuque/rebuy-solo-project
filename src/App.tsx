@@ -15,6 +15,7 @@ import SellingPost from "./pages/SellingPost/SellingPost";
 import ShowAd from "./pages/ShowAds/ShowAd";
 import AdDetailsCard from './components/AdCard/AdDetailsCard';
 import AdDetails from './pages/AdDetailsPage/AdDetails';
+import AdBidding from './pages/AdBidding/AdBidding';
 
 const App: React.FC = () => {
   const [rooms, setRooms] = useState([]);
@@ -37,6 +38,7 @@ const App: React.FC = () => {
               <Route path="/home" element={<Home />} />
               <Route path="/ads" element={<ShowAd></ShowAd>}></Route>
               <Route path="/ad/details/:id" element={<AdDetails></AdDetails>}></Route>
+              <Route path='/item/bidding/:adId' element={<AdBidding></AdBidding>}></Route>
               <Route
                 path="/item/selling/categories"
                 element={<CategoryPage></CategoryPage>}

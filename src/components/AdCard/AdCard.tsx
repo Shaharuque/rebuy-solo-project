@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface AdProps {
@@ -50,7 +50,7 @@ const AdCard: React.FC<AdProps> = ({ ad }) => {
         </div>
         <div>
           <h1 className='text-[15px] text-tcolor'><span className='font-extrabold mr-[2px] text-[15px]'>৳</span>{basePrice}</h1>
-          <span className=' bg-primary text-[12px] text-white p-1 rounded-lg'>{choosenType === 'Sale' ? 'Buy': 'Bid'}</span>
+          <span className=' bg-primary text-[12px] text-white p-1 rounded-lg flex justify-center'>{choosenType === 'Sell' ? 'Buy': 'Bid'}</span>
         </div>
       </div>
 

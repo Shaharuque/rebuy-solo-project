@@ -4,6 +4,7 @@ import Swiper from "react-id-swiper";
 import "swiper/css";
 import Header from '../../components/Header/Header';
 import axios, { AxiosResponse } from 'axios';
+import { serverUrl } from '../../utils/axiosRelated';
 
 
 const Home: React.FC = () => {
@@ -12,33 +13,42 @@ const Home: React.FC = () => {
         "https://m.media-amazon.com/images/M/MV5BMWMwMGQzZTItY2JlNC00OWZiLWIyMDctNDk2ZDQ2YjRjMWQ0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX900.jpg",
         "https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX900.jpg"
     ];
+    const [allAds, setAllAds] = React.useState<[]>([]);
+    const [loading, setLoading] = React.useState<boolean>(false);
+    const token = localStorage.getItem('token')
+
+    useEffect(() => {
+        async function fetchAds(): Promise<void> {
+            let url = `${serverUrl}/product/get/all/ad?search=`;
+            const headers = {
+                Authorization: `Bearer ${token}`, // Set your authorization token
+                // Other custom headers if needed
+            };
+
+            try {
+                setLoading(true)
+                const response: AxiosResponse = await axios.get(url, { headers });
+                if (response.data.success) {
+                    setAllAds(response.data.ads);
+                    setLoading(false)
+                }
+            } catch (error: any) {
+                console.error('Error:', error);
+            }
+        }
+
+        fetchAds();
+    }, []);
+    console.log(allAds)
 
     const params = {
-        slidesPerView: 3,
-        spaceBetween: 30,
         pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
+          el: '.swiper-pagination',
+          clickable: true,
+          dynamicBullets: true
         }
-    }
+      }
 
-    useEffect(()=>{
-        async function fetchWithCookies(): Promise<void> {
-            try {
-              const response: AxiosResponse = await axios.get('http://localhost:9100/api/user/all', {
-                headers: { Authorization: "Bearer " + localStorage.getItem('token') },// This allows sending and receiving cookies
-              });
-          
-              // Handle the response here
-              console.log('Data:', response.data);
-            } catch (error) {
-              // Handle errors here
-              console.error('Error:', error);
-            }
-          }
-          
-          fetchWithCookies();
-    },[])
     return (
         <div className='overflow-x-hidden'>
             <Header></Header>
@@ -47,7 +57,7 @@ const Home: React.FC = () => {
                 <h1 className='text-[12px] font-semibold text-[#898989] '>View More</h1>
             </div>
             <div className='px-12'>
-                <Swiper>
+                <Swiper {...params}>
                     {movies.map((movie) => (
                         <div key={movie}>
                             <img className='w-[250px] h-[250px] rounded-lg' src={movie} alt="movie" />
@@ -70,7 +80,7 @@ const Home: React.FC = () => {
                 </Swiper>
             </div>
 
-            
+
             <Navbar></Navbar>
 
 

@@ -120,7 +120,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
         const imageArray: string[] = [];
         const url = 'http://localhost:9100/api/product/add';
       
-        fileList.forEach((file) => {
+        fileList?.forEach((file) => {
           if (file?.response?.url) {
             imageArray.push(file.response.url);
           }
@@ -204,9 +204,9 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                         <div className="flex space-x-2 my-2">
                             <BoxOptionButton
                                 type="button"
-                                text="Sale"
+                                text="Sell"
                                 value={type}
-                                onClick={() => handleType("Sale")}
+                                onClick={() => handleType("Sell")}
                             />
                             <BoxOptionButton
                                 type="button"

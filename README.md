@@ -7,6 +7,9 @@ https://www.youtube.com/watch?v=KJBRw0bvjNI&list=PLSQi9CtBDLnNqmKdT7yiDUzzfbYDS4
 => npm install @types/react-redux react-redux @reduxjs/toolkit
 
 
+//socket io setup on the AdBidding.tsx file
+
+
 
 
 

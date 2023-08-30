@@ -19,6 +19,7 @@ const roooms = ["general", "random", "news", "games", "coding"];
 // Socket IO server connected on 8080 port
 const httpServer = createServer();
 const socketIO = new Server(httpServer, {
+  pingTimeout: 60000, //if no one is active to chat then socket will be off
   cors: {
     origin: "*",
   },
@@ -119,6 +120,12 @@ const socketIO = new Server(httpServer, {
 //---------------------New Chat app video:creating chat app using chakra ui and socket io------------
 socketIO.on("connection", (socket: Socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
+
+  socket.on('joinRoom', ({ productId,userId}:any) => {
+    socket.join(`${userId} ${productId}`);
+    console.log(`${userId} joined room for product: ${productId}`);
+  });
+
     socket.on("disconnect", () => {
     console.log("🔥: A user disconnected");
   });
@@ -151,11 +158,11 @@ mongoose.connection.on("disconnected", () => {
 
 app.use(cookieParser());
 app.use(
-  // cors({
-  //   origin: "*",
-  //   credentials: true, // Allow credentials (cookies)
-  // })
-  cors({origin:true, credentials:true})
+  cors({
+    origin: "*",
+    credentials: true, // Allow credentials (cookies)
+  })
+  // cors({origin:true, credentials:true})
 );
 app.use(compression());
 app.use(express.json());
@@ -163,7 +170,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
-// app.use("/api/chat",chatRoute)
 app.use("/api/product", adRoute);
 app.use("/api/bid", bidRoute);
 

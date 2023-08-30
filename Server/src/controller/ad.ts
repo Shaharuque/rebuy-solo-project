@@ -152,6 +152,33 @@ export const adDetails: RequestHandler = async (req, res) => {
     }
 };
 
+//show all new ads which are not sold or auction ended or user who gives the ad is not the same user who is logged in and sort by date descending
+export const newAds: RequestHandler = async (req, res) => {
+  try {
+    const ads = await Ad.find({
+      $and: [
+        { sold: false },
+        { auctionEnded: false },
+        { owner: { $ne: req.user.id } },
+      ],
+    })
+      .sort({ createdAt: -1 })
+      .populate("owner", "-password");
+
+    res.status(200).json({
+      success: true,
+      message: "new ads",
+      ads,
+    });
+  }
+  catch (err) {
+    res.status(500).json({
+      message: "error",
+      err,
+    });
+  }
+};
+
 
 export const getUserAds: RequestHandler = async (req, res) => {
   try {
