@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import Ad from "../model/Ad";
+import Cart from "../model/Cart";
 
 export const postAd: RequestHandler = async (req, res) => {
   try {
@@ -62,7 +63,7 @@ export const getAllAd: RequestHandler = async (req, res) => {
       });
     }
 
-    if (tag  && !searched) {
+    if (tag && !searched) {
       const keyword = {
         $or: [
           { model: { $regex: tag, $options: "i" } },
@@ -76,7 +77,9 @@ export const getAllAd: RequestHandler = async (req, res) => {
           { auctionEnded: false },
           { owner: { $ne: req.user.id } },
         ],
-      }).find(keyword).populate("owner", "-password");
+      })
+        .find(keyword)
+        .populate("owner", "-password");
 
       res.status(200).json({
         success: true,
@@ -104,7 +107,9 @@ export const getAllAd: RequestHandler = async (req, res) => {
           { auctionEnded: false },
           { owner: { $ne: req.user.id } },
         ],
-      }).find(keyword).populate("owner", "-password");
+      })
+        .find(keyword)
+        .populate("owner", "-password");
 
       res.status(200).json({
         success: true,
@@ -137,22 +142,22 @@ export const getAllAd: RequestHandler = async (req, res) => {
 };
 
 export const adDetails: RequestHandler = async (req, res) => {
-    try {
-        const ad = await Ad.findById(req.params.id).populate("owner", "-password");
-        res.status(200).json({
-            success: true,
-            message: "ad details",
-            ad,
-        });
-    } catch (err) {
-        res.status(500).json({
-            message: "error",
-            err,
-        });
-    }
+  try {
+    const ad = await Ad.findById(req.params.id).populate("owner", "-password");
+    res.status(200).json({
+      success: true,
+      message: "ad details",
+      ad,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "error",
+      err,
+    });
+  }
 };
 
-//show all new ads which are not sold or auction ended or user who gives the ad is not the same user who is logged in and sort by date descending
+//show all new ads which are not sold or auction ended or user who gives the ad is not the same user who is logged in and sort by created time descending
 export const newAds: RequestHandler = async (req, res) => {
   try {
     const ads = await Ad.find({
@@ -163,22 +168,19 @@ export const newAds: RequestHandler = async (req, res) => {
       ],
     })
       .sort({ createdAt: -1 })
-      .populate("owner", "-password");
-
+      
     res.status(200).json({
       success: true,
-      message: "new ads",
+      message: "all ads",
       ads,
     });
-  }
-  catch (err) {
+  } catch (err) {
     res.status(500).json({
       message: "error",
       err,
     });
   }
 };
-
 
 export const getUserAds: RequestHandler = async (req, res) => {
   try {
@@ -199,3 +201,43 @@ export const getSoldProducts: RequestHandler = async (req, res) => {
     });
   }
 };
+
+//product add to cart
+export const addToCart: RequestHandler = async (req, res) => {
+  try{
+    const {productId}=req.body
+    //add product to cart
+    const cart=await Cart.create({
+      productInfo:productId,
+      userInfo:req.user.id
+    })
+    res.status(200).json({
+      success:true,
+      message:"product added to cart",
+    })
+  }catch(err){
+    res.status(500).json({
+      message: "error",
+      err,
+    });
+  }
+}
+
+//find the product through its product id is on the cart or not 
+export const getCart: RequestHandler=async(req,res)=>{
+  try{
+    const productId=req.body.productId
+    const cart=await Cart.find({productInfo:productId , userInfo:req.user.id})
+    res.status(200).json({
+      success:true,
+      message:"product is on the cart",
+      cart
+    })
+  }catch(err){
+    res.status(500).json({
+      message: "error",
+      err,
+    });
+  }
+}
+

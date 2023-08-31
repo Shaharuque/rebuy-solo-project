@@ -10,11 +10,13 @@ import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import Back from "../../components/Back/Back";
 import { pricePrediction } from "../../utils/pricePRediction";
 import { priceExtraction } from "../../utils/priceExtraction";
-import { convertUnderscoresToSpaces } from "../../utils/convertUnderscores";
 import axios, { AxiosResponse } from 'axios';
 import { toast } from "react-toastify";
+import { descriptionGenerator } from "../../utils/productDescriptionGenerate";
+import { BiHelpCircle } from "react-icons/bi";
+import SmallLoader from "../../components/Loading/SmallLoader";
 
-interface Inputs  {
+interface Inputs {
     type: string,
     status: number,
     title: string
@@ -45,6 +47,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
     const [type, setType] = useState<string>("");
     const [status, setStatus] = useState<string>("");
     const [title, setTitle] = useState<string>("");
+    const [desc, setDesc] = useState<string>("")
     const [predictedPrice, setPredictedPrice] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const { category } = useParams<{ category: string }>();
@@ -106,73 +109,89 @@ const SellingPost: React.FC<SellingPostProps> = () => {
 
     };
 
+    //auto generating the product description
+
+    const generateDescription = async () => {
+        setLoading(true)
+        const result = await descriptionGenerator(category, title)
+        if (result) {
+            setDesc(result)
+            setLoading(false)
+        }
+    }
+
+
     const { reset, register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
     useEffect(() => {
         setTimeout(() => {
             reset({
-                price: predictedPrice,
+                description: desc
             });
         }, 0);
-    }, [predictedPrice, reset]);
+    }, [ desc, reset]);
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const imageArray: string[] = [];
         const url = 'http://localhost:9100/api/product/add';
-      
+
         fileList?.forEach((file) => {
-          if (file?.response?.url) {
-            imageArray.push(file.response.url);
-          }
+            if (file?.response?.url) {
+                imageArray.push(file.response.url);
+            }
         });
-      
+
         const payload: Payload = {
-          type, // Make sure you have defined type somewhere
-          status, // Make sure you have defined status somewhere
-          title, // Make sure you have defined title somewhere
-          brand: data.brand,
-          description: data.description,
-          model: data.model,
-          category: category, // Make sure you have defined category somewhere
-          price: data.price,
-          images: imageArray,
+            type, // Make sure you have defined type somewhere
+            status, // Make sure you have defined status somewhere
+            title, // Make sure you have defined title somewhere
+            brand: data.brand,
+            description: data.description,
+            model: data.model,
+            category: category, // Make sure you have defined category somewhere
+            price: data.price,
+            images: imageArray,
         };
-      
+
         console.log(payload);
-      
+
         const token = localStorage.getItem('token');
         if (!token) {
-          console.error('Token not found');
-          return;
+            console.error('Token not found');
+            return;
         }
         const headers = {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
         };
-      
-        try {
-          const response: AxiosResponse = await axios.post(url, payload, { headers });
-          console.log('Response:', response.data);
 
-          if(response?.data?.success){
-            toast.success("successfully advertisement posted", {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                style: { fontSize: "12px" },
-              });
-              reset();
-              setFileList([]);
-          }
+        try {
+            const response: AxiosResponse = await axios.post(url, payload, { headers });
+            console.log('Response:', response.data);
+
+            if (response?.data?.success) {
+                toast.success("successfully advertisement posted", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    style: { fontSize: "12px" },
+                });
+                reset();
+                setTitle("")
+                setPredictedPrice("")
+                setDesc("")
+                setStatus("")
+                setFileList([]);
+            }
         } catch (error) {
-          console.error('Error:', error);
+            console.error('Error:', error);
         }
-      };
+    };
     console.log(type, status, title)
 
 
@@ -323,9 +342,9 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                     Description
                                 </span>
                             </label>
-                            <input
-                                type="text"
-                                placeholder="Ex. write up some features about the product..."
+                            <textarea
+                                disabled={loading}
+                                placeholder="write up some features about the product..."
                                 className=" focus:outline-none border border-gray-200 rounded-md px-3 py-[5px] text-[14px] w-full md:w-[500px] h-12"
                                 {...register("description", {
                                     required: {
@@ -344,20 +363,29 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                     )}
                                 </span>
                             </label>
+
+                            <div className="flex gap-2">
+                                <button type="button" onClick={generateDescription} className="text-[13px] bg-black text-white p-[5px] rounded-sm">Generate</button>
+                                {
+                                    loading ? <SmallLoader></SmallLoader> : null
+                                }
+                            </div>
                         </div>
 
                         {/* image upload */}
-                        <ImgCrop rotationSlider>
-                            <Upload
-                                action="http://localhost:3001/upload"
-                                listType="picture-card"
-                                fileList={fileList}
-                                onChange={onChange}
-                                onPreview={onPreview}
-                            >
-                                {fileList.length < 3 && '+ Upload'}
-                            </Upload>
-                        </ImgCrop>
+                        <div className="mt-10">
+                            <ImgCrop rotationSlider>
+                                <Upload
+                                    action="http://localhost:3001/upload"
+                                    listType="picture-card"
+                                    fileList={fileList}
+                                    onChange={onChange}
+                                    onPreview={onPreview}
+                                >
+                                    {fileList.length < 3 && '+ Upload'}
+                                </Upload>
+                            </ImgCrop>
+                        </div>
 
                         {/* Price Section */}
                         <div className="py-4">
@@ -366,7 +394,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                     Price
                                 </span>
                             </label>
-                            <h1 className="text-[10px] font-bold">Enter item's price by own or press get price button please.</h1>
+
                             <div>
                                 <input
                                     type="text"
@@ -382,10 +410,14 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                 <button
                                     type="button"
                                     onClick={predictPrice}
-                                    className="bg-black ml-2 p-1 rounded-md text-white text-[14px]"
+                                    className="bg-black ml-2 p-[5px] rounded-sm text-white text-[14px]"
                                 >
                                     Get Price
                                 </button>
+                                <div className="flex items-center">
+                                    <h1 className="text-[13px] font-bold">price generated from openAI <span>{predictedPrice}</span></h1>
+                                    <BiHelpCircle className="text-[12px]" />
+                                </div>
                             </div>
                             {/* Error Message */}
                             <label>

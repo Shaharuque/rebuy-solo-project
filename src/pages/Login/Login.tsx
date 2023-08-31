@@ -43,7 +43,7 @@ const Login: React.FC = () => {
 
 
     return (
-        <div className='mt-[50%] px-[25px]'>
+        <div className='mt-[20%] px-[25px]'>
             <div className='flex justify-between'>
                 <Link to='/register' className='border border-gray-300 rounded p-2'><BiChevronLeft className='text-[20px]' /></Link>
                 <h1 className='text-[18px] text-[#3C3C3C] font-bold'>ReBuy</h1>

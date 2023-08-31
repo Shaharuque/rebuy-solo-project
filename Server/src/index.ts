@@ -10,9 +10,9 @@ import { Server, Socket } from "socket.io";
 // import routes
 import authRoute from "./route/authRoute";
 import userRoute from "./route/userRoute";
-import chatRoute from "./route/chatRoute"
 import adRoute from "./route/adRoute";
 import bidRoute from "./route/bidRoute";
+import openAIRoute from "./route/openAIRoute"
 
 const roooms = ["general", "random", "news", "games", "coding"];
 
@@ -121,9 +121,9 @@ const socketIO = new Server(httpServer, {
 socketIO.on("connection", (socket: Socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
 
-  socket.on('joinRoom', ({ productId,userId}:any) => {
-    socket.join(`${userId} ${productId}`);
-    console.log(`${userId} joined room for product: ${productId}`);
+  socket.on('joinRoom', ({ userId,room}:any) => {
+    socket.join(`${userId} ${room}`);
+    console.log(`${userId} joined room for product id: ${room}`);
   });
 
     socket.on("disconnect", () => {
@@ -172,6 +172,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/product", adRoute);
 app.use("/api/bid", bidRoute);
+app.use('/openai', openAIRoute);
 
 //error middleware
 app.use((err: any, req: any, res: any, next: any) => {

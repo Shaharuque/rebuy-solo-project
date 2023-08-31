@@ -16,6 +16,7 @@ import ShowAd from "./pages/ShowAds/ShowAd";
 import AdDetailsCard from './components/AdCard/AdDetailsCard';
 import AdDetails from './pages/AdDetailsPage/AdDetails';
 import AdBidding from './pages/AdBidding/AdBidding';
+import MyCartPage from './pages/MyCart/MyCartPage';
 
 const App: React.FC = () => {
   const [rooms, setRooms] = useState([]);
@@ -39,6 +40,7 @@ const App: React.FC = () => {
               <Route path="/ads" element={<ShowAd></ShowAd>}></Route>
               <Route path="/ad/details/:id" element={<AdDetails></AdDetails>}></Route>
               <Route path='/item/bidding/:adId' element={<AdBidding></AdBidding>}></Route>
+              <Route path='/cart' element={<MyCartPage></MyCartPage>}></Route>
               <Route
                 path="/item/selling/categories"
                 element={<CategoryPage></CategoryPage>}

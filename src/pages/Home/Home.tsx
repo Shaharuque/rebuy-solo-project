@@ -5,6 +5,9 @@ import "swiper/css";
 import Header from '../../components/Header/Header';
 import axios, { AxiosResponse } from 'axios';
 import { serverUrl } from '../../utils/axiosRelated';
+import HomeAdCard from '../../components/AdCard/HomeAdCard';
+import Loading from '../../components/Loading/Loading';
+import { useNavigate } from 'react-router-dom';
 
 
 const Home: React.FC = () => {
@@ -16,10 +19,11 @@ const Home: React.FC = () => {
     const [allAds, setAllAds] = React.useState<[]>([]);
     const [loading, setLoading] = React.useState<boolean>(false);
     const token = localStorage.getItem('token')
+    const navigate=useNavigate()
 
     useEffect(() => {
-        async function fetchAds(): Promise<void> {
-            let url = `${serverUrl}/product/get/all/ad?search=`;
+        async function fetchNewArrivalAds(): Promise<void> {
+            let url = `${serverUrl}/product/get/recent/ads`;
             const headers = {
                 Authorization: `Bearer ${token}`, // Set your authorization token
                 // Other custom headers if needed
@@ -37,30 +41,30 @@ const Home: React.FC = () => {
             }
         }
 
-        fetchAds();
+        fetchNewArrivalAds();
     }, []);
     console.log(allAds)
 
     const params = {
         pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-          dynamicBullets: true
+            el: '.swiper-pagination',
+            clickable: true,
+            dynamicBullets: true
         }
-      }
+    }
 
     return (
-        <div className='overflow-x-hidden'>
+        <div className='overflow-x-hidden mb-[100px]'>
             <Header></Header>
             <div className='flex justify-between mb-3 px-6'>
                 <h1 className='text-[15px] font-bold text-[#3C3C3C] '>New arrivals</h1>
-                <h1 className='text-[12px] font-semibold text-[#898989] '>View More</h1>
+                <h1 onClick={()=>{navigate('/ads')}} className='text-[12px] font-semibold text-[#898989] '>View More</h1>
             </div>
-            <div className='px-12'>
+            <div className='px-2'>
                 <Swiper {...params}>
-                    {movies.map((movie) => (
-                        <div key={movie}>
-                            <img className='w-[250px] h-[250px] rounded-lg' src={movie} alt="movie" />
+                    {allAds?.slice(0, 4)?.map((ad, index) => (
+                        <div key={index}>
+                            <HomeAdCard ad={ad}></HomeAdCard>
                         </div>
                     ))}
                 </Swiper>
@@ -70,11 +74,11 @@ const Home: React.FC = () => {
                 <h1 className='text-[15px] font-bold text-[#3C3C3C] '>Recently viewed</h1>
                 <h1 className='text-[12px] font-semibold text-[#898989] '>View More</h1>
             </div>
-            <div className='px-12 mb-[20%]'>
-                <Swiper>
-                    {movies.map((movie) => (
-                        <div key={movie}>
-                            <img className='w-[250px] h-[250px] rounded-lg' src={movie} alt="movie" />
+            <div className='px-2'>
+                <Swiper {...params}>
+                    {allAds?.slice(0, 4)?.map((ad, index) => (
+                        <div key={index}>
+                            <HomeAdCard ad={ad}></HomeAdCard>
                         </div>
                     ))}
                 </Swiper>

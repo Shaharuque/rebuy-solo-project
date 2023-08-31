@@ -3,31 +3,111 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { TbGavel } from 'react-icons/tb';
 import { BiHeart, BiInfoCircle, BiLayer } from 'react-icons/bi';
-import { BsCartPlus } from 'react-icons/bs';
+import { BsCartCheckFill, BsCartPlus } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
-import { io } from 'socket.io-client';
+import axios, { AxiosResponse } from 'axios';
+import { toast } from 'react-toastify';
+import { serverUrl } from '../../utils/axiosRelated';
 
+interface IPayload{
+    productId: string;
+}
 
 const AdDetailsCardBottom: React.FC = () => {
+    const [addSuccess,setAddSuccess]=useState<boolean>(false)
+    const [cartStatus, setCartStatus] = useState([]);
     const adType = useSelector((state: any) => state?.ad?.adtype);
     localStorage.setItem('adType', adType);
+    const token = localStorage.getItem('token');
 
-    const {id}=useParams()
+    const { id } = useParams()
     // console.log('from ad details bottom bar',id)
 
-    //socket io
-    const [socket, setSocket] = useState<any>(null);
+    // const existingCartItem=localStorage.getItem('cart')
+    // console.log('existing cart item',existingCartItem)
+    // const addToCart=(id:string|undefined)=>{
+    //     console.log('add to cart',id)
+    //     if(id && existingCartItem){
+    //         let cartArray=JSON?.parse(existingCartItem)
+    //         let merged=[...cartArray,id]
+    //         localStorage.setItem('cart',JSON.stringify(merged))
+    //     }else if(id && !existingCartItem){
+    //         localStorage.setItem('cart',JSON.stringify([id]))
+    //     }
 
-    const userInfo=JSON.parse(localStorage.getItem('user') || '{}')
-    console.log('from ad bidding user info',userInfo)
+    // }
 
     useEffect(() => {
-        setSocket(io('http://localhost:8080'));  //io thekey socket newa hoisey
-    }, [])
+        async function fetchCart(): Promise<void> {
+            let url = `${serverUrl}/product/cart`;
+    
+            const payload = {
+                productId: id,
+            };
+            
+            if (!token) {
+                console.error('Token not found');
+                return;
+            }
+            const headers = {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            };
 
-    const handleBid = () => {
-        console.log('handle bid')
+            try {
+                const response: AxiosResponse = await axios.post(url, payload, { headers });
+                if (response.data.success) {
+                    setCartStatus(response?.data?.cart);
+                }
+            } catch (error: any) {
+                console.error('Error:', error);
+            }
+        }
+
+        if(id){
+            fetchCart();
+        }
+    }, []);
+    
+    const addToCart=async(id: string | undefined)=> {
+        console.log('add to cart',id)
+        if(id){
+            //post req using axios
+            const url = `${serverUrl}/product/add/to/cart`;
+    
+            const payload: IPayload = {
+                productId: id,
+            };
+            
+            if (!token) {
+                console.error('Token not found');
+                return;
+            }
+            const headers = {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            };
+    
+            try {
+                const response: AxiosResponse = await axios.post(url, payload, { headers });
+                console.log('Response:', response.data);
+    
+                if (response?.data?.success) {
+                    toast.success("successfully added to cart", {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        theme: "dark",
+                        style: { fontSize: "15px" },
+                    });
+                    setAddSuccess(true)
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
     }
+
 
 
     return (
@@ -43,11 +123,26 @@ const AdDetailsCardBottom: React.FC = () => {
                     <div className='w-[50%] bg-gray-500 h-12 flex justify-center items-center'>
                         {
                             adType === 'Sell' || localStorage.getItem('adType') === 'Sell' ?
-                                <Link to='/add/to/cart'>
-                                    <BsCartPlus className='text-[25px] text-white' />
-                                </Link>
+                                <div >
+                                    {/* {
+                                        existingCartItem?.includes(id) 
+                                        ? 
+                                        <BsCartCheckFill className='text-[25px] text-white' />
+                                        :
+                                        <BsCartPlus onClick={()=>addToCart(id)} className='text-[25px] text-white' />
+                                    } */}
+                                    {
+                                        addSuccess || cartStatus?.length>0 ? 
+                                        <BsCartCheckFill className='text-[25px] text-white' />
+                                        :
+                                        <BsCartPlus onClick={()=>addToCart(id)} className='text-[25px] text-white' />
+                                    }
+                                    
+
+
+                                </div>
                                 :
-                                <Link onClick={handleBid} to={`/item/bidding/${id}`}>
+                                <Link to={`/item/bidding/${id}`}>
                                     <TbGavel className='text-[25px] text-white' />
                                 </Link>
                         }
