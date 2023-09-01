@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-export const pricePrediction = async (title: string, category: string): Promise<string | undefined> => {
+export const ItemDetailsGenerate = async (title: string, category: string): Promise<string | undefined> => {
   try {
     const options = {
       method: "POST",
@@ -11,7 +11,7 @@ export const pricePrediction = async (title: string, category: string): Promise<
         "X-RapidAPI-Host": "open-ai21.p.rapidapi.com",
       },
       data: {
-        message: `can you tell the the price of ${title} ${category}`,
+        message: `can you describe ${title} ${category} for selling don't excced 100 words.`,
       },
     };
 
@@ -19,7 +19,7 @@ export const pricePrediction = async (title: string, category: string): Promise<
       const response: AxiosResponse = await axios.request(options);
       const result: string | undefined = response?.data?.RESULT;
       //   console.log(result);
-      return result || 'The price is around\n25−150';
+      return result 
     } catch (error) {
       console.error(error);
     }

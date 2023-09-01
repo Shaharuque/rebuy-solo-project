@@ -12,7 +12,8 @@ import authRoute from "./route/authRoute";
 import userRoute from "./route/userRoute";
 import adRoute from "./route/adRoute";
 import bidRoute from "./route/bidRoute";
-import openAIRoute from "./route/openAIRoute"
+import orderRoute from "./route/orderRoute";
+import openAIRoute from "./route/openAIRoute";
 
 const roooms = ["general", "random", "news", "games", "coding"];
 
@@ -116,17 +117,28 @@ const socketIO = new Server(httpServer, {
 //   });
 // });
 
-
 //---------------------New Chat app video:creating chat app using chakra ui and socket io------------
 socketIO.on("connection", (socket: Socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
 
-  socket.on('joinRoom', ({ userId,room}:any) => {
+  socket.on("joinRoom", ({ userId, room }: any) => {
     socket.join(`${userId} ${room}`);
     console.log(`${userId} joined room for product id: ${room}`);
   });
 
-    socket.on("disconnect", () => {
+  //From client side a bidding amount will be emitted to server
+  socket.on("bid", ({ userId, room, bidAmount }: any) => {
+    console.log(
+      `bid amount: ${bidAmount} from user id: ${userId} for product id: ${room}`
+    );
+
+    // socketIO.to(`${userId} ${room}`).emit('bid', bidAmount); //only the user who bid will see the bid amount
+
+    // bitAmount will be emitted to all client side
+    socketIO.emit("bid", { bidAmount, room });
+  });
+
+  socket.on("disconnect", () => {
     console.log("🔥: A user disconnected");
   });
 });
@@ -172,7 +184,8 @@ app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/product", adRoute);
 app.use("/api/bid", bidRoute);
-app.use('/openai', openAIRoute);
+app.use("/openai", openAIRoute);
+app.use("/api/cart", orderRoute);
 
 //error middleware
 app.use((err: any, req: any, res: any, next: any) => {

@@ -26,6 +26,7 @@ export const postAd: RequestHandler = async (req, res) => {
       images,
       productStatus: status,
       basePrice: price,
+      currentPrice: price,
     });
     res.status(201).json({
       success: true,
@@ -202,42 +203,6 @@ export const getSoldProducts: RequestHandler = async (req, res) => {
   }
 };
 
-//product add to cart
-export const addToCart: RequestHandler = async (req, res) => {
-  try{
-    const {productId}=req.body
-    //add product to cart
-    const cart=await Cart.create({
-      productInfo:productId,
-      userInfo:req.user.id
-    })
-    res.status(200).json({
-      success:true,
-      message:"product added to cart",
-    })
-  }catch(err){
-    res.status(500).json({
-      message: "error",
-      err,
-    });
-  }
-}
 
-//find the product through its product id is on the cart or not 
-export const getCart: RequestHandler=async(req,res)=>{
-  try{
-    const productId=req.body.productId
-    const cart=await Cart.find({productInfo:productId , userInfo:req.user.id})
-    res.status(200).json({
-      success:true,
-      message:"product is on the cart",
-      cart
-    })
-  }catch(err){
-    res.status(500).json({
-      message: "error",
-      err,
-    });
-  }
-}
+
 

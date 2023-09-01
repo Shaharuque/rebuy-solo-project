@@ -67,7 +67,7 @@ const adSchema = new Schema<IAd>(
       required: true,
     },
     currentPrice: {
-      type: Number,
+      type: Number
     },
     duration: {
       type: Number,

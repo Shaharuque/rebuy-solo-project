@@ -7,6 +7,7 @@ module.exports = {
       colors: {
         'transparent': 'transparent',
         'primary':'#FF5A5F',
+        'cartBg':'#F7F7F7',
         'secondary':'#f3f5ff',
         'cardlight':'#C1839F40',
         'black':'#000000',

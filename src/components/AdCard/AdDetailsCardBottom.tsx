@@ -39,7 +39,7 @@ const AdDetailsCardBottom: React.FC = () => {
 
     useEffect(() => {
         async function fetchCart(): Promise<void> {
-            let url = `${serverUrl}/product/cart`;
+            let url = `${serverUrl}/cart/check`;
     
             const payload = {
                 productId: id,
@@ -73,7 +73,7 @@ const AdDetailsCardBottom: React.FC = () => {
         console.log('add to cart',id)
         if(id){
             //post req using axios
-            const url = `${serverUrl}/product/add/to/cart`;
+            const url = `${serverUrl}/cart/item/add`;
     
             const payload: IPayload = {
                 productId: id,
@@ -94,7 +94,7 @@ const AdDetailsCardBottom: React.FC = () => {
     
                 if (response?.data?.success) {
                     toast.success("successfully added to cart", {
-                        position: "top-center",
+                        position: "top-right",
                         autoClose: 5000,
                         hideProgressBar: false,
                         theme: "dark",

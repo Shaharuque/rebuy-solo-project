@@ -5,7 +5,6 @@ interface IBid {
   productId: object;
   participatedUsers: Array<object>;
   bids: Array<object>;
-  productName: string;
   bidTimeline: number;
   status: string;
 }
@@ -15,10 +14,6 @@ const bidSchema = new Schema<IBid>(
     productId: {
       type: Schema.Types.ObjectId,
       ref: "Ad",
-    },
-    productName: {
-      type: String,
-      required: true,
     },
     participatedUsers: [
       {
@@ -34,7 +29,7 @@ const bidSchema = new Schema<IBid>(
           required: true,
         },
         amount: {
-          type: Schema.Types.ObjectId,
+          type: Number,
           required: true,
         },
         time: {

@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: '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',
+  apiKey: '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',
 });
 
 const openAIText: RequestHandler = async (req, res) => {

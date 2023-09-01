@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 // import { priceExtraction } from "../../utils/priceExtraction";
@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { descriptionGenerator } from "../../utils/productDescriptionGenerate";
 import { BiHelpCircle } from "react-icons/bi";
 import SmallLoader from "../../components/Loading/SmallLoader";
+import { ItemDetailsGenerate } from "../../utils/ItemDetailsGenerate";
 
 interface Inputs {
     type: string,
@@ -48,7 +49,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
     const [status, setStatus] = useState<string>("");
     const [title, setTitle] = useState<string>("");
     const [desc, setDesc] = useState<string>("")
-    const [predictedPrice, setPredictedPrice] = useState<string>("");
+    const [predictedPrice, setPredictedPrice] = useState<string|number>("");
     const [loading, setLoading] = useState<boolean>(false);
     const { category } = useParams<{ category: string }>();
     const navigate = useNavigate();
@@ -113,11 +114,19 @@ const SellingPost: React.FC<SellingPostProps> = () => {
 
     const generateDescription = async () => {
         setLoading(true)
-        const result = await descriptionGenerator(category, title)
-        if (result) {
-            setDesc(result)
-            setLoading(false)
+        // const result = await descriptionGenerator(category, title)
+        // if (result) {
+        //     setDesc(result)
+        //     setLoading(false)
+        // }
+        if (category && title) {
+            const result = await ItemDetailsGenerate(title,category)
+            if (result) {
+                setDesc(result)
+                setLoading(false)
+            }
         }
+
     }
 
 
@@ -129,7 +138,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                 description: desc
             });
         }, 0);
-    }, [ desc, reset]);
+    }, [desc, reset]);
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const imageArray: string[] = [];
@@ -415,8 +424,8 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                     Get Price
                                 </button>
                                 <div className="flex items-center">
-                                    <h1 className="text-[13px] font-bold">price generated from openAI <span>{predictedPrice}</span></h1>
-                                    <BiHelpCircle className="text-[12px]" />
+                                <BiHelpCircle className="text-[20px] text-primary" /><h1 className="text-[13px] font-bold text-primary">price generated from openAI <span>৳{predictedPrice}</span></h1>
+                                    
                                 </div>
                             </div>
                             {/* Error Message */}
