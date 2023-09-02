@@ -5,6 +5,8 @@ import axios, { AxiosResponse } from 'axios';
 import CartCard from './../../components/CartCard/CartCard';
 import Loading from '../../components/Loading/Loading';
 import { toast } from 'react-toastify';
+import { BsBox, BsCartPlus, BsCheck2Circle } from 'react-icons/bs';
+import { MdPayment } from 'react-icons/md';
 
 const MyCartPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -91,22 +93,79 @@ const MyCartPage: React.FC = () => {
       <div className="max-w-sm mx-auto p-4">
 
         <div className="flex items-center justify-center mb-8">
-          <div className="flex space-x-7">
-            <div className={`rounded-full border  p-2 ${currentStep === 1 ? 'border-primary' : 'border-gray-300'}`}>
-              <div className={`w-4 h-4 rounded-full ${currentStep === 1 ? 'bg-primary' : 'bg-gray-300'}`}></div>
+          <div className="flex">
+            {/* Cart Summary */}
+            <div className={`flex items-center ${currentStep === 1 ? 'text-white' : 'text-black'}`}>
+              <div className={`flex gap-[2px] text-[12px] px-2 py-2 rounded-md ${currentStep === 1 ? 'bg-primary ' : 'bg-gray-200'}`}>
+                {currentStep === 1 ?
+                  <div className='flex items-center gap-[2px]'>
+                    <h1 className='text-[14px]'>Cart</h1>
+                    <BsCartPlus className='text-[18px] text-white' />
+                  </div>
+                  :
+                  <div className='flex items-center gap-[2px]'>
+                    <h1 className='text-[14px]'>Cart</h1>
+                    <BsCheck2Circle className='text-[18px] text-green-500' />
+                  </div>
+                }
+              </div>
             </div>
 
             <div className="border-t-2 border-gray-300 h-0 w-8 mt-4"></div>
 
-            <div className={`rounded-full border  p-2 ${currentStep === 2 ? 'border-primary' : 'border-gray-300'}`}>
-              <div className={`w-4 h-4 rounded-full ${currentStep === 2 ? 'bg-primary' : 'bg-gray-300'}`}></div>
+            {/* Order Summary */}
+            <div className={`flex items-center ${currentStep === 2 ? 'text-white' : 'text-black'}`}>
+              <div className={`flex gap-[2px] text-[12px] px-2 py-2 rounded-md ${currentStep === 2 ? 'bg-primary ' : 'bg-gray-200'}`}>
+                {/* {currentStep === 2 ?
+                  <div className='flex items-center gap-[2px]'>
+                    <h1 className='text-[14px]'>Order Summary</h1>
+                    <BsBox className='text-[18px] text-white' />
+                  </div>
+                  :
+                  <div className='flex items-center gap-[2px]'>
+                    <h1 className='text-[14px]'>Order</h1>
+                    <BsCheck2Circle className='text-[18px] text-green-500' />
+                  </div>
+                } */}
+
+                <div className='flex items-center gap-[2px]'>
+                  <h1 className='text-[14px]'>Order</h1>
+                  <BsBox className='text-[18px] text-white' />
+                </div>
+
+              </div>
             </div>
 
             <div className="border-t-2 border-gray-300 h-0 w-8 mt-4"></div>
 
-            <div className={`rounded-full border  p-2 ${currentStep === 3 ? 'border-primary' : 'border-gray-300'}`}>
-              <div className={`w-4 h-4 rounded-full ${currentStep === 3 ? 'bg-primary' : 'bg-gray-300'}`}></div>
+            {/* Payment Summary */}
+
+            {/* <div className={`flex items-center ${currentStep === 3 ? 'text-white' : 'text-black'}`}>
+              <div className={`text-[12px] px-4 py-2 rounded-lg ${currentStep === 3 ? 'bg-primary' : 'bg-gray-300'}`}>Payment</div>
+            </div> */}
+            <div className={`flex items-center ${currentStep === 3 ? 'text-white' : 'text-black'}`}>
+              <div className={`flex gap-[2px] text-[12px] px-2 py-2 rounded-md ${currentStep === 3 ? 'bg-primary ' : 'bg-gray-200'}`}>
+                {/* {currentStep === 2 ?
+                  <div className='flex items-center gap-[2px]'>
+                    <h1 className='text-[14px]'>Order Summary</h1>
+                    <BsBox className='text-[18px] text-white' />
+                  </div>
+                  :
+                  <div className='flex items-center gap-[2px]'>
+                    <h1 className='text-[14px]'>Order</h1>
+                    <BsCheck2Circle className='text-[18px] text-green-500' />
+                  </div>
+                } */}
+
+                <div className='flex items-center gap-[2px]'>
+                  <h1 className='text-[14px]'>Payment</h1>
+                  <MdPayment className='text-[18px] text-white' />
+                </div>
+
+              </div>
             </div>
+
+
           </div>
         </div>
 
@@ -114,13 +173,13 @@ const MyCartPage: React.FC = () => {
           <div>
             {currentStep === 1 && (
               <div>
-                <h1 className='mb-3 text-center text-[24px] font-semibold'>Cart Summary</h1>
+                {/* <h1 className='mb-3 text-center text-[24px] font-semibold'>Cart Summary</h1> */}
                 {/* Step 1 fields */}
                 {/* Form fields */}
                 {
-                  cartItems?.length === 0 ?
-                    <div className='flex justify-center items-center'>
-                      <h1 className='text-[18px] font-semibold'>Your cart is empty</h1>
+                  cartItems?.cart?.length === 0 ?
+                    <div className='flex justify-center items-center mt-[20%]'>
+                      <h1 className='text-[16px] font-semibold text-tcolor'>Your cart is empty</h1>
                     </div>
                     :
                     <>
@@ -135,10 +194,25 @@ const MyCartPage: React.FC = () => {
                       }
                     </>
                 }
-                <div className='border border-gray-200 w-80% h-0 mt-4 '></div>
-                <div className='mt-[3px]'>
-                  <h1 className='text-[15px] font-semibold text-tcolor text-end'>Sub total:<span className='font-extrabold mr-[2px] ml-2'>৳</span>{cartItems?.totalPrice}</h1>
-                </div>
+
+                {/* SubTotal Showing part */}
+                {
+                  cartItems?.cart?.length !== 0 ?
+                    <>
+
+                      <div className='mt-[3px]'>
+                        <div className='mt-4 text-tcolor'>
+                          <h1 className='text-[13px] text-end'>Total:<span className='font-extrabold mr-[2px] ml-2'>৳</span>{cartItems?.totalPrice}</h1>
+                          <h1 className='text-[13px]  text-end'>Vat:<span className='font-extrabold mr-[2px] ml-2'>৳</span>0</h1>
+                        </div>
+
+                        <div className='border border-gray-200 w-80% h-0 mt-4 '></div>
+                        <h1 className='text-[14px] text-end'>Sub Total:<span className='font-extrabold mr-[2px] ml-2'>৳</span>{cartItems?.totalPrice}</h1>
+                      </div>
+                    </>
+                    :
+                    null
+                }
               </div>
             )}
 
@@ -166,23 +240,31 @@ const MyCartPage: React.FC = () => {
         )}
       </div>
 
+      {/* Prev, Next and Finish button here  */}
       <div className='flex justify-between p-4'>
         {currentStep !== 1 && (
           <button
-            className="px-2 py-1 bg-primary text-white rounded"
+            className="px-2 py-1 bg-primary text-white rounded text-[14px]"
             onClick={handlePrev}
           >
             Prev
           </button>
         )}
-        {!isSubmitted ? (
-          <button
-            className="px-2 py-1 bg-primary text-white rounded"
-            onClick={currentStep === 3 ? handleSubmit : handleNext}
-          >
-            {currentStep === 3 ? 'Submit' : 'Next'}
-          </button>
-        ) : null}
+        {
+          cartItems?.cart?.length === 0 ?
+            null
+            :
+            <>
+              {!isSubmitted ? (
+                <button
+                  className="px-2 py-1 bg-primary text-white rounded"
+                  onClick={currentStep === 3 ? handleSubmit : handleNext}
+                >
+                  {currentStep === 3 ? <h1 className='text-[14px]'>Finish</h1> : <h1 className='text-[14px]'>Next</h1>}
+                </button>
+              ) : null}
+            </>
+        }
       </div>
     </div>
   );

@@ -49,8 +49,9 @@ const SellingPost: React.FC<SellingPostProps> = () => {
     const [status, setStatus] = useState<string>("");
     const [title, setTitle] = useState<string>("");
     const [desc, setDesc] = useState<string>("")
-    const [predictedPrice, setPredictedPrice] = useState<string|number>("");
+    const [predictedPrice, setPredictedPrice] = useState<string | number>("");
     const [loading, setLoading] = useState<boolean>(false);
+    const [pLoading, setPLoading] = useState<boolean>(false);
     const { category } = useParams<{ category: string }>();
     const navigate = useNavigate();
 
@@ -100,11 +101,13 @@ const SellingPost: React.FC<SellingPostProps> = () => {
 
     const predictPrice = async (): Promise<void> => {
         if (category) {
+            setPLoading(true)
             const text = await pricePrediction(title, category);
             console.log(text)
             if (text) {
                 const price = priceExtraction(text);
                 setPredictedPrice(price);
+                setPLoading(false)
             }
         }
 
@@ -120,7 +123,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
         //     setLoading(false)
         // }
         if (category && title) {
-            const result = await ItemDetailsGenerate(title,category)
+            const result = await ItemDetailsGenerate(title, category)
             if (result) {
                 setDesc(result)
                 setLoading(false)
@@ -213,14 +216,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                     className=" border border-gray-200 m-4 md:m-20 rounded-md shadow-lg shadow-[rgba(0, 0, 0, 0.35) 0px 5px 15px]"
                     onSubmit={handleSubmit(onSubmit)}
                 >
-                    <div className="border-b border-b-gray-200 py-2">
-                        <h1 className="font-bold text-[#262729]  ml-4">
-                            SELECTED CATEGORY
-                        </h1>
-                        <h1 className="font-semibold text-[#7d7f81] text-[12px] ml-4">
-                            {`selling/post/${category}`}
-                        </h1>
-                    </div>
+                    
                     <div className="p-4">
 
                         {/* Box Options */}
@@ -374,7 +370,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                             </label>
 
                             <div className="flex gap-2">
-                                <button type="button" onClick={generateDescription} className="text-[13px] bg-black text-white p-[5px] rounded-sm">Generate</button>
+                                <button type="button" onClick={generateDescription} className="text-[14px] bg-black text-white p-[5px] rounded-sm">Generate</button>
                                 {
                                     loading ? <SmallLoader></SmallLoader> : null
                                 }
@@ -416,6 +412,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                         },
                                     })}
                                 />
+                              
                                 <button
                                     type="button"
                                     onClick={predictPrice}
@@ -423,9 +420,20 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                 >
                                     Get Price
                                 </button>
+                                {
+                                    pLoading ? <SmallLoader></SmallLoader> : null
+                                }
+                                
                                 <div className="flex items-center">
-                                <BiHelpCircle className="text-[20px] text-primary" /><h1 className="text-[13px] font-bold text-primary">price generated from openAI <span>৳{predictedPrice}</span></h1>
-                                    
+
+                                    {
+                                        predictedPrice ? <>
+                                            <BiHelpCircle className="text-[20px] text-primary" />
+                                            <h1 className="text-[13px] font-bold text-primary">price generated from openAI <span>৳{predictedPrice}</span>
+                                            </h1>
+                                        </> : null
+                                    }
+
                                 </div>
                             </div>
                             {/* Error Message */}

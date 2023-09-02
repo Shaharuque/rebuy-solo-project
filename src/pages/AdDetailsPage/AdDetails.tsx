@@ -22,7 +22,7 @@ const AdDetails:React.FC = () => {
 
 
     useEffect(() => {
-        async function fetchAds(): Promise<void> {
+        async function fetchAdDetails(): Promise<void> {
             let url = `${serverUrl}/product/get/ad/details/${id}`;
 
             const headers = {
@@ -43,7 +43,7 @@ const AdDetails:React.FC = () => {
             }
         }
 
-        fetchAds();
+        fetchAdDetails();
     }, [id]);
     console.log(adDetails)
 

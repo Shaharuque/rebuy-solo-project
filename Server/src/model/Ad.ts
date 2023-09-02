@@ -23,6 +23,7 @@ interface IAd {
   owner: object;
   purchasedBy: object;
   currentBidder: object;
+  likedBy: object[];
   // bids: Array<object>;
   // room: object;
 }
@@ -100,6 +101,12 @@ const adSchema = new Schema<IAd>(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    likedBy: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     // bids: [
     //   {
     //     user: {

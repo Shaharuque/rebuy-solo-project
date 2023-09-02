@@ -75,15 +75,15 @@ const Login: React.FC = () => {
                 <div className=" grid grid-cols-1 md:grid-cols-1 mb-1 mr-2 gap-y-2 mt-6">
 
                     <div>
-                        <input className="bg-gray-300 border border-gray-300 ml-1 w-full mt-2 rounded-2xl h-[40px] px-3" placeholder='Email' {...register("email")} required />
+                        <input className="focus:outline-none bg-gray-300 border border-gray-300 ml-1 w-full mt-2 rounded-2xl h-[40px] px-3" placeholder='Email' {...register("email")} required />
                     </div>
 
                     <div>
-                        <input type="password" className="bg-gray-300 border border-gray-300 ml-1 w-full mt-2 rounded-2xl h-[40px] px-3" placeholder='Password' {...register("password", { required: true })} />
+                        <input type="password" className="focus:outline-none bg-gray-300 border border-gray-300 ml-1 w-full mt-2 rounded-2xl h-[40px] px-3" placeholder='Password' {...register("password", { required: true })} />
                     </div>
                 </div>
 
-                <input className='bg-gradient-to-r from-[#FF5A5F] to-[#C1839F] p-2 rounded-2xl text-white shadow-md mt-2 w-full' type="submit" />
+                <input className='bg-gradient-to-r from-[#FF5A5F] to-[#C1839F] p-2 rounded-2xl text-white shadow-md mt-2 w-full ' type="submit" />
                 <h1 className='mt-2 text-center text-[12px]'>Don't have account?<Link className='text-[#FF5A5F] font-bold px-1' to='/register'>Sign up</Link></h1>
             </form>
 

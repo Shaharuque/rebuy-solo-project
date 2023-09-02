@@ -1,6 +1,5 @@
 import { RequestHandler } from "express";
 import Ad from "../model/Ad";
-import Cart from "../model/Cart";
 
 export const postAd: RequestHandler = async (req, res) => {
   try {
@@ -55,7 +54,13 @@ export const getAllAd: RequestHandler = async (req, res) => {
           { model: { $regex: searched, $options: "i" } },
         ],
       };
-      const ads = await Ad.find(keyword).populate("owner", "-password");
+      const ads = await Ad.find({
+        $and: [
+          { sold: false },
+          { auctionEnded: false },
+          { owner: { $ne: req.user.id } },
+        ],
+      }).find(keyword).populate("owner", "-password");
 
       res.status(200).json({
         success: true,
@@ -202,6 +207,66 @@ export const getSoldProducts: RequestHandler = async (req, res) => {
     });
   }
 };
+
+//findOneAndUpdate:Usage: This method is used when you want to find and update a document based on custom query criteria.
+//findByIdAndUpdate:Usage: This method is used when you know the id of the document you want to update.
+
+export const likedByUser: RequestHandler = async (req, res) => {
+  try {
+    const { productId } = req.body;
+
+    // Check if the ad is already liked by the user or not
+    const existingLikedByUser = await Ad.findOne({ _id: productId, likedBy: req.user.id });
+
+    let result = {};
+
+    if (existingLikedByUser) {
+      // If ad is already liked, remove the user id from likedBy array
+      result = await Ad.findByIdAndUpdate(
+        productId,
+        { $pull: { likedBy: req.user.id } },
+        { new: true }
+      );
+    } else {
+      // If ad isn't already liked by the user, push the user id to likedBy array
+      result = await Ad.findByIdAndUpdate(
+        productId,
+        { $push: { likedBy: req.user.id } },
+        { new: true }
+      );
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "ad liked by user",
+      updatedAd: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "error",
+      err,
+    });
+  }
+};
+
+//get all the products which are liked by the logged in user
+export const userLikedProducts: RequestHandler = async (req, res) => {
+  try {
+    const likedProducts = await Ad.find({ likedBy: [req.user.id] });
+    res.status(200).json({
+      success: true,
+      message: "all liked products",
+      likedProducts,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "error",
+      err,
+    });
+  }
+}
+
+
 
 
 

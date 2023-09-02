@@ -28,8 +28,6 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen">
-      {/* <AppContext.Provider value={{ socket, currentRoom, setCurrentRoom, members, setMembers, messages, setMessages, privateMemberMsg, setPrivateMemberMsg, rooms, setRooms, newMessages, setNewMessages }}> */}
-      <AppContext.Provider value={{ currentRoom, setCurrentRoom, members, setMembers, messages, setMessages, privateMemberMsg, setPrivateMemberMsg, rooms, setRooms, newMessages, setNewMessages }}>
         <Router>
           <>
             <Routes>
@@ -63,7 +61,6 @@ const App: React.FC = () => {
             <ToastContainer />
           </>
         </Router>
-      </AppContext.Provider>
     </div>
   );
 }

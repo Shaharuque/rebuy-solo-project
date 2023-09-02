@@ -2,20 +2,23 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { TbGavel } from 'react-icons/tb';
-import { BiHeart, BiInfoCircle, BiLayer } from 'react-icons/bi';
-import { BsCartCheckFill, BsCartPlus } from 'react-icons/bs';
+import { BiHeart, BiInfoCircle, BiLayer, BiSolidHeart } from 'react-icons/bi';
+import { BsCartCheckFill, BsCartPlus, BsFillHeartFill } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import axios, { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { serverUrl } from '../../utils/axiosRelated';
 
-interface IPayload{
+interface IPayload {
     productId: string;
 }
 
-const AdDetailsCardBottom: React.FC = () => {
-    const [addSuccess,setAddSuccess]=useState<boolean>(false)
+
+const AdDetailsCardBottom: React.FC<AdDetailsProps> = () => {
+    const [addSuccess, setAddSuccess] = useState<boolean>(false)
     const [cartStatus, setCartStatus] = useState([]);
+    const [adDetails, setAdDetails] = useState<{}>({})
+    const [loveCLicked, setLoveClicked] = useState<boolean>(false)
     const adType = useSelector((state: any) => state?.ad?.adtype);
     localStorage.setItem('adType', adType);
     const token = localStorage.getItem('token');
@@ -23,28 +26,16 @@ const AdDetailsCardBottom: React.FC = () => {
     const { id } = useParams()
     // console.log('from ad details bottom bar',id)
 
-    // const existingCartItem=localStorage.getItem('cart')
-    // console.log('existing cart item',existingCartItem)
-    // const addToCart=(id:string|undefined)=>{
-    //     console.log('add to cart',id)
-    //     if(id && existingCartItem){
-    //         let cartArray=JSON?.parse(existingCartItem)
-    //         let merged=[...cartArray,id]
-    //         localStorage.setItem('cart',JSON.stringify(merged))
-    //     }else if(id && !existingCartItem){
-    //         localStorage.setItem('cart',JSON.stringify([id]))
-    //     }
 
-    // }
 
     useEffect(() => {
         async function fetchCart(): Promise<void> {
             let url = `${serverUrl}/cart/check`;
-    
+
             const payload = {
                 productId: id,
             };
-            
+
             if (!token) {
                 console.error('Token not found');
                 return;
@@ -64,21 +55,21 @@ const AdDetailsCardBottom: React.FC = () => {
             }
         }
 
-        if(id){
+        if (id) {
             fetchCart();
         }
     }, []);
-    
-    const addToCart=async(id: string | undefined)=> {
-        console.log('add to cart',id)
-        if(id){
+
+    const addToCart = async (id: string | undefined) => {
+        console.log('add to cart', id)
+        if (id) {
             //post req using axios
             const url = `${serverUrl}/cart/item/add`;
-    
+
             const payload: IPayload = {
                 productId: id,
             };
-            
+
             if (!token) {
                 console.error('Token not found');
                 return;
@@ -87,11 +78,11 @@ const AdDetailsCardBottom: React.FC = () => {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
             };
-    
+
             try {
                 const response: AxiosResponse = await axios.post(url, payload, { headers });
                 console.log('Response:', response.data);
-    
+
                 if (response?.data?.success) {
                     toast.success("successfully added to cart", {
                         position: "top-right",
@@ -108,6 +99,62 @@ const AdDetailsCardBottom: React.FC = () => {
         }
     }
 
+    const handleLiked = async (id: string | undefined) => {
+        //post req using axios to post liked item to the server corresponding to the loggedin user
+        if (id) {
+            //post req using axios
+            const url = `${serverUrl}/product/liked/by/user`;
+
+            const payload: IPayload = {
+                productId: id,
+            };
+
+            if (!token) {
+                console.error('Token not found');
+                return;
+            }
+            const headers = {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            };
+
+            try {
+                const response: AxiosResponse = await axios.post(url, payload, { headers });
+                console.log('Response:', response.data);
+
+                //liked product /Unliked product success holey again product details api call
+                if (response?.data?.success) {
+                    console.log('successfully added to liked items', response?.data)
+                    setLoveClicked(!loveCLicked)
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    }
+
+    useEffect(() => {
+        async function fetchAdDetails(): Promise<void> {
+            let url = `${serverUrl}/product/get/ad/details/${id}`;
+
+            const headers = {
+                Authorization: `Bearer ${token}`, // Set your authorization token
+                // Other custom headers if needed
+            };
+
+            try {
+                const response: AxiosResponse = await axios.get(url, { headers });
+                if (response.data.success) {
+                    setAdDetails(response?.data?.ad);
+                }
+            } catch (error: any) {
+                console.error('Error:', error);
+            }
+        }
+
+        fetchAdDetails();
+    }, [id, loveCLicked]);
+    console.log(adDetails)
 
 
     return (
@@ -115,29 +162,29 @@ const AdDetailsCardBottom: React.FC = () => {
             <div className=' fixed bottom-0 z-50 w-full'>
                 <div className='flex justify-between'>
                     <div className='w-[50%] bg-red-500 h-12 flex justify-center items-center'>
-                        <Link to='/add/to/liked'>
-                            <BiHeart className='text-[25px] text-white' />
-                        </Link>
+                        <div className='' onClick={() => handleLiked(id)}>
+
+                            {
+                                loveCLicked || adDetails?.likedBy?.length>0 ?
+                                    <BiSolidHeart className='text-[25px] text-white' ></BiSolidHeart>
+                                    :
+                                    <BiHeart className='text-[25px] text-white' />
+                            }
+                        </div>
+                        
                     </div>
 
                     <div className='w-[50%] bg-gray-500 h-12 flex justify-center items-center'>
                         {
                             adType === 'Sell' || localStorage.getItem('adType') === 'Sell' ?
                                 <div >
-                                    {/* {
-                                        existingCartItem?.includes(id) 
-                                        ? 
-                                        <BsCartCheckFill className='text-[25px] text-white' />
-                                        :
-                                        <BsCartPlus onClick={()=>addToCart(id)} className='text-[25px] text-white' />
-                                    } */}
                                     {
-                                        addSuccess || cartStatus?.length>0 ? 
-                                        <BsCartCheckFill className='text-[25px] text-white' />
-                                        :
-                                        <BsCartPlus onClick={()=>addToCart(id)} className='text-[25px] text-white' />
+                                        addSuccess || cartStatus?.length > 0 ?
+                                            <BsCartCheckFill className='text-[25px] text-green-500' />
+                                            :
+                                            <BsCartPlus onClick={() => addToCart(id)} className='text-[25px] text-white' />
                                     }
-                                    
+
 
 
                                 </div>

@@ -1,6 +1,6 @@
 import express from "express";
 import { verifyToken } from "../utils/verifyToken";
-import { getAllAd, getUserAds,getSoldProducts, postAd, adDetails, newAds } from "../controller/ad";
+import { getAllAd, getUserAds,getSoldProducts, postAd, adDetails, newAds,likedByUser,userLikedProducts } from "../controller/ad";
 
 
 const router=express.Router()
@@ -12,6 +12,9 @@ router.get('/get/recent/ads',verifyToken,newAds)
 router.get('/get/user/posted/ads/:userId',verifyToken,getUserAds)
 //get all the user products which are sold
 router.get('/get/user/ad',getSoldProducts)
+//liked by logged in user
+router.post('/liked/by/user',verifyToken,likedByUser)
+router.get('/get/liked/products/by/user',verifyToken,userLikedProducts)
 
 
 
