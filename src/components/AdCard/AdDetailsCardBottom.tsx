@@ -14,10 +14,10 @@ interface IPayload {
 }
 
 
-const AdDetailsCardBottom: React.FC<AdDetailsProps> = () => {
+const AdDetailsCardBottom: React.FC = () => {
     const [addSuccess, setAddSuccess] = useState<boolean>(false)
     const [cartStatus, setCartStatus] = useState([]);
-    const [adDetails, setAdDetails] = useState<{}>({})
+    const [adDetails, setAdDetails] = useState<any>(null);
     const [loveCLicked, setLoveClicked] = useState<boolean>(false)
     const adType = useSelector((state: any) => state?.ad?.adtype);
     localStorage.setItem('adType', adType);
@@ -99,6 +99,7 @@ const AdDetailsCardBottom: React.FC<AdDetailsProps> = () => {
         }
     }
 
+    //love button clicked handler/whislist feature
     const handleLiked = async (id: string | undefined) => {
         //post req using axios to post liked item to the server corresponding to the loggedin user
         if (id) {
@@ -120,12 +121,19 @@ const AdDetailsCardBottom: React.FC<AdDetailsProps> = () => {
 
             try {
                 const response: AxiosResponse = await axios.post(url, payload, { headers });
-                console.log('Response:', response.data);
+                //console.log('Response:', response.data);
 
                 //liked product /Unliked product success holey again product details api call
                 if (response?.data?.success) {
-                    console.log('successfully added to liked items', response?.data)
+                    console.log('successfully added to liked items', response?.data?.updatedAd?.likedBy)
                     setLoveClicked(!loveCLicked)
+                    toast.success("Wishlist successfully updated", {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        theme: "dark",
+                        style: { fontSize: "15px" }
+                    });
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -134,26 +142,42 @@ const AdDetailsCardBottom: React.FC<AdDetailsProps> = () => {
     }
 
     useEffect(() => {
-        async function fetchAdDetails(): Promise<void> {
-            let url = `${serverUrl}/product/get/ad/details/${id}`;
-
-            const headers = {
-                Authorization: `Bearer ${token}`, // Set your authorization token
-                // Other custom headers if needed
-            };
-
-            try {
-                const response: AxiosResponse = await axios.get(url, { headers });
-                if (response.data.success) {
-                    setAdDetails(response?.data?.ad);
+        async function checkProductAlreadyLiked(): Promise<void> {
+            let url = `${serverUrl}/product/liked/by/user/check`;
+            if(id){
+                const payload: IPayload = {
+                    productId: id,
+                };
+    
+                if (!token) {
+                    console.error('Token not found');
+                    return;
                 }
-            } catch (error: any) {
-                console.error('Error:', error);
+                const headers = {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                };
+                
+                try {
+                    const response: AxiosResponse = await axios.post(url,payload, { headers });
+                    if (response.data.success) {
+                        setAdDetails(response?.data?.liked);
+                    }
+                } catch (error: any) {
+                    console.error('Error:', error);
+                }
+            }else{
+                toast.error("product id not found", {
+                    position: "top-right",
+                    autoClose: 5000
+                });
             }
+            
         }
 
-        fetchAdDetails();
+        checkProductAlreadyLiked();
     }, [id, loveCLicked]);
+
     console.log(adDetails)
 
 
@@ -161,14 +185,14 @@ const AdDetailsCardBottom: React.FC<AdDetailsProps> = () => {
         <div className='flex justify-center'>
             <div className=' fixed bottom-0 z-50 w-full'>
                 <div className='flex justify-between'>
-                    <div className='w-[50%] bg-red-500 h-12 flex justify-center items-center'>
-                        <div className='' onClick={() => handleLiked(id)}>
+                    <div onClick={() => handleLiked(id)} className='w-[50%] bg-red-500 h-12 flex justify-center items-center'>
+                        <div>
 
                             {
-                                loveCLicked || adDetails?.likedBy?.length>0 ?
-                                    <BiSolidHeart className='text-[25px] text-white' ></BiSolidHeart>
+                                !adDetails ?
+                                    <BiHeart className='text-[25px] text-white' ></BiHeart>
                                     :
-                                    <BiHeart className='text-[25px] text-white' />
+                                    <BiSolidHeart className='text-[25px] text-white' />
                             }
                         </div>
                         

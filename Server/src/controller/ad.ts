@@ -252,7 +252,7 @@ export const likedByUser: RequestHandler = async (req, res) => {
 //get all the products which are liked by the logged in user
 export const userLikedProducts: RequestHandler = async (req, res) => {
   try {
-    const likedProducts = await Ad.find({ likedBy: [req.user.id] });
+    const likedProducts = await Ad.find({ likedBy: req.user.id });
     res.status(200).json({
       success: true,
       message: "all liked products",
@@ -265,6 +265,34 @@ export const userLikedProducts: RequestHandler = async (req, res) => {
     });
   }
 }
+
+//check user have already liked the product or not
+export const checkLiked: RequestHandler = async (req, res) => {
+  try {
+    const { productId } = req.body;
+    const ad = await Ad.findOne({ _id: productId, likedBy: req.user.id });
+
+    if (ad) {
+      res.status(200).json({
+        success: true,
+        message: "user already liked the product",
+        liked: true,
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "user have not liked the product",
+        liked: false,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: "error",
+      err,
+    });
+  }
+}
+
 
 
 

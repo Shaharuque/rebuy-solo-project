@@ -172,8 +172,8 @@ const AdBidding: React.FC = () => {
                         ))
                     }
                 </Swiper>
-                <div className='flex items-center justify-between mt-4'>
-                    <h1 className='text-[18px] text-tcolor font-bold'>{adDetails?.productName}</h1>
+                <div className='flex flex-col mt-4'>
+                    <h1 className='text-[16px] text-tcolor font-bold'>{adDetails?.productName}</h1>
                     <h1 className='text-[15px] text-[#087E8B] font-semibold text-end'>
                         <span className=' font-semibold mr-[2px] text-[15px]'>Present Price: ৳</span>{adDetails?.basePrice}
                     </h1>

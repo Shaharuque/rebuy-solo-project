@@ -3,6 +3,7 @@ import { Modal } from 'antd';
 import ModalBack from '../../components/Back/ModalBack';
 import { LuUser } from 'react-icons/lu';
 import { AiOutlineDashboard, AiOutlineHeart, AiOutlineShoppingCart } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 
 interface UserInfoProps {
     isModalOpen: boolean;
@@ -10,6 +11,7 @@ interface UserInfoProps {
 }
 
 const UserInfo: React.FC<UserInfoProps> = ({ isModalOpen, handleCancel }) => {
+    const navigate=useNavigate()
 
     return (
         <>
@@ -33,7 +35,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ isModalOpen, handleCancel }) => {
                 <div className='flex items-center gap-2 bg-[#D4E4E6] rounded-xl p-4 mt-2'>
                     <AiOutlineHeart className='text-[#5F5F5F] text-[40px]' />
                     <div>
-                        <button className='text-[#5F5F5F] text-[18px] font-bold'>
+                        <button onClick={()=>{navigate('/liked/items')}} className='text-[#5F5F5F] text-[18px] font-bold'>
                             Liked Items
                         </button>
                         <h1 className='text-[12px] font-normal '>Explore the liked items</h1>

@@ -7,6 +7,7 @@ import Loading from '../../components/Loading/Loading';
 import { toast } from 'react-toastify';
 import { BsBox, BsCartPlus, BsCheck2Circle } from 'react-icons/bs';
 import { MdPayment } from 'react-icons/md';
+import ShippingPage from '../Shipping/ShippingPage';
 
 const MyCartPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -74,7 +75,7 @@ const MyCartPage: React.FC = () => {
         toast.success("successfully deleted from cart", {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: true,
+          hideProgressBar: false,
           theme: "dark",
           style: { fontSize: "15px" },
         });
@@ -91,7 +92,6 @@ const MyCartPage: React.FC = () => {
         <Back></Back>
       </div>
       <div className="max-w-sm mx-auto p-4">
-
         <div className="flex items-center justify-center mb-8">
           <div className="flex">
             {/* Cart Summary */}
@@ -129,7 +129,7 @@ const MyCartPage: React.FC = () => {
                 } */}
 
                 <div className='flex items-center gap-[2px]'>
-                  <h1 className='text-[14px]'>Order</h1>
+                  <h1 className='text-[14px]'>Shipping</h1>
                   <BsBox className='text-[18px] text-white' />
                 </div>
 
@@ -216,11 +216,11 @@ const MyCartPage: React.FC = () => {
               </div>
             )}
 
+            {/* Shipping/Order Info Page */}
             {currentStep === 2 && (
               <div>
-                {/* Step 2 fields */}
-                <h2 className="mb-4 text-lg font-semibold">Step 2: Address</h2>
-                {/* Form fields */}
+                <h1 className='text-center text-tcolor text-[16px] mb-4'>Fill out the shipping informations</h1>
+                <ShippingPage></ShippingPage>
               </div>
             )}
 
