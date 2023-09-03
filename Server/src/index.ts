@@ -14,6 +14,7 @@ import adRoute from "./route/adRoute";
 import bidRoute from "./route/bidRoute";
 import orderRoute from "./route/orderRoute";
 import openAIRoute from "./route/openAIRoute";
+import payRoute from './route/payRoute'
 
 const roooms = ["general", "random", "news", "games", "coding"];
 
@@ -186,6 +187,7 @@ app.use("/api/product", adRoute);
 app.use("/api/bid", bidRoute);
 app.use("/openai", openAIRoute);
 app.use("/api/cart", orderRoute);
+app.use("/api/payment", payRoute);
 
 //error middleware
 app.use((err: any, req: any, res: any, next: any) => {

@@ -2,15 +2,23 @@ import { Schema, model } from "mongoose";
 
 // 1. Create an interface representing a document in MongoDB.
 interface IPayment {
+  transactionId: string;
   payorId: object;
   totalPaid: number;
+  buyedProduct: [{}];
 }
 // 2. Create a Schema corresponding to the document interface.
 const orderSchema = new Schema<IPayment>(
   {
+    transactionId:{
+      type:String,
+    },
     payorId: {
       type: Schema.Types.ObjectId,
       ref: "User",
+    },
+    buyedProduct: {
+      type: [{}],
     },
     totalPaid: {
       type: Number,
