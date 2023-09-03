@@ -1,0 +1,40 @@
+/* PaymentForm.css */
+.payment-form {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 15px;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid black;
+    border-radius: 4px;
+  }
+  
+  .form-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .form-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .error-message {
+    color: #e5424d;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  

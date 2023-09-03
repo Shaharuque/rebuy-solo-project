@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { BsBox, BsCartPlus, BsCheck2Circle } from 'react-icons/bs';
 import { MdPayment } from 'react-icons/md';
 import ShippingPage from '../Shipping/ShippingPage';
+import PaymentPage from '../PaymentPage/PaymentPage';
 
 const MyCartPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -225,10 +226,9 @@ const MyCartPage: React.FC = () => {
             )}
 
             {currentStep === 3 && (
-              <div>
-                {/* Step 3 fields */}
-                <h2 className="mb-4 text-lg font-semibold">Step 3: Review</h2>
+              <div className='p-4'>
                 {/* Form fields */}
+                <PaymentPage cartItems={cartItems}></PaymentPage>
               </div>
             )}
           </div>
@@ -241,7 +241,7 @@ const MyCartPage: React.FC = () => {
       </div>
 
       {/* Prev, Next and Finish button here  */}
-      <div className='flex justify-between p-4'>
+      <div className='flex justify-between p-4 mb-[20%]'>
         {currentStep !== 1 && (
           <button
             className="px-2 py-1 bg-primary text-white rounded text-[14px]"

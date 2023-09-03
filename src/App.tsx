@@ -15,6 +15,7 @@ import AdBidding from './pages/AdBidding/AdBidding';
 import MyCartPage from './pages/MyCart/MyCartPage';
 import "./App.css";
 import MyLikedItems from './pages/MyLikedItems/MyLikedItems';
+import SuccessPage from './pages/PaymentPage/SuccessPage';
 
 const App: React.FC = () => {
 
@@ -32,6 +33,7 @@ const App: React.FC = () => {
               <Route path='/item/bidding/:adId' element={<AdBidding></AdBidding>}></Route>
               <Route path='/cart' element={<MyCartPage></MyCartPage>}></Route>
               <Route path='/liked/items' element={<MyLikedItems></MyLikedItems>}></Route>
+              <Route path='/success' element={<SuccessPage></SuccessPage>}></Route>
               <Route
                 path="/item/selling/categories"
                 element={<CategoryPage></CategoryPage>}

@@ -11,8 +11,8 @@ const DummyPage: React.FC = () => {
       // Redirect to another page after a delay (e.g., 2 seconds)
       setTimeout(() => {
         window.location.replace('/login'); // Replace '/destination' with your desired route
-      }, 3000);
-    }, 3000);
+      }, 1000);
+    }, 1000);
 
     // Clean up the timeout when the component unmounts
     return () => clearTimeout(timeoutId);
