@@ -9,6 +9,9 @@ import { BsBox, BsCartPlus, BsCheck2Circle } from 'react-icons/bs';
 import { MdPayment } from 'react-icons/md';
 import ShippingPage from '../Shipping/ShippingPage';
 import PaymentPage from '../PaymentPage/PaymentPage';
+import StripePaymentButton from '../PaymentPage/StripePaymentButton';
+import img from '../../assets/pngwing.com.png'
+import { SlSocialDropbox } from 'react-icons/sl'
 
 const MyCartPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -86,6 +89,20 @@ const MyCartPage: React.FC = () => {
       console.error('Error:', error);
     }
   }
+
+  //Stripe Payment Button Handler
+  const handleCheckout = () => {
+    axios
+      .post(`${serverUrl}/payment/create-checkout-session`, {
+        cartItems: cartItems?.cart,
+      })
+      .then((response) => {
+        if (response.data.url) {
+          window.location.href = response.data.url;
+        }
+      })
+      .catch((err) => console.log(err.message));
+  };
 
   return (
     <div>
@@ -179,8 +196,9 @@ const MyCartPage: React.FC = () => {
                 {/* Form fields */}
                 {
                   cartItems?.cart?.length === 0 ?
-                    <div className='flex justify-center items-center mt-[20%]'>
-                      <h1 className='text-[16px] font-semibold text-tcolor'>Your cart is empty</h1>
+                    <div className='flex justify-center items-center mt-[50%]'>
+                      <h1 className='mr-2 text-tcolor text-[18px]'>Your cart is empty! </h1>
+                      <SlSocialDropbox className='text-[45px] text-primary' />
                     </div>
                     :
                     <>
@@ -196,24 +214,7 @@ const MyCartPage: React.FC = () => {
                     </>
                 }
 
-                {/* SubTotal Showing part */}
-                {
-                  cartItems?.cart?.length !== 0 ?
-                    <>
 
-                      <div className='mt-[3px]'>
-                        <div className='mt-4 text-tcolor'>
-                          <h1 className='text-[13px] text-end'>Total:<span className='font-extrabold mr-[2px] ml-2'>৳</span>{cartItems?.totalPrice}</h1>
-                          <h1 className='text-[13px]  text-end'>Vat:<span className='font-extrabold mr-[2px] ml-2'>৳</span>0</h1>
-                        </div>
-
-                        <div className='border border-gray-200 w-80% h-0 mt-4 '></div>
-                        <h1 className='text-[14px] text-end'>Sub Total:<span className='font-extrabold mr-[2px] ml-2'>৳</span>{cartItems?.totalPrice}</h1>
-                      </div>
-                    </>
-                    :
-                    null
-                }
               </div>
             )}
 
@@ -228,7 +229,36 @@ const MyCartPage: React.FC = () => {
             {currentStep === 3 && (
               <div className='p-4'>
                 {/* Form fields */}
-                <PaymentPage cartItems={cartItems}></PaymentPage>
+                {/* <PaymentPage cartItems={cartItems}></PaymentPage> */}
+                {/* <StripePaymentButton cartItems={cartItems}></StripePaymentButton> */}
+                {
+                  cartItems?.cart?.map((each:any,index:any) => {
+                    return (
+                      <div key={index} className='flex justify-between text-[13px] '>
+                        <h1>1x ${each?.productInfo?.productName}</h1>
+                        <h1>৳ {each?.productInfo?.basePrice}</h1>
+                      </div>
+                    )
+                  })
+                }
+
+                {/* SubTotal Showing part */}
+                {
+                  cartItems?.cart?.length !== 0 ?
+                    <>
+
+                      <div className='mt-[2px]'>
+                        <div className='mt-4 text-tcolor'>
+                          <h1 className='text-[13px]  text-end'>+Vat:<span className='font-extrabold mr-[2px] ml-2'>৳</span>0</h1>
+                        </div>
+
+                        <div className='border border-gray-200 w-80% h-0 mt-4 '></div>
+                        <h1 className='text-[14px] text-end'>Sub Total:<span className='font-extrabold mr-[2px] ml-2'>৳</span>{cartItems?.totalPrice}</h1>
+                      </div>
+                    </>
+                    :
+                    null
+                }
               </div>
             )}
           </div>
@@ -257,10 +287,10 @@ const MyCartPage: React.FC = () => {
             <>
               {!isSubmitted ? (
                 <button
-                  className="px-2 py-1 bg-primary text-white rounded"
-                  onClick={currentStep === 3 ? handleSubmit : handleNext}
+
+                  onClick={currentStep === 3 ? handleCheckout : handleNext}
                 >
-                  {currentStep === 3 ? <h1 className='text-[14px]'>Finish</h1> : <h1 className='text-[14px]'>Next</h1>}
+                  {currentStep === 3 ? <h1 className="px-2 py-1 bg-tcolor text-white rounded text-[14px]">Pay Now</h1> : <h1 className='px-2 py-1 bg-primary text-white rounded text-[14px]'>Next</h1>}
                 </button>
               ) : null}
             </>

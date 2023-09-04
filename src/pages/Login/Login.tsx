@@ -83,7 +83,10 @@ const Login: React.FC = () => {
                     </div>
                 </div>
 
-                <input className='bg-gradient-to-r from-[#FF5A5F] to-[#C1839F] p-2 rounded-2xl text-white shadow-md mt-2 w-full ' type="submit" />
+                
+                <button className='bg-gradient-to-r from-[#FF5A5F] to-[#C1839F] p-2 rounded-2xl text-white shadow-md mt-2 w-full' type="submit">
+                    Login
+                </button>
                 <h1 className='mt-2 text-center text-[12px]'>Don't have account?<Link className='text-[#FF5A5F] font-bold px-1' to='/register'>Sign up</Link></h1>
             </form>
 

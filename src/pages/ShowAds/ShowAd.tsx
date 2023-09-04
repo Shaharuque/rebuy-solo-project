@@ -67,7 +67,6 @@ const ShowAd: React.FC = () => {
     console.log(allAds)
 
 
-
     return (
         <div>
             <AdHeading></AdHeading>

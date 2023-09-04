@@ -103,13 +103,14 @@ const AdBidding: React.FC = () => {
                     console.log('Response:', response.data);
 
                     if (response?.data?.success) {
-                        toast.success("successfully added to cart", {
+                        toast.success("successfully bid for the product", {
                             position: "top-right",
                             autoClose: 5000,
                             hideProgressBar: false,
                             theme: "dark",
                             style: { fontSize: "15px" },
                         });
+                        setSearchText('');
                     }
                 } catch (error) {
                     console.error('Error:', error);
@@ -129,7 +130,7 @@ const AdBidding: React.FC = () => {
             socket.on('bid', (data: any) => {
                 //console.log(data);
 
-                async function fetchCartItems(): Promise<void> {
+                async function specificItemsBidGet(): Promise<void> {
                     let url = `${serverUrl}/bid/get/${data?.room}`;
                     if (!token) {
                         console.error('Token not found');
@@ -144,6 +145,13 @@ const AdBidding: React.FC = () => {
                         const response: AxiosResponse = await axios.get(url, { headers });
                         if (response.data.success) {
                             setBidData(response?.data);
+                            // toast.success("New Bid Made", {
+                            //     position: "top-right",
+                            //     autoClose: 5000,
+                            //     hideProgressBar: false,
+                            //     theme: "dark",
+                            //     style: { fontSize: "15px" },
+                            // });
 
                         }
                     } catch (error: any) {
@@ -151,12 +159,13 @@ const AdBidding: React.FC = () => {
                     }
                 }
 
-                fetchCartItems();
+                specificItemsBidGet();
             });
         }
     }, [socket, adId])
 
     console.log('bid data', bidData?.bid?.productId?.currentPrice)
+    
 
     return (
         <div>
@@ -173,28 +182,30 @@ const AdBidding: React.FC = () => {
                     }
                 </Swiper>
                 <div className='flex flex-col mt-4'>
-                    <h1 className='text-[16px] text-tcolor font-bold'>{adDetails?.productName}</h1>
-                    <h1 className='text-[15px] text-[#087E8B] font-semibold text-end'>
-                        <span className=' font-semibold mr-[2px] text-[15px]'>Present Price: ৳</span>{adDetails?.basePrice}
+                    <div className='mb-4'>
+                        <h1 className='text-[16px] text-tcolor font-bold text-end'>{adDetails?.productName}</h1>
+                        <h1 className='text-[13px]  font-bold text-end'>Make:<span className='text-[13px]  font-bold'> {adDetails?.brand}</span></h1>
+                    </div>
+
+                    
+                    <h1 className='text-[14px] text-[#087E8B] font-semibold flex'>Current Bidding Price:
+                        {
+
+                            bidData?.bid?.productId?.currentPrice ? <span >৳{bidData?.bid?.productId?.currentPrice}</span> : <span>৳{adDetails?.currentPrice}</span>
+                        }
                     </h1>
-
-                    <h1 className='ml-4'>Current Bidding Price</h1>
-                    {
-                        bidData?.bid?.productId?.currentPrice ? <h1>{bidData?.bid?.productId?.currentPrice}</h1>:<h1>{adDetails?.currentPrice}</h1>
-                    }
+                    <h1 className='text-[14px]  font-semibold'>
+                        <span className=' font-semibold mr-[2px]'>Present Price: ৳</span>{adDetails?.basePrice}
+                    </h1>
                 </div>
 
-                <div className='flex items-center  gap-2'>
-                    <h1 className='text-[15px]  font-bold'>Make:<span className='text-[15px]  font-bold'> {adDetails?.brand}</span></h1>
-                    <div>|</div>
-                    <h1 className='text-[15px]  font-bold'> Year:2022</h1>
-                </div>
+
 
                 {/* Make a input box to put bidding amount */}
                 <div className='flex items-center justify-between mt-4'>
-                    <h1 className='text-[18px] text-tcolor font-bold'>Bidding Amount(৳):</h1>
+                    <h1 className='text-[14px] text-tcolor font-bold'>Bidding Amount(৳):</h1>
                     <input
-                        className='w-[50%] h-[40px] border-2 border-[#087E8B] rounded-md px-2 focus:outline-none'
+                        className='w-[50%] h-[30px] border-2 border-gray-400 rounded-md px-2 focus:outline-none text-[14px]'
                         type="text"
                         placeholder='Enter Amount'
                         value={searchText}

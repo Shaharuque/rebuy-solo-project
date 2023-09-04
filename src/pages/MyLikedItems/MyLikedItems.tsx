@@ -14,7 +14,7 @@ const MyLikedItems: React.FC = () => {
     const [likedItems, setLikedItems] = useState<[]>([])
     const [loading, setLoading] = useState<boolean>(false)
     const { token } = useToken()
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     //Getting all the liked items from the database
     useEffect(() => {
@@ -62,21 +62,19 @@ const MyLikedItems: React.FC = () => {
                             {
                                 likedItems?.map((item: any) => {
                                     return (
-                                        <div key={item?._id} className='relative flex gap-2 border shadow-lg shadow-gray-400 rounded-xl py-4 px-2 mt-5'>
+                                        <div onClick={()=>{goToDetails(item?._id)}} key={item?._id} className='relative flex gap-2 border shadow-lg shadow-gray-400 rounded-xl py-4 px-2 mt-5'>
+
                                             <img className='w-[110px] h-[110px] rounded-md' src={item?.images[0]} alt="card-image" />
+
                                             <div>
                                                 <button className='text-[#5F5F5F] '>
                                                     {item?.productName}
                                                 </button>
                                                 <h1 className='text-[12px] font-extrabold '><span className=' mr-[2px]'>৳</span>{item?.basePrice}</h1>
-                                                <div className='text-[12px] flex gap-2'>
+                                                <div className='text-[12px] flex gap-2 absolute bottom-4'>
                                                     {item?.brand ? <h1 className='bg-gray-400 text-white p-[3px] rounded-md'>{item?.brand}</h1> : null}
                                                     {item?.model ? <h1 className='bg-gray-400 text-white p-[3px] rounded-md'>{item?.model}</h1> : null}
                                                 </div>
-                                                <button onClick={() => { goToDetails(item._id) }}  className='absolute bottom-2 border shadow-lg shadow-gray-400 right-2 px-1 text-black rounded flex items-center mt-1'>
-                                                    <WiDirectionRight className='text-[34px]'/>
-                                                </button>
-                                                <button className=' absolute top-0 right-0 bg-primary p-[4px] text-white rounded'><AiFillCloseCircle /></button>
                                             </div>
                                         </div>
                                     )

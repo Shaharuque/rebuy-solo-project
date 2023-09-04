@@ -106,3 +106,23 @@ export const deleteItemFromCart: RequestHandler = async (req, res) => {
     });
   }
 };
+
+//bulk delete from cart for logged in user
+export const bulkDeleteFromCart: RequestHandler = async (req, res) => {
+  try {
+    const { cart } = req.body;
+    console.log(cart)
+    const deletedItems = await Cart.deleteMany({ _id: cart, userInfo: req.user.id });
+    res.status(200).json({
+      success: true,
+      message: "items deleted from cart",
+      deletedItems,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "error",
+      err,
+    });
+  }
+}
+

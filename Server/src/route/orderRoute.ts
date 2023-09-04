@@ -1,6 +1,6 @@
 import express from "express";
 import { verifyToken } from "../utils/verifyToken";
-import {addToCart, getCart, checkItemOnCart, deleteItemFromCart } from "../controller/order";
+import {addToCart, getCart, checkItemOnCart, deleteItemFromCart, bulkDeleteFromCart } from "../controller/order";
 
 
 const router=express.Router()
@@ -13,6 +13,8 @@ router.get('/all/items',verifyToken,getCart)
 router.post('/item/add',verifyToken,addToCart)
 //delete item from cart
 router.post('/item/delete',verifyToken,deleteItemFromCart)
+//bulk delete items from cart when payment is successfull
+router.post('/bulk/delete',verifyToken,bulkDeleteFromCart)
 
 
 

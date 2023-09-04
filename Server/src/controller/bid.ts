@@ -91,6 +91,7 @@ export const getAllBids: RequestHandler = async (req, res) => {
     try{
         const productId=req.params.id
         const bid=await Bid.findOne({productId:productId}).populate('productId').populate('participatedUsers').populate('bids.user')
+        
         res.status(200).json({
             success:true,
             message:"bid found",
