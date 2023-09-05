@@ -36,7 +36,7 @@ export const payIntent: RequestHandler = async (req, res) => {
 export const savePaymentInfo: RequestHandler = async (req, res) => {
   try {
     const { cart,totalPrice } = req.body;
-    //console.log(cart,totalPrice)
+    console.log(cart,totalPrice)
     const payment = new Payment({
       owner: req.user.id,
       soldProducts:cart,
@@ -47,7 +47,7 @@ export const savePaymentInfo: RequestHandler = async (req, res) => {
 
     //After Payment Instance create have to update the Ad sold status to true
     cart.map(async (item:any)=>{
-      await Ad.findByIdAndUpdate(item?.productInfo?._id,{sold:true})
+      await Ad.findByIdAndUpdate(item,{sold:true})
     })
 
 

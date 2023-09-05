@@ -34,8 +34,10 @@ const SuccessPage: React.FC = () => {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`,
                     };
+
+                    const cartProductsArray=response?.data?.cart?.map((each:any)=>each?.productInfo?._id)
                     const payload: any = {
-                        cart: response?.data?.cart,
+                        cart: cartProductsArray,
                         totalPrice: response?.data?.totalPrice,
                     }
 

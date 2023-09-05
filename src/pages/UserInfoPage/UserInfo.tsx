@@ -45,7 +45,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ isModalOpen, handleCancel }) => {
                 <div className='flex items-center gap-2 bg-[#D4E4E6] rounded-xl p-4 mt-2'>
                     <AiOutlineDashboard className='text-[#5F5F5F] text-[40px]' />
                     <div>
-                        <button className='text-[#5F5F5F] text-[18px] font-bold'>
+                        <button onClick={()=>{navigate('/my/dashboard')}} className='text-[#5F5F5F] text-[18px] font-bold'>
                             My Dashboard
                         </button>
                         <h1 className='text-[12px] font-normal '>See the treading and transactions</h1>

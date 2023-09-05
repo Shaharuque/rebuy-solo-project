@@ -11,11 +11,6 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Home: React.FC = () => {
-    const movies = [
-        "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX900.jpg",
-        "https://m.media-amazon.com/images/M/MV5BMWMwMGQzZTItY2JlNC00OWZiLWIyMDctNDk2ZDQ2YjRjMWQ0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX900.jpg",
-        "https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX900.jpg"
-    ];
     const [allAds, setAllAds] = React.useState<[]>([]);
     const [loading, setLoading] = React.useState<boolean>(false);
     const token = localStorage.getItem('token')

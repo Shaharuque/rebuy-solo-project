@@ -211,9 +211,9 @@ const SellingPost: React.FC<SellingPostProps> = () => {
         <div>
             <Back></Back>
             <div>
-                <h1 className="mt-3 text-center text-[20px] font-semibold ">POST AN AD</h1>
+                <h1 className="mt-2 text-center text-[18px] font-semibold font-[cursive] text-primary">POST AN AD</h1>
                 <form
-                    className=" border border-gray-200 m-4 md:m-20 rounded-md shadow-lg shadow-[rgba(0, 0, 0, 0.35) 0px 5px 15px]"
+                    className="mx-4 md:m-20 rounded-md"
                     onSubmit={handleSubmit(onSubmit)}
                 >
                     

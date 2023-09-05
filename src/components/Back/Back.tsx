@@ -9,7 +9,7 @@ const Back: React.FC = () => {
 return (
     <div className='flex justify-between mx-4 my-6'>
         <button onClick = {() => navigate(-1)} className='border border-gray-300 rounded p-2'><BiChevronLeft className='text-[20px]' /></button>
-        <Link to='/home' className='text-[18px] text-[#FF5858] font-bold'>ReBuy</Link>
+        <Link to='/home' className='text-[18px] text-[#FF5858] font-bold font-[cursive]'>ReeBuy</Link>
     </div>
 );
 };

@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import Ad from "../model/Ad";
+import Payment from "../model/Payment";
 
 export const postAd: RequestHandler = async (req, res) => {
   try {
@@ -188,8 +189,15 @@ export const newAds: RequestHandler = async (req, res) => {
   }
 };
 
+//get all the ads given by logged in user
 export const getUserAds: RequestHandler = async (req, res) => {
   try {
+    const ads=await Ad.find({owner:req.user.id})
+    res.status(200).json({
+      success: true,
+      message: "all ads",
+      ads,
+    });
   } catch (err) {
     res.status(500).json({
       message: "error",
@@ -200,6 +208,12 @@ export const getUserAds: RequestHandler = async (req, res) => {
 
 export const getSoldProducts: RequestHandler = async (req, res) => {
   try {
+    const soldProducts=await Ad.find({sold:true, owner:req.user.id})
+    res.status(200).json({
+      success: true,
+      message: "all sold products",
+      soldProducts,
+    });
   } catch (err) {
     res.status(500).json({
       message: "error",
@@ -207,6 +221,35 @@ export const getSoldProducts: RequestHandler = async (req, res) => {
     });
   }
 };
+
+export const getUserPurchasedProducts: RequestHandler = async (req, res) => {
+  try {
+    const purchasedProducts=await Payment.find({owner:req.user.id})
+
+    let result=[]
+    for(let i=0 ; i<purchasedProducts.length ; i++){
+      for(let j=0 ; j<purchasedProducts[i].soldProducts.length ; j++){
+      //  const r =await Ad.findById({_id:purchasedProducts[i].soldProducts[j]})
+      //Ad details of the purchased products through sold products id
+      const r =await Ad.findById({_id:purchasedProducts[i].soldProducts[j]})
+      result.push(r)
+      }
+    }
+    
+
+    res.status(200).json({
+      success: true,
+      message: "all purchased products",
+      purchased:result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "error",
+      err,
+    });
+  }
+}
+
 
 //findOneAndUpdate:Usage: This method is used when you want to find and update a document based on custom query criteria.
 //findByIdAndUpdate:Usage: This method is used when you know the id of the document you want to update.
@@ -252,7 +295,7 @@ export const likedByUser: RequestHandler = async (req, res) => {
 //get all the products which are liked by the logged in user
 export const userLikedProducts: RequestHandler = async (req, res) => {
   try {
-    const likedProducts = await Ad.find({ likedBy: req.user.id });
+    const likedProducts = await Ad.find({ likedBy: req.user.id, sold: false });
     res.status(200).json({
       success: true,
       message: "all liked products",

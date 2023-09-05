@@ -12,6 +12,7 @@ import PaymentPage from '../PaymentPage/PaymentPage';
 import StripePaymentButton from '../PaymentPage/StripePaymentButton';
 import img from '../../assets/pngwing.com.png'
 import { SlSocialDropbox } from 'react-icons/sl'
+import Navbar from '../../components/Navbar/Navbar';
 
 const MyCartPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -296,6 +297,7 @@ const MyCartPage: React.FC = () => {
             </>
         }
       </div>
+      <Navbar></Navbar>
     </div>
   );
 };

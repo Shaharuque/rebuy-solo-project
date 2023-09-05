@@ -19,9 +19,9 @@ const CategoryPage: React.FC = () => {
       {/* Header */}
       <Header></Header>
 
-      <h1 className="mt-3 text-center text-[20px] font-semibold">Choose One Category</h1>
+      <h1 className=" text-center text-[20px] font-semibold font-[cursive] text-primary">Choose One Category</h1>
       {/* Categories part */}
-      <div className="   min-h-[75%] mt-10 mx-4 md:mx-[300px] px-2 mb-[25%] md:p-8 rounded ">
+      <div className="   min-h-[75%] mt-4 mx-4 md:mx-[300px] px-2 mb-[25%] md:p-8 rounded ">
   
         <div className="grid grid-cols-2 gap-4 lg:gap-12">
           <Link

@@ -46,7 +46,7 @@ const Login: React.FC = () => {
         <div className='mt-[20%] px-[25px]'>
             <div className='flex justify-between'>
                 <Link to='/register' className='border border-gray-300 rounded p-2'><BiChevronLeft className='text-[20px]' /></Link>
-                <h1 className='text-[18px] text-[#3C3C3C] font-bold'>ReBuy</h1>
+                <h1 className='text-[18px] text-[#FF5858] font-bold font-[cursive]'>ReeBuy</h1>
             </div>
             <h1 className='mt-12 text-[25px] text-[#3C3C3C] font-bold'>Log in</h1>
             <h1 className='text-[12px]'>Login with one of the following option</h1>

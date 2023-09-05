@@ -42,7 +42,7 @@ const Navbar: React.FC<NavbarProps> = () => {
             <BiHeart className={` text-white ${isLinkActive('/liked/items') ? 'bg-[#087E8B] rounded-xl text-[40px] p-[10px]' : ' text-[25px]'} `} />
           </Link>
           <Link to='/cart'>
-            <BsCartPlus className={` text-white ${isLinkActive('cart') ? 'bg-[#087E8B] rounded-xl text-[40px] p-[10px]' : ' text-[25px]'} `} />
+            <BsCartPlus className={` text-white ${isLinkActive('/cart') ? 'bg-[#087E8B] rounded-xl text-[40px] p-[10px]' : ' text-[25px]'} `} />
           </Link>
         </div>
       </div>
