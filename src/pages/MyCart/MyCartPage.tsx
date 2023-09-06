@@ -272,7 +272,7 @@ const MyCartPage: React.FC = () => {
       </div>
 
       {/* Prev, Next and Finish button here  */}
-      <div className='flex justify-between p-4 mb-[20%]'>
+      <div className='flex justify-between p-8 mb-[25%]'>
         {currentStep !== 1 && (
           <button
             className="px-2 py-1 bg-primary text-white rounded text-[14px]"
