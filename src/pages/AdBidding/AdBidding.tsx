@@ -18,9 +18,27 @@ const AdBidding: React.FC = () => {
     //socket io
     const [socket, setSocket] = useState<any>(null);
     const [bidData, setBidData] = useState<any>([]);
+    const [timer, setTimer] = useState<number>(60); // Initial timer value in seconds
+    const [isBiddingAllowed, setIsBiddingAllowed] = useState<boolean>(true);
     const { adId } = useParams()
     const user = JSON.parse(localStorage.getItem('user') || '{}')
     const token = localStorage.getItem('token')
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+
+        if (timer > 0) {
+            interval = setInterval(() => {
+                setTimer((prevTimer) => prevTimer - 1);
+            }, 1000);
+        } else {
+            setIsBiddingAllowed(false);
+            clearInterval(interval);
+        }
+
+        // Clean up the interval when the component unmounts
+        return () => clearInterval(interval);
+    }, [timer]);
 
     //Socket io connection
     useEffect(() => {
@@ -77,7 +95,7 @@ const AdBidding: React.FC = () => {
     };
 
     const handleEnterPress = async (event: any) => {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && isBiddingAllowed) {
             // Perform your search or handling logic here using the searchText state
             console.log('Search text:', searchText);
 
@@ -205,6 +223,7 @@ const AdBidding: React.FC = () => {
                 <div className='flex items-center justify-between mt-4'>
                     <h1 className='text-[14px] text-tcolor font-bold'>Bidding Amount(৳):</h1>
                     <input
+                    disabled={!isBiddingAllowed}
                         className='w-[50%] h-[30px] border-2 border-gray-400 rounded-md px-2 focus:outline-none text-[14px]'
                         type="text"
                         placeholder='Enter Amount'
@@ -212,6 +231,7 @@ const AdBidding: React.FC = () => {
                         onChange={handleInputChange}
                         onKeyDown={handleEnterPress} />
                 </div>
+                <p>Time Left: {timer} seconds</p>
             </div>
         </div>
     );

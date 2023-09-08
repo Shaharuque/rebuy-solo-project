@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { serverUrl } from '../../utils/axiosRelated';
 import useToken from '../../customhooks/useToken';
 import axios, { AxiosResponse } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SuccessPage: React.FC = () => {
     const [cartItems, setCartItems] = useState<[]>([])
     const [cartDelete, setCartDelete] = useState<boolean>(false)
     const { token } = useToken()
+    const navigate=useNavigate()
 
 
     useEffect(() => {
@@ -98,7 +100,7 @@ const SuccessPage: React.FC = () => {
                     <p className="text-gray-700">Your order will be shipped within 2 business days.</p>
                     <p className="text-gray-700">For any questions, please contact our customer support.</p>
                 </div>
-                <button className="bg-primary hover:bg-green-600 text-white py-2 px-4 rounded-full">
+                <button onClick={()=>{navigate('/home')}} className="bg-primary hover:bg-green-600 text-white py-2 px-4 rounded-full">
                     Continue Shopping
                 </button>
             </div>
