@@ -127,97 +127,119 @@
 
 import React from 'react';
 import { Button, Form, Input, Select, Space, Tooltip, Typography } from 'antd';
+import e from 'express';
 
-const { Option } = Select;
 
-const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-};
 
-const ShippingPage: React.FC = () => (
-    <Form
-        className="px-4"
-        name="complex-form"
-        onFinish={onFinish}
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        style={{ maxWidth: 600 }}
-    >
-        <Form.Item label="Username">
-            <Space>
+
+const ShippingPage: React.FC = () => {
+
+    const userInfo = JSON.parse(localStorage.getItem('user'))
+    console.log(userInfo?.email)
+
+    const { Option } = Select;
+
+    const onFinish = (values: any) => {
+        console.log('Received values of form: ', values);
+    };
+
+    return (
+        <Form
+            className="px-8"
+            name="complex-form"
+            onFinish={onFinish}
+            labelCol={{ span: 4 }}
+            wrapperCol={{ span: 8 }}
+            style={{ maxWidth: 600 }}
+            initialValues={{
+              ["userEmail"]: userInfo?.email 
+            }}
+        >
+            <Form.Item className='mb-2' label="Name">
                 <Form.Item
-                    name="username"
+                    name="userEmail"
                     noStyle
                     rules={[{ required: true, message: 'Username is required' }]}
+                    
                 >
-                    <Input style={{ width: 160 }} placeholder="Please input" />
+                    <Input disabled style={{ width: '100%' }} placeholder="Your Name" />
                 </Form.Item>
-                <Tooltip title="Useful information">
-                    <Typography.Link href="#API">Need Help?</Typography.Link>
-                </Tooltip>
-            </Space>
-        </Form.Item>
+            </Form.Item>
 
-        <Form.Item label="City">
-            <Space.Compact>
+            <Form.Item className='mb-2' label="City">
                 <Form.Item
-                    name={['address', 'province']}
+                    name="city"
                     noStyle
                     rules={[{ required: true, message: 'City is required' }]}
                 >
                     <Select placeholder="Select city">
-                        <Option value="Zhejiang">Zhejiang</Option>
-                        <Option value="Jiangsu">Jiangsu</Option>
+                        <Option value="dhaka">Dhaka</Option>
+                        <Option value="sylhet">Sylhet</Option>
+                        <Option value="chittagong">Chittagong</Option>
+                        <Option value="barishal">Barishal</Option>
+                        <Option value="khulna">Khulna</Option>
                     </Select>
                 </Form.Item>
-                
-            </Space.Compact>
-        </Form.Item>
+            </Form.Item>
 
-        <Form.Item label="Address">
-            <Space.Compact>
+            <Form.Item className='mb-2' label="Area">
                 <Form.Item
-                    name={['address', 'province']}
+                    name="area"
                     noStyle
-                    rules={[{ required: true, message: 'Province is required' }]}
+                    rules={[{ required: true, message: 'Area is required' }]}
                 >
-                    <Select placeholder="Select province">
-                        <Option value="Zhejiang">Zhejiang</Option>
-                        <Option value="Jiangsu">Jiangsu</Option>
+                    <Select placeholder="Select Area">
+                        <Option value="Dohar">Dohar</Option>
+                        <Option value="Keraniganj">Keraniganj</Option>
+                        <Option value="Dhamrai">Dhamrai</Option>
+                        <Option value="Nawabganj">Nawabganj</Option>
+                        <Option value="Savar">Savar</Option>
                     </Select>
                 </Form.Item>
+            </Form.Item>
+
+            <Form.Item className='mb-2' label="Zone">
                 <Form.Item
-                    name={['address', 'street']}
+                    name="zone"
                     noStyle
-                    rules={[{ required: true, message: 'Street is required' }]}
+                    rules={[{ required: true, message: 'Zone is required' }]}
                 >
-                    <Input style={{ width: '50%' }} placeholder="Input street" />
+                    <Select placeholder="Select Zone">
+                        <Option value="Ramna">Ramna</Option>
+                        <Option value="Motijheel">Motijheel</Option>
+                        <Option value="Kotwali">Kotwali </Option>
+                        <Option value="Dhanmondi">Dhanmondi </Option>
+                        <Option value="Mohammadpur">Mohammadpur </Option>
+                        <Option value="Sutrapur">Sutrapur </Option>
+                        <Option value="Gulshan">Gulshan  </Option>
+                        <Option value="Lalbagh">Lalbagh </Option>
+                        <Option value="Mirpur">Mirpur</Option>
+                        <Option value="Cantonment">Cantonment  </Option>
+                        <Option value="Demra">Demra </Option>
+                        <Option value="Kafrul">Kafrul</Option>
+                    </Select>
                 </Form.Item>
-            </Space.Compact>
-        </Form.Item>
-
-        <Form.Item label="BirthDate" style={{ marginBottom: 0 }}>
-            <Form.Item
-                name="year"
-                rules={[{ required: true }]}
-                style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
-            >
-                <Input placeholder="Input birth year" />
             </Form.Item>
-            <Form.Item
-                name="month"
-                rules={[{ required: true }]}
-                style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 8px' }}
-            >
-                <Input placeholder="Input birth month" />
-            </Form.Item>
-        </Form.Item>
-        <Form.Item label=" " colon={false}>
-            <Button className='bg-primary' type="primary" htmlType="submit">
-                Submit
-            </Button>
-        </Form.Item>
-    </Form>
-);
 
+            <Form.Item className='mb-2' label="Adress">
+                <Space.Compact>
+                    <Form.Item
+                        name="username"
+                        noStyle
+                        rules={[{ required: true, message: 'Username is required' }]}
+                    >
+                        <Input style={{ width: '100%' }} placeholder="Input House No." />
+                    </Form.Item>
+                    <Form.Item
+                        name={['address', 'street']}
+                        noStyle
+                        rules={[{ required: true, message: 'Street is required' }]}
+                    >
+                        <Input style={{ width: '50%' }} placeholder="Input street" />
+                    </Form.Item>
+                </Space.Compact>
+            </Form.Item>
+        </Form>
+    );
+};
 export default ShippingPage;

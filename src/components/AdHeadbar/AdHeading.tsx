@@ -20,7 +20,7 @@ const AdHeading:React.FC = () => {
     return (
         <div className='flex justify-between items-center mx-4 my-6'>
             <Link to='/home' className='border border-gray-300 rounded p-2'><BiChevronLeft className='text-[20px]' /></Link>
-            <div onClick={showModal}>
+            <div  className='border border-gray-300 rounded-md p-2' onClick={showModal}>
                 <RxHamburgerMenu></RxHamburgerMenu>
             </div>
 

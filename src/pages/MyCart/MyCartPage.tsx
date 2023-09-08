@@ -116,17 +116,12 @@ const MyCartPage: React.FC = () => {
             {/* Cart Summary */}
             <div className={`flex items-center ${currentStep === 1 ? 'text-white' : 'text-black'}`}>
               <div className={`flex gap-[2px] text-[12px] px-2 py-2 rounded-md ${currentStep === 1 ? 'bg-primary ' : 'bg-gray-200'}`}>
-                {currentStep === 1 ?
-                  <div className='flex items-center gap-[2px]'>
-                    <h1 className='text-[14px]'>Cart</h1>
-                    <BsCartPlus className='text-[18px] text-white' />
-                  </div>
-                  :
-                  <div className='flex items-center gap-[2px]'>
-                    <h1 className='text-[14px]'>Cart</h1>
-                    <BsCheck2Circle className='text-[18px] text-green-500' />
-                  </div>
-                }
+
+                <div className='flex items-center gap-[2px]'>
+                  <h1 className='text-[14px]'>Cart</h1>
+                  <BsCartPlus className='text-[18px] text-white' />
+                </div>
+
               </div>
             </div>
 
@@ -222,7 +217,7 @@ const MyCartPage: React.FC = () => {
             {/* Shipping/Order Info Page */}
             {currentStep === 2 && (
               <div>
-                <h1 className='text-center text-tcolor text-[16px] mb-4'>Fill out the shipping informations</h1>
+                <h1 className='text-center text-primary text-[16px] mb-4 font-[cursive]'>Fill out the shipping informations</h1>
                 <ShippingPage></ShippingPage>
               </div>
             )}
@@ -233,7 +228,7 @@ const MyCartPage: React.FC = () => {
                 {/* <PaymentPage cartItems={cartItems}></PaymentPage> */}
                 {/* <StripePaymentButton cartItems={cartItems}></StripePaymentButton> */}
                 {
-                  cartItems?.cart?.map((each:any,index:any) => {
+                  cartItems?.cart?.map((each: any, index: any) => {
                     return (
                       <div key={index} className='flex justify-between text-[13px] '>
                         <h1>1x ${each?.productInfo?.productName}</h1>
@@ -250,11 +245,12 @@ const MyCartPage: React.FC = () => {
 
                       <div className='mt-[2px]'>
                         <div className='mt-4 text-tcolor'>
-                          <h1 className='text-[13px]  text-end'>+Vat:<span className='font-extrabold mr-[2px] ml-2'>৳</span>0</h1>
+                          <h1 className='text-[13px]  text-end'>+Delivery Charge:<span className=' mr-[2px] ml-[2px]'>৳</span>100</h1>
+                          <h1 className='text-[13px]  text-end'>+Vat:<span className=' mr-[2px] ml-[2px]'>৳</span>0</h1>
                         </div>
 
                         <div className='border border-gray-200 w-80% h-0 mt-4 '></div>
-                        <h1 className='text-[14px] text-end'>Sub Total:<span className='font-extrabold mr-[2px] ml-2'>৳</span>{cartItems?.totalPrice}</h1>
+                        <h1 className='text-[14px] text-end'>Sub Total:<span className='font-extrabold mr-[2px] ml-2'>৳</span>{cartItems?.totalPrice + 100}</h1>
                       </div>
                     </>
                     :
@@ -291,7 +287,7 @@ const MyCartPage: React.FC = () => {
 
                   onClick={currentStep === 3 ? handleCheckout : handleNext}
                 >
-                  {currentStep === 3 ? <h1 className="px-2 py-1 bg-tcolor text-white rounded text-[14px]">Pay Now</h1> : <h1 className='px-2 py-1 bg-primary text-white rounded text-[14px]'>Next</h1>}
+                  {currentStep === 3 ? <h1 className="px-2 py-1 bg-green-400 text-white rounded text-[14px]">Pay Now</h1> : <h1 className='px-2 py-1 bg-primary text-white rounded text-[14px]'>Next</h1>}
                 </button>
               ) : null}
             </>
