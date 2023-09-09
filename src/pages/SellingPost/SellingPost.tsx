@@ -16,6 +16,7 @@ import { descriptionGenerator } from "../../utils/productDescriptionGenerate";
 import { BiHelpCircle } from "react-icons/bi";
 import SmallLoader from "../../components/Loading/SmallLoader";
 import { ItemDetailsGenerate } from "../../utils/ItemDetailsGenerate";
+import Navbar from "../../components/Navbar/Navbar";
 
 interface Inputs {
     type: string,
@@ -32,13 +33,14 @@ interface Inputs {
 interface Payload {
     type: string,
     status: string,
+    auctionEnd?: string | Number | undefined,
     title: string
     brand: string,
     model: string,
     description: string,
     price: string,
     images: string[],
-    category?: string
+    category?: string 
 
 }
 
@@ -47,6 +49,7 @@ interface SellingPostProps { }
 const SellingPost: React.FC<SellingPostProps> = () => {
     const [type, setType] = useState<string>("");
     const [status, setStatus] = useState<string>("");
+    const [auctionEnd, setAuctionEnd] = useState<string>("");
     const [title, setTitle] = useState<string>("");
     const [desc, setDesc] = useState<string>("")
     const [predictedPrice, setPredictedPrice] = useState<string | number>("");
@@ -98,6 +101,10 @@ const SellingPost: React.FC<SellingPostProps> = () => {
     const handleStatus = (option: string): void => {
         setStatus(option);
     };
+    
+    const handleAuctionEnd = (option: string): void => {
+        setAuctionEnd(option);
+    }
 
     const predictPrice = async (): Promise<void> => {
         if (category) {
@@ -153,10 +160,13 @@ const SellingPost: React.FC<SellingPostProps> = () => {
             }
         });
 
+
+
         const payload: Payload = {
             type, // Make sure you have defined type somewhere
             status, // Make sure you have defined status somewhere
             title, // Make sure you have defined title somewhere
+            auctionEnd:auctionEnd=== "3 Days" ? 3 : auctionEnd=== "5 Days" ? 5 : auctionEnd=== "7 Days" ? 7 : 0,
             brand: data.brand,
             description: data.description,
             model: data.model,
@@ -198,6 +208,8 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                 setPredictedPrice("")
                 setDesc("")
                 setStatus("")
+                setType("")
+                setAuctionEnd("")
                 setFileList([]);
             }
         } catch (error) {
@@ -210,13 +222,13 @@ const SellingPost: React.FC<SellingPostProps> = () => {
     return (
         <div>
             <Back></Back>
-            <div>
+            <div className="mb-[25%]">
                 <h1 className="mt-2 text-center text-[18px] font-semibold font-[cursive] text-primary">POST AN AD</h1>
                 <form
                     className="mx-4 md:m-20 rounded-md"
                     onSubmit={handleSubmit(onSubmit)}
                 >
-                    
+
                     <div className="p-4">
 
                         {/* Box Options */}
@@ -238,6 +250,38 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                 value={type}
                                 onClick={() => handleType("Auction")}
                             />
+                        </div>
+                        {/* Type Auction holey */}
+                        <div>
+                            {type === "Auction" ? (
+                                <div>
+                                    <label className="label">
+                                        <span className="label-text font-medium text-[14px] text-gray-600 text-left">
+                                            Auction Duration
+                                        </span>
+                                    </label>
+                                    <div className="flex space-x-2 my-2">
+                                        <BoxOptionButton
+                                            type="button"
+                                            text="3 Days"
+                                            value={auctionEnd}
+                                            onClick={() => handleAuctionEnd("3 Days")}
+                                        />
+                                        <BoxOptionButton
+                                            type="button"
+                                            text="5 Days"
+                                            value={auctionEnd}
+                                            onClick={() => handleAuctionEnd("5 Days")}
+                                        />
+                                        <BoxOptionButton
+                                            type="button"
+                                            text="7 Days"
+                                            value={auctionEnd}
+                                            onClick={() => handleAuctionEnd("7 Days")}
+                                        />
+                                    </div>
+                                </div>
+                            ) : null}
                         </div>
 
                         {/* Product Status */}
@@ -412,18 +456,19 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                                         },
                                     })}
                                 />
-                              
+
                                 <button
                                     type="button"
                                     onClick={predictPrice}
                                     className="bg-black ml-2 p-[5px] rounded-sm text-white text-[14px]"
                                 >
-                                    Get Price
+                                    {
+                                        pLoading ? <SmallLoader></SmallLoader> : 'Get Price'
+                                    }
+
                                 </button>
-                                {
-                                    pLoading ? <SmallLoader></SmallLoader> : null
-                                }
-                                
+
+
                                 <div className="flex items-center">
 
                                     {
@@ -458,6 +503,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
                     </div>
                 </form>
             </div>
+            <Navbar></Navbar>
         </div>
     );
 };

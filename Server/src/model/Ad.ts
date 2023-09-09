@@ -24,6 +24,7 @@ interface IAd {
   purchasedBy: object;
   currentBidder: object;
   likedBy: object[];
+  biddingEndsAt: Date;
   // bids: Array<object>;
   // room: object;
 }
@@ -107,6 +108,9 @@ const adSchema = new Schema<IAd>(
         ref: "User",
       },
     ],
+    biddingEndsAt: {
+      type: Date,
+    },
     // bids: [
     //   {
     //     user: {

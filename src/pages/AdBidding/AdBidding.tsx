@@ -6,6 +6,7 @@ import axios, { AxiosResponse } from 'axios';
 import Swiper from 'react-id-swiper';
 import ProductDetailsBack from '../../components/Back/ProductDetailsBack';
 import { toast } from 'react-toastify';
+import moment from 'moment';
 
 interface IPayload {
     productId: string;
@@ -183,13 +184,18 @@ const AdBidding: React.FC = () => {
     }, [socket, adId])
 
     console.log('bid data', bidData?.bid?.productId?.currentPrice)
-    
+
 
     return (
         <div>
             <ProductDetailsBack></ProductDetailsBack>
 
-            <div className='overflow-x-hidden mx-4 mb-6'>
+            <div className='overflow-x-hidden mx-4'>
+                <h1 className='text-[14px]  font-semibold flex justify-end'>
+                    <span className=' font-semibold mr-[2px]'>Base Price: ৳</span>{adDetails?.basePrice}
+                </h1>
+                <p className='text-[12px] text-tcolor font-bold text-end mb-6'>Bidding Ends In: {moment(adDetails?.biddingEndsAt).format('Do MMM YYYY')}</p>
+
                 <Swiper {...params}>
                     {
                         adDetails?.images?.map((image: any) => (
@@ -200,30 +206,28 @@ const AdBidding: React.FC = () => {
                     }
                 </Swiper>
                 <div className='flex flex-col mt-4'>
-                    <div className='mb-4'>
-                        <h1 className='text-[16px] text-tcolor font-bold text-end'>{adDetails?.productName}</h1>
-                        <h1 className='text-[13px]  font-bold text-end'>Make:<span className='text-[13px]  font-bold'> {adDetails?.brand}</span></h1>
+                    <div className=''>
+                        <h1 className='text-[16px] text-tcolor font-bold'>{adDetails?.productName}</h1>
+                        <h1 className='text-[13px]  font-bold'>Make:<span className='text-[13px]  font-bold'> {adDetails?.brand}</span></h1>
                     </div>
 
-                    
-                    <h1 className='text-[14px] text-[#087E8B] font-semibold flex'>Current Bidding Price:
+
+                    <h1 className='text-[14px] text-[#087E8B] font-semibold'>Current Bidding Price:
                         {
 
                             bidData?.bid?.productId?.currentPrice ? <span >৳{bidData?.bid?.productId?.currentPrice}</span> : <span>৳{adDetails?.currentPrice}</span>
                         }
                     </h1>
-                    <h1 className='text-[14px]  font-semibold'>
-                        <span className=' font-semibold mr-[2px]'>Present Price: ৳</span>{adDetails?.basePrice}
-                    </h1>
+
                 </div>
 
 
 
                 {/* Make a input box to put bidding amount */}
-                <div className='flex items-center justify-between mt-4'>
+                <div className='flex items-center justify-between mt-6'>
                     <h1 className='text-[14px] text-tcolor font-bold'>Bidding Amount(৳):</h1>
                     <input
-                    disabled={!isBiddingAllowed}
+                        disabled={!isBiddingAllowed}
                         className='w-[50%] h-[30px] border-2 border-gray-400 rounded-md px-2 focus:outline-none text-[14px]'
                         type="text"
                         placeholder='Enter Amount'
@@ -231,7 +235,7 @@ const AdBidding: React.FC = () => {
                         onChange={handleInputChange}
                         onKeyDown={handleEnterPress} />
                 </div>
-                <p>Time Left: {timer} seconds</p>
+
             </div>
         </div>
     );

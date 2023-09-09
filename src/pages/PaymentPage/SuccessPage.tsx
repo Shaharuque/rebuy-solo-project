@@ -89,11 +89,11 @@ const SuccessPage: React.FC = () => {
         }
     }, [cartDelete])
     return (
-        <div className="bg-white min-h-screen flex flex-col justify-center items-center px-4">
+        <div className="bg-white min-h-screen flex flex-col justify-center items-center px-4 text-[16px]">
             <div className="bg-white rounded-lg p-8 shadow-md">
                 <h1 className="text-xl font-semibold text-green-600 mb-4">Payment Successful</h1>
                 <div className="mb-4">
-                    <p className="text-gray-700">Order Total: $50.00</p>
+                    
                     <p className="text-gray-700">Payment Method: Credit Card (**** **** **** 1234)</p>
                 </div>
                 <div className="mb-4">

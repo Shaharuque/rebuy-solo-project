@@ -14,7 +14,14 @@ export const postAd: RequestHandler = async (req, res) => {
       category,
       price,
       images,
+      auctionEnd
     } = req.body;
+
+    //get todays date
+    const today = new Date();
+    //now add auctionEnd days to todays date
+    const auctionEnds = new Date(today.setDate(today.getDate() + auctionEnd));
+
     const ad = await Ad.create({
       owner: req.user.id,
       category: category,
@@ -27,6 +34,7 @@ export const postAd: RequestHandler = async (req, res) => {
       productStatus: status,
       basePrice: price,
       currentPrice: price,
+      biddingEndsAt: auctionEnds,
     });
     res.status(201).json({
       success: true,
