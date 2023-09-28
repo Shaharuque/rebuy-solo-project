@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Link,  useLocation } from 'react-router-dom';
 import { FiHome } from 'react-icons/fi';
 import { BiHeart, BiLayer } from 'react-icons/bi';
 import { ImCompass2 } from 'react-icons/im'
@@ -11,11 +11,7 @@ interface NavbarProps {
 
 }
 const Navbar: React.FC<NavbarProps> = () => {
-  const [isMobileMenuOpen, setMobileMenuOpen] = useState<string | boolean>(false);
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!isMobileMenuOpen);
-  };
 
   const location = useLocation();
 

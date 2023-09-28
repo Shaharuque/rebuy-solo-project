@@ -6,7 +6,6 @@ import Header from '../../components/Header/Header';
 import axios, { AxiosResponse } from 'axios';
 import { serverUrl } from '../../utils/axiosRelated';
 import HomeAdCard from '../../components/AdCard/HomeAdCard';
-import Loading from '../../components/Loading/Loading';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -15,6 +14,7 @@ const Home: React.FC = () => {
     const [loading, setLoading] = React.useState<boolean>(false);
     const token = localStorage.getItem('token')
     const navigate=useNavigate()
+    console.log(loading)
 
     useEffect(() => {
         async function fetchNewArrivalAds(): Promise<void> {

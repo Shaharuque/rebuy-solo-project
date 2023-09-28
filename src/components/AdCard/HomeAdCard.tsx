@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, {useState } from 'react';
 import { BiHeart, BiSolidHeart } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ interface IAd {
 }
 
 const HomeAdCard: React.FC<AdProps> = ({ ad }) => {
-    const { _id, images, basePrice, productName, owner, brand, choosenType }: IAd = ad;
+    const { _id, images, basePrice, productName, brand }: IAd = ad;
     //console.log(images);
     const navigate = useNavigate()
     const [liked,setLiked]=useState<boolean>(false)

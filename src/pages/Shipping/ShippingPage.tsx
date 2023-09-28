@@ -126,15 +126,20 @@
 // export default ShippingPage;
 
 import React from 'react';
-import { Button, Form, Input, Select, Space, Tooltip, Typography } from 'antd';
-import e from 'express';
+import { Form, Input, Select, Space } from 'antd';
 
 
 
-
+interface UserInfo {
+    _id: string | null;
+    email: string;
+  }
 const ShippingPage: React.FC = () => {
 
-    const userInfo = JSON.parse(localStorage.getItem('user'))
+    
+      
+    const userInfo: UserInfo | null = JSON.parse(localStorage?.getItem('user')) || null;
+      
     console.log(userInfo?.email)
 
     const { Option } = Select;

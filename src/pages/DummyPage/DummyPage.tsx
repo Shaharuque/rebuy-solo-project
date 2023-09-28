@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Home from '../Home/Home';
 
 const DummyPage: React.FC = () => {
   const [redirecting, setRedirecting] = useState(true);

@@ -1,5 +1,4 @@
-import React, { useEffect,useState } from 'react';
-import { BiHeart, BiSolidHeart } from 'react-icons/bi';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface AdProps {
@@ -21,18 +20,14 @@ interface IAd {
 }
 
 const UserPurchasedCard: React.FC<AdProps> = ({ ad }) => {
-    const { _id, images, basePrice, productName, owner, brand, choosenType }: IAd = ad;
+    const { _id, images, basePrice, productName, brand }: IAd = ad;
     //console.log(images);
     const navigate = useNavigate()
-    const [liked,setLiked]=useState<boolean>(false)
 
     const showAdDetails = (id: string) => {
         navigate(`/ad/details/${id}`)
     }
 
-    const handleLinked=()=>{
-        setLiked(!liked)
-    }
 
     return (
         <div className='mb-2 shadow-md shadow-gray-400  mx-4 rounded-xl'>

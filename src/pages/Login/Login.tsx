@@ -13,13 +13,13 @@ type Inputs = {
 };
 
 const Login: React.FC = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+    const { register, handleSubmit } = useForm<Inputs>();
     const navigate = useNavigate()
 
     const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
         try {
             const response = await axios.post(
-                'http://localhost:9100/api/auth/login',
+                'https://rebuy-solo-server-production.up.railway.app/api/auth/login',
                 {
                     email: data.email,
                     password: data.password,

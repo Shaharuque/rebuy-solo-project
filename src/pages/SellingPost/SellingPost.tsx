@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 // import { priceExtraction } from "../../utils/priceExtraction";
@@ -12,7 +12,6 @@ import { pricePrediction } from "../../utils/pricePRediction";
 import { priceExtraction } from "../../utils/priceExtraction";
 import axios, { AxiosResponse } from 'axios';
 import { toast } from "react-toastify";
-import { descriptionGenerator } from "../../utils/productDescriptionGenerate";
 import { BiHelpCircle } from "react-icons/bi";
 import SmallLoader from "../../components/Loading/SmallLoader";
 import { ItemDetailsGenerate } from "../../utils/ItemDetailsGenerate";
@@ -56,7 +55,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [pLoading, setPLoading] = useState<boolean>(false);
     const { category } = useParams<{ category: string }>();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     console.log(category)
 
@@ -66,9 +65,9 @@ const SellingPost: React.FC<SellingPostProps> = () => {
     // },[])
 
 
-    const handleBack = () => {
-        navigate("/item/selling/categories");
-    };
+    // const handleBack = () => {
+    //     navigate("/item/selling/categories");
+    // };
 
     //Image upload
     const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -152,7 +151,7 @@ const SellingPost: React.FC<SellingPostProps> = () => {
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const imageArray: string[] = [];
-        const url = 'http://localhost:9100/api/product/add';
+        const url = 'https://rebuy-solo-server-production.up.railway.app/api/product/add';
 
         fileList?.forEach((file) => {
             if (file?.response?.url) {

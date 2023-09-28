@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Back from '../../components/Back/Back';
-import { AiFillCloseCircle, AiOutlineDashboard, AiOutlineHeart, AiOutlineShoppingCart } from 'react-icons/ai';
 import useToken from '../../customhooks/useToken';
 import { serverUrl } from '../../utils/axiosRelated';
 import axios, { AxiosResponse } from 'axios';
 import Loading from '../../components/Loading/Loading';
 import Navbar from '../../components/Navbar/Navbar';
-import { FaCartArrowDown } from 'react-icons/fa';
-import { WiDirectionRight } from 'react-icons/wi';
 import { useNavigate } from 'react-router-dom';
 
 const MyLikedItems: React.FC = () => {

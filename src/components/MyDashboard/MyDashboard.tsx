@@ -9,12 +9,12 @@ import UserPurchasedCard from '../AdCard/UserPurchasedCard';
 
 const MyDashboard: React.FC = () => {
 
-    const { data: userAds, isLoading: getAdLoading } = useGetUserAdsQuery();
+    const { data: userAds } = useGetUserAdsQuery({});
     //console.log(userAds?.ads)
 
-    const {data:purchasedProducts,isLoading:getPurchasedLoading}=useGetUserPurchasedQuery()
+    const {data:purchasedProducts,isLoading:getPurchasedLoading}=useGetUserPurchasedQuery({})
 
-    const {data:sold,isLoading:getSoldLoading}=useGetUserSoldQuery()
+    const {data:sold}=useGetUserSoldQuery({})
     
 
 

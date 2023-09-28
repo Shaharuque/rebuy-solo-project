@@ -19,7 +19,7 @@ interface IItem {
     };
 }
 const CartCard: React.FC<ItemProps> = ({ item,deleteCartitem }) => {
-    const { _id,productInfo, userInfo } = item
+    const { _id,productInfo } = item
     console.log('cart card',item)
     return (
         <div className='flex items-start gap-2 bg-cartBg rounded-xl p-4 mt-2 shadow-md relative'>

@@ -4,7 +4,7 @@ import useToken from "../../customhooks/useToken";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:9100/api/",
+    baseUrl: "https://rebuy-solo-server-production.up.railway.app/api/",
     prepareHeaders: (headers, { }) => {
       const {token}=useToken();
       console.log(token);
@@ -16,5 +16,5 @@ export const apiSlice = createApi({
     },
   }),
   tagTypes: [],
-  endpoints: (builder) => ({}),
+  endpoints: () => ({}),
 });

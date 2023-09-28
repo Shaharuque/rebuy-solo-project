@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Swiper from 'react-id-swiper';
 import './swiper.css'
 import { BsCheck2All } from 'react-icons/bs';
@@ -21,7 +21,7 @@ interface IAdDetails {
     brand: string;
 }
 const AdImagesSwiper: React.FC<AdDetailsProps> = ({ adDetails }) => {
-    const { images, description, basePrice, productName, brand } = adDetails
+    const { images, description, basePrice, productName } = adDetails
 
     const params = {
         pagination: {

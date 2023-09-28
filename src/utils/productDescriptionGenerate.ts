@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
 export const descriptionGenerator = async (
-  title: string|undefined,
   category: string|undefined,
 //   brand: string|undefined,
 //   model: string|undefined,
@@ -10,7 +9,7 @@ export const descriptionGenerator = async (
   try {
     const options = {
       method: "POST",
-      url: "http://localhost:9100/openai/text",
+      url: "https://rebuy-solo-server-production.up.railway.app/openai/text",
       headers: {},
       data: {
         prompt: `generate ${category} ${category} item description`,

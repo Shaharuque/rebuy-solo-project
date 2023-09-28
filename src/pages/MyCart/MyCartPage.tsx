@@ -5,21 +5,18 @@ import axios, { AxiosResponse } from 'axios';
 import CartCard from './../../components/CartCard/CartCard';
 import Loading from '../../components/Loading/Loading';
 import { toast } from 'react-toastify';
-import { BsBox, BsCartPlus, BsCheck2Circle } from 'react-icons/bs';
+import { BsBox, BsCartPlus} from 'react-icons/bs';
 import { MdPayment } from 'react-icons/md';
 import ShippingPage from '../Shipping/ShippingPage';
-import PaymentPage from '../PaymentPage/PaymentPage';
-import StripePaymentButton from '../PaymentPage/StripePaymentButton';
-import img from '../../assets/pngwing.com.png'
 import { SlSocialDropbox } from 'react-icons/sl'
 import Navbar from '../../components/Navbar/Navbar';
 
 const MyCartPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [cartItems, setCartItems] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false)
   const token = localStorage.getItem('token')
+  const isSubmitted = false;
 
   const handleNext = () => {
     setCurrentStep(currentStep + 1);
@@ -29,9 +26,6 @@ const MyCartPage: React.FC = () => {
     setCurrentStep(currentStep - 1);
   };
 
-  const handleSubmit = () => {
-    setIsSubmitted(true);
-  };
 
   //Getting all the cart items for the user
   useEffect(() => {

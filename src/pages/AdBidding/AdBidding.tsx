@@ -64,6 +64,7 @@ const AdBidding: React.FC = () => {
     //fetch data of particular bid able product/ad description
     const [adDetails, setAdDetails] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false)
+    console.log(loading)
     useEffect(() => {
         async function fetchAds(): Promise<void> {
             let url = `${serverUrl}/product/get/ad/details/${adId}`;

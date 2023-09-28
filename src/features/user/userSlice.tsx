@@ -3,7 +3,7 @@
 import { apiSlice } from "../api/apiSlice";
 
 
-export const manageSessionApi = apiSlice.injectEndpoints({
+export const userApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         //Manage Session Get Patient
         getUserAds: builder.query({
@@ -39,4 +39,4 @@ export const {
     //   useManageSessionGetProviderQuery,
     //   useGetManageSessionListQuery,
     //   useManageSessionStatusChangeMutation,
-} = manageSessionApi;
+} = userApi;

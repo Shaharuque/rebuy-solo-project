@@ -1,18 +1,17 @@
-import React, { useState } from "react";
-import { WiDirectionLeft } from "react-icons/wi";
+import React from "react";
 import { PiGameControllerFill } from "react-icons/pi";
 import { MdLibraryBooks } from "react-icons/md";
 import { CgCardClubs } from "react-icons/cg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Header from "../../components/Header/Header";
 
 const CategoryPage: React.FC = () => {
-  const navigate=useNavigate()
+  //const navigate=useNavigate()
 
-  const handleBack = () => {
-    navigate("/");
-  }
+  // const handleBack = () => {
+  //   navigate("/");
+  // }
   
   return (
     <div className="">

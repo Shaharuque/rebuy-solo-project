@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Swiper from 'react-id-swiper';
 import { useDispatch } from 'react-redux';
 import { currentTagStore } from '../../features/tag/tagSlice';

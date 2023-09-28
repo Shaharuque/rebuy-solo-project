@@ -5,7 +5,7 @@ const PayButton = () => {
 
   const handleCheckout = () => {
     axios
-      .post(`http://localhost:9100/api/payment/create-checkout-session`, {
+      .post(`https://rebuy-solo-server-production.up.railway.app/api/payment/create-checkout-session`, {
         cartItems:[
             {id:1,name:'apple',price:120},
             {id:2,name:'orange',price:120},

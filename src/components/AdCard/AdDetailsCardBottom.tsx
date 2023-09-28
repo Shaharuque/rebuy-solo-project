@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { TbGavel } from 'react-icons/tb';
-import { BiHeart, BiInfoCircle, BiLayer, BiSolidHeart } from 'react-icons/bi';
-import { BsCartCheckFill, BsCartPlus, BsFillHeartFill } from 'react-icons/bs';
+import { BiHeart,  BiSolidHeart } from 'react-icons/bi';
+import { BsCartCheckFill, BsCartPlus } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import axios, { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';

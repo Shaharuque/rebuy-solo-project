@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal } from 'antd';
 import ModalBack from '../../components/Back/ModalBack';
 import { LuUser } from 'react-icons/lu';

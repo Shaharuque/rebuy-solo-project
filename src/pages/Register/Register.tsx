@@ -15,12 +15,12 @@ type Inputs = {
 };
 
 const Register: React.FC = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+    const { register, handleSubmit} = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
         try {
             const response = await axios.post(
-                'http://localhost:9100/api/auth/register',
+                'https://rebuy-solo-server-production.up.railway.app/api/auth/register',
                 {
                     name: data.name,
                     email: data.email,

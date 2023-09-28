@@ -49,7 +49,7 @@ interface ICartDetails {
 
 const PaymentForm: React.FC<PaymentProps> = ({ cartItems }) => {
     const { cart, totalPrice } = cartItems
-    console.log(cart[0]?.userInfo?._id)
+    
 
     const stripe = useStripe();
     const elements = useElements();
@@ -61,8 +61,10 @@ const PaymentForm: React.FC<PaymentProps> = ({ cartItems }) => {
     const [clientSecret, setClientSecret] = useState<string>("");
     const {token}=useToken()
 
+    console.log(success,processing,transactionId)
+
     useEffect(() => {
-        fetch("http://localhost:9100/api/payment/create-payment-intent", {
+        fetch("https://rebuy-solo-server-production.up.railway.app/api/payment/create-payment-intent", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -103,8 +105,8 @@ const PaymentForm: React.FC<PaymentProps> = ({ cartItems }) => {
                 payment_method: {
                     card: card,
                     billing_details: {
-                        name: cart[0]?.userInfo?.name,
-                        email: cart[0]?.userInfo?.email
+                        name: "Shaik",
+                        email: "sha@gmail.com"
                     },
                 },
             }

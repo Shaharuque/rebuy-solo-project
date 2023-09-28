@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RxEyeClosed, RxHamburgerMenu } from 'react-icons/rx';
+import {  RxHamburgerMenu } from 'react-icons/rx';
 import UserInfo from '../../pages/UserInfoPage/UserInfo';
 
 const Header: React.FC = () => {
@@ -9,10 +9,6 @@ const Header: React.FC = () => {
         setIsModalOpen(true);
     };
 
-    const handleOk = () => {
-        setIsModalOpen(!isModalOpen);
-        
-    };
 
     const handleCancel = () => {
         setIsModalOpen(false);

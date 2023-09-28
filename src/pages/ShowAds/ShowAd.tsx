@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
-import axios, { AxiosResponse, all } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import AdCard from '../../components/AdCard/AdCard';
 import { serverUrl } from '../../utils/axiosRelated';
 import Tags from '../../components/Tags/Tag';
 import AdHeading from '../../components/AdHeadbar/AdHeading';
-import Search from '../../components/Search/Search';
+
 import { useSelector } from 'react-redux';
 import { AiOutlineSearch } from 'react-icons/ai'; //
 import Loading from '../../components/Loading/Loading';
@@ -64,7 +64,7 @@ const ShowAd: React.FC = () => {
 
         fetchAds();
     }, [finalSearch, tag]);
-    console.log(allAds)
+    console.log(allAds,error)
 
 
     return (

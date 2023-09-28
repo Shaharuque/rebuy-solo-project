@@ -1,1 +1,1 @@
-export const serverUrl = 'http://localhost:9100/api';
+export const serverUrl = 'https://rebuy-solo-server-production.up.railway.app/api';
