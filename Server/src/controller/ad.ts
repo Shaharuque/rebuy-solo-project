@@ -156,6 +156,24 @@ export const getAllAd: RequestHandler = async (req, res) => {
   }
 };
 
+//getting all ads without validation
+export const getAllItems: RequestHandler = async (req, res) => {
+  try{
+
+    const ads = await Ad.find({});
+    res.status(200).json({
+      success: true,
+      message: "all ads",
+      ads,
+    });
+  }catch(err){
+    res.status(500).json({
+      message: "error",
+      err,
+    });
+  }
+}
+
 export const adDetails: RequestHandler = async (req, res) => {
   try {
     const ad = await Ad.findById(req.params.id).populate("owner", "-password");
