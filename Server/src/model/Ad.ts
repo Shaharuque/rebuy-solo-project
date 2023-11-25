@@ -2,6 +2,8 @@ import { Schema, model } from "mongoose";
 
 // 1. Create an interface representing a document in MongoDB.
 interface IAd {
+  lane:string,
+  level:string,
   category: string;
   choosenType: string;
   productStatus: string;
@@ -31,6 +33,12 @@ interface IAd {
 // 2. Create a Schema corresponding to the document interface.
 const adSchema = new Schema<IAd>(
   {
+    lane:{
+      type:String,
+    },
+    level:{
+      type:String,
+    },
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User",

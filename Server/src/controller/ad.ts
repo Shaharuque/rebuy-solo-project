@@ -14,7 +14,7 @@ export const postAd: RequestHandler = async (req, res) => {
       category,
       price,
       images,
-      auctionEnd
+      auctionEnd,
     } = req.body;
 
     //get todays date
@@ -69,7 +69,9 @@ export const getAllAd: RequestHandler = async (req, res) => {
           { auctionEnded: false },
           { owner: { $ne: req.user.id } },
         ],
-      }).find(keyword).populate("owner", "-password");
+      })
+        .find(keyword)
+        .populate("owner", "-password");
 
       res.status(200).json({
         success: true,
@@ -158,21 +160,66 @@ export const getAllAd: RequestHandler = async (req, res) => {
 
 //getting all ads without validation
 export const getAllItems: RequestHandler = async (req, res) => {
-  try{
-
+  try {
     const ads = await Ad.find({});
     res.status(200).json({
       success: true,
       message: "all ads",
       ads,
     });
-  }catch(err){
+  } catch (err) {
     res.status(500).json({
       message: "error",
       err,
     });
   }
-}
+};
+
+//get searched items without validation
+export const getSearchedItems: RequestHandler = async (req, res) => {
+  try {
+    const { lane, level } = req.body;
+
+    if (lane && !level) {
+      const champs = await Ad.find({ lane: { $in: lane } });
+
+      res.status(200).json({
+        success: true,
+        message: "Lane-wise champs",
+        champs,
+      });
+    } else if (!lane && level) {
+      const champs = await Ad.find({ level });
+
+      res.status(200).json({
+        success: true,
+        message: "Level-wise champs",
+        champs,
+      });
+    } else if (lane && level) {
+      const champs = await Ad.find({
+        lane: { $in: Array.isArray(lane) ? lane : [lane] },
+        level,
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "Lane and Level-wise champs",
+        champs,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Please provide valid parameters",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: "error",
+      err,
+    });
+  }
+};
 
 export const adDetails: RequestHandler = async (req, res) => {
   try {
@@ -199,9 +246,8 @@ export const newAds: RequestHandler = async (req, res) => {
         { auctionEnded: false },
         { owner: { $ne: req.user.id } },
       ],
-    })
-      .sort({ createdAt: -1 })
-      
+    }).sort({ createdAt: -1 });
+
     res.status(200).json({
       success: true,
       message: "all ads",
@@ -218,7 +264,7 @@ export const newAds: RequestHandler = async (req, res) => {
 //get all the ads given by logged in user
 export const getUserAds: RequestHandler = async (req, res) => {
   try {
-    const ads=await Ad.find({owner:req.user.id})
+    const ads = await Ad.find({ owner: req.user.id });
     res.status(200).json({
       success: true,
       message: "all ads",
@@ -234,7 +280,7 @@ export const getUserAds: RequestHandler = async (req, res) => {
 
 export const getSoldProducts: RequestHandler = async (req, res) => {
   try {
-    const soldProducts=await Ad.find({sold:true, owner:req.user.id})
+    const soldProducts = await Ad.find({ sold: true, owner: req.user.id });
     res.status(200).json({
       success: true,
       message: "all sold products",
@@ -250,23 +296,24 @@ export const getSoldProducts: RequestHandler = async (req, res) => {
 
 export const getUserPurchasedProducts: RequestHandler = async (req, res) => {
   try {
-    const purchasedProducts=await Payment.find({owner:req.user.id})
+    const purchasedProducts = await Payment.find({ owner: req.user.id });
 
-    let result=[]
-    for(let i=0 ; i<purchasedProducts.length ; i++){
-      for(let j=0 ; j<purchasedProducts[i].soldProducts.length ; j++){
-      //  const r =await Ad.findById({_id:purchasedProducts[i].soldProducts[j]})
-      //Ad details of the purchased products through sold products id
-      const r =await Ad.findById({_id:purchasedProducts[i].soldProducts[j]})
-      result.push(r)
+    let result = [];
+    for (let i = 0; i < purchasedProducts.length; i++) {
+      for (let j = 0; j < purchasedProducts[i].soldProducts.length; j++) {
+        //  const r =await Ad.findById({_id:purchasedProducts[i].soldProducts[j]})
+        //Ad details of the purchased products through sold products id
+        const r = await Ad.findById({
+          _id: purchasedProducts[i].soldProducts[j],
+        });
+        result.push(r);
       }
     }
-    
 
     res.status(200).json({
       success: true,
       message: "all purchased products",
-      purchased:result,
+      purchased: result,
     });
   } catch (err) {
     res.status(500).json({
@@ -274,8 +321,7 @@ export const getUserPurchasedProducts: RequestHandler = async (req, res) => {
       err,
     });
   }
-}
-
+};
 
 //findOneAndUpdate:Usage: This method is used when you want to find and update a document based on custom query criteria.
 //findByIdAndUpdate:Usage: This method is used when you know the id of the document you want to update.
@@ -285,7 +331,10 @@ export const likedByUser: RequestHandler = async (req, res) => {
     const { productId } = req.body;
 
     // Check if the ad is already liked by the user or not
-    const existingLikedByUser = await Ad.findOne({ _id: productId, likedBy: req.user.id });
+    const existingLikedByUser = await Ad.findOne({
+      _id: productId,
+      likedBy: req.user.id,
+    });
 
     let result = {};
 
@@ -333,7 +382,7 @@ export const userLikedProducts: RequestHandler = async (req, res) => {
       err,
     });
   }
-}
+};
 
 //check user have already liked the product or not
 export const checkLiked: RequestHandler = async (req, res) => {
@@ -360,11 +409,4 @@ export const checkLiked: RequestHandler = async (req, res) => {
       err,
     });
   }
-}
-
-
-
-
-
-
-
+};
