@@ -15,6 +15,7 @@ import bidRoute from "./route/bidRoute";
 import orderRoute from "./route/orderRoute";
 import openAIRoute from "./route/openAIRoute";
 import payRoute from './route/payRoute'
+import instaAppRoute from './route/instaUser'
 
 const roooms = ["general", "random", "news", "games", "coding"];
 
@@ -188,6 +189,7 @@ app.use("/api/bid", bidRoute);
 app.use("/openai", openAIRoute);
 app.use("/api/cart", orderRoute);
 app.use("/api/payment", payRoute);
+app.use("/api/insta/app",instaAppRoute)
 
 //error middleware
 app.use((err: any, req: any, res: any, next: any) => {
